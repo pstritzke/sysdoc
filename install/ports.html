@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+    <head>
+        <meta charset='utf-8'>
+        <title>3. Ports</title>
+    </head>
+    <body>
+
+        <h1>3. Ports</h1>
+
+        <p>For more information read crux handbook:
+        <a href="https://crux.nu/Main/Handbook3-1#ntoc14">Introduction to pkgutils</a>.</p>
+
+        <dl>
+            <dt>pkgmk(8)</dt>
+
+            <dd>Makes a software package. A package is an archive of
+            files (.pkg.tar.gz, .pkg.tar.bz2 or  .pkg.tar.xz)
+            that can be installed using pkgadd(8).</dd>
+
+            <dt>pkgadd(8)</dt>
+
+            <dd>install a software package. A package is an
+            archive of files (.pkg.tar.gz).</dd>
+
+            <dt>pkginfo(8)</dt>
+
+            <dd>Displays information about software packages that
+            are installed on the system or  that  reside  in  a
+            particular directory.</dd>
+
+            <dt>pkgrm(8)</dt>
+
+            <dd>Removes/uninstalls a previously installed software
+            packages.</dd>
+
+            <dt>prt-get(8)</dt>
+
+            <dd>prt-get is a package management tool which
+            provides additional functionality to crux' package
+            management system. It works with the local ports tree
+            and is therefore fully compatible with ports(8) and
+            pkgmk(8)/pkgadd(8)</dd>
+        </dl>
+
+        <p>This instructions are done
+       with <a href="install.html#step6">active chroot</a>
+       and inside chroot;</p>
+
+       <pre>
+       # chroot $CHROOT /bin/bash
+       </pre>
+
+ 
+        <h2 id="fakeroot">3.1. Install fakeroot</h2>
+
+        <p>Start by installing and configuring 
+        <a href="https://crux.nu/Wiki/FakerootPorts">Fakeroot Ports</a>;</p>
+
+        <pre>
+        # cd /iso/crux/opt/
+        # pkgadd fakeroot#1.20-1.pkg.tar.xz 
+        </pre>
+
+        <h2 id="useradd">3.2. Build as unprivileged user</h2>
+
+        <p>Add a user that will be used by ports tools, this example pkgmk;</p>
+
+        <pre>
+        # useradd -U -m -d /var/ports -s /bin/false pkgmk
+        </pre>
+        
+        <p>You can add your self to group pkgmk,</p>
+
+        <pre>
+        # usermod -a -G pkgmk admin
+        </pre>
+
+
+        <h2 id="filesystem">3.3. Configure file system</h2>
+
+        <p>This configuration will build and save files
+        inside home directory of the user pkgmk. Work directory
+        will be mounted on ram to speed up the build process and
+        added to fstab. Let's start by creating layout directories</p>
+
+        <pre>
+        # sudo -u pkgmk mkdir /var/ports/distfiles
+        # sudo -u pkgmk mkdir /var/ports/packages
+        # sudo -u pkgmk mkdir /var/ports/work
+        # sudo -u pkgmk mkdir /var/ports/pkgbuild
+        </pre>
+
+        <p>Configure to 
+        <a href="https://crux.nu/Wiki/HowToSpeedUpBuildingPackages#ram">compile in ram</a> 
+        average of 3GB is recommended for core while firefox need at least 20G. Discover id of pkgmk user;</p>
+
+        <pre>
+        # id pkgmk
+        uid=102(pkgmk) gid=102(pkgmk) groups=102(pkgmk)
+        </pre>
+
+        <p>Mount the tmpfs,</p>
+        
+        <pre>
+        # mount -t tmpfs -o size=3G,uid=102,defaults /var/ports/work
+        </pre>
+
+        <p>Edit fstab, change uid to id of pkgmk, this example 102;</p>
+
+        <pre>
+        #
+        # /etc/fstab: static file system information
+        #
+        # &lt;file system&gt;        &lt;dir&gt;     &lt;type&gt;    &lt;options&gt;                       &lt;dump&gt;  &lt;pass&gt; 
+        UUID=05b9757d-3166-4ddc-8bd9-0cd43bcf548a 	/boot		ext4	defaults,noexec,nosuid,errors=remount-ro,noatime	0 1
+        UUID=8beb5484-e083-41e3-a5a7-a1ad92a78079	/		ext4	defaults,errors=remount-ro,noatime			0 1
+
+        tmp             /tmp            tmpfs   defaults,nodev,nosuid,noexec,noatime	                0 0
+        devpts		/dev/pts	devpts	noexec,nosuid,gid=tty,mode=0620				0 0
+        shm            	/dev/shm     	tmpfs	defaults,nodev,nosuid,noexec				0 0
+
+        #UUID=08295a67-a056-4dea-9462-209f151e4cdf   swap    swap    sw
+
+        pkgmk /var/ports/work tmpfs size=3G,uid=102,defaults 0 0
+
+        # End of file
+        </pre>
+
+        <h2 id="pkgmk">3.4. Configure pkgmk</h2>
+ 
+        <p>Read <a href="systemdoc/Handbook3-1.html#ntoc22">4.5. Adjust/Configure the Package Build Process</a> 
+        and <a href="https://crux.nu/Wiki/HowToSpeedUpBuildingPackage">How to speed up building package</a>
+        to take advantage of your specific hardware. Packages build with 
+        native flag will not run on different hardware. This is the best choice
+        if you want gcc to find the best settings based on your hardware.</p>
+
+        <p>Edit /etc/pkgmk.conf and remove pipe from compiler 
+        flags;</p>
+
+        <pre>
+        export CFLAGS="-O2 -march=x86-64"
+        </pre>
+
+        <p>If you want native build change the above example to;</p>
+
+        <pre>
+        export CFLAGS="-O2 -march=native -mtune=native"
+        </pre>
+
+        <p>Discover number of cores/cpus to hard code -j option.</p>
+
+        <pre>
+        $ nproc
+        2
+        </pre>
+
+        <p>Set number of cores to use;</p>
+
+        <pre>
+        export MAKEFLAGS="-j2"
+        </pre>
+
+        <p>Set separate distribution files, packages and work directories;</p>
+
+        <pre> 
+        # PKGMK_SOURCE_MIRRORS=()
+        # PKGMK_SOURCE_MIRRORS=(http://crux.nu/distfiles/)
+        PKGMK_SOURCE_DIR="/var/ports/distfiles"
+        PKGMK_PACKAGE_DIR="/var/ports/packages"
+        PKGMK_WORK_DIR="/var/ports/work/$name"
+        </pre> 
+
+        <h2 id="prtget">3.5 Configure prt-get</h2>
+
+        <p>Edit /etc/prt-get.conf and change to activate sysdoc and contrib 
+        collections;</p>
+
+        <pre>
+        # the following line enables the user maintained contrib collection
+        prtdir /usr/ports/sysdoc
+        prtdir /usr/ports/contrib
+        </pre>
+
+        <pre>
+        ### log options:
+        writelog enabled           # (enabled|disabled)
+        logmode  overwrite         # (append|overwrite)
+        rmlog_on_success yes       # (no|yes)
+        logfile  /var/ports/pkgbuild/%n.log
+                                   # path, %p=path to port dir, %n=port name
+                                   #       %v=version, %r=release
+        </pre>
+
+        <pre>
+        ### print README information:
+        readme verbose           # (verbose|compact|disabled)
+        </pre>
+
+        <pre>
+        ### prefer higher versions in sysup / diff
+        preferhigher no      # (yes|no)
+        </pre>
+
+        <pre>
+        ### run pre- and post-installs scripts; yes is equivalent to the
+        ### --install-scripts option
+        runscripts yes             # (no|yes)
+        </pre>
+
+        <pre>
+        ### alternative commands
+        makecommand	 sudo -H -u pkgmk fakeroot pkgmk
+        addcommand       sudo pkgadd
+        removecommand    sudo pkgrm
+        runscriptcommand sudo sh
+        </pre>
+ 
+        <p>Activate contrib ports collection;</p>
+
+        <pre>
+        # mv /etc/ports/contrib.rsync.inactive /etc/ports/contrib.rsync
+        </pre>
+
+        <h2 id="pkginst">3.6 Install aditional ports</h2>
+
+        <p>Install additional tools needed in the rest of install process,
+        get this documentation and install sysdoc port collection.</p>
+
+        <pre> 
+        # ports -u
+        </pre>
+
+        <pre>
+        # su - admin
+        $ prt-get depinst grub2
+        $ prt-get depinst wireless-tools
+        $ prt-get depinst wpa_supplicant
+        </pre>
+        
+        <p>Or if you want to keep with existent toolchain versions;</p>
+
+        <pre>
+        $ sudo pkgadd /iso/crux/opt/libffi#3.1-1.pkg.tar.xz
+        $ sudo pkgadd /iso/crux/opt/sqlite3#3.8.5-1.pkg.tar.xz
+        $ sudo pkgadd /iso/crux/opt/python#2.7.8-1.pkg.tar.xz
+        $ sudo pkgadd /iso/crux/opt/glib#2.40.0-1.pkg.tar.xz
+
+        $ sudo pkgadd /iso/crux/opt/freetype#2.4.11-1.pkg.tar.xz
+        $ sudo pkgadd /iso/crux/opt/libpng#1.6.12-1.pkg.tar.xz
+        $ sudo pkgadd /iso/crux/opt/grub2#2.00-4.pkg.tar.xz
+
+        $ sudo pkgadd /iso/crux/opt/expat#2.1.0-1.pkg.tar.xz
+        $ sudo pkgadd /iso/crux/opt/lvm2#2.02.107-1.pkg.tar.xz
+        $ sudo pkgadd /iso/crux/opt/keyutils#1.5.9-1.pkg.tar.xz
+        $ sudo pkgadd /iso/crux/opt/libevent#2.0.21-1.pkg.tar.xz
+        $ sudo pkgadd /iso/crux/opt/rpcbind#0.2.1-2.pkg.tar.xz
+        $ sudo pkgadd /iso/crux/opt/mdadm#3.3.1-1.pkg.tar.xz
+        $ sudo pkgadd /iso/crux/opt/libtirpc#0.2.4-1.pkg.tar.xz
+        $ sudo pkgadd /iso/crux/opt/libnfsidmap#0.25-1.pkg.tar.xz
+        $ sudo pkgadd /iso/crux/opt/nfs-utils#1.3.0-1.pkg.tar.xz
+        $ sudo pkgadd /iso/crux/opt/wireless-tools#29-1.pkg.tar.xz
+        $ sudo pkgadd /iso/crux/opt/libnl#3.2.24-1.pkg.tar.xz
+        $ sudo pkgadd /iso/crux/opt/wpa_supplicant#2.2-1.pkg.tar.xz
+        </pre>
+
+        <p>Clone this documentation;</p>
+
+        <pre>
+        $ prt-get depinst git
+        $ git clone https://github.com/s1lvino/sysdoc
+        </pre>
+
+        <p>Install sysdoc port collection;</p>
+
+        <pre>
+        $ sudo cp sysdoc/ports/sysdoc.httpup /etc/ports/
+        $ sudo ports -u sysdoc
+        </pre>
+
+        <p>Install handbook;</p>
+
+        <pre>
+        $ cp /iso/crux/handbook.txt ~/
+        </pre>
+
+        <p>
+        This is part of the SysDoc Manual.
+        Copyright (C) 2015 
+        Silvino Silva.
+        See the file <a href="fdl-1.3-standalone.html">Gnu Free Documentation License</a>
+        for copying conditions.</p>
+
+    </body>
+</html>

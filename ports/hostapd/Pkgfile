@@ -1,0 +1,57 @@
+# Description:	Access point and authentication daemon
+# URL:		http://hostap.epitest.fi/hostapd/
+# Maintainer:	Silvino, silvino at bk dot ru
+# Depends on:	libnl
+
+name=hostapd
+version=2.4
+release=1
+source=(
+http://w1.fi/releases/$name-$version.tar.gz
+hostapd.conf
+hostapd.rc
+Makefile.patch
+)
+
+build() {
+	cd $name-$version/hostapd
+cat >.config <<EOF
+
+CONFIG_DRIVER_HOSTAP=y
+CONFIG_DRIVER_NL80211=y
+CONFIG_IAPP=y
+CONFIG_RSN_PREAUTH=y
+CONFIG_PEERKEY=y
+CONFIG_EAP=y
+CONFIG_EAP_MD5=y
+CONFIG_EAP_TLS=y
+CONFIG_EAP_MSCHAPV2=y
+CONFIG_EAP_PEAP=y
+CONFIG_EAP_GTC=y
+CONFIG_EAP_TTLS=y
+CONFIG_PKCS12=y
+CONFIG_IEEE80211N=y
+CONFIG_LIBNL32=y
+
+EOF
+	make
+	install -D -m 755 hostapd $PKG/usr/sbin/hostapd
+	install -D -m 755 hostapd_cli $PKG/usr/sbin/hostapd_cli
+	install -D -m 644 hostapd.conf $PKG/etc/hostapd.conf
+	install -D -m 755 $SRC/hostapd.rc $PKG/etc/rc.d/hostapd
+	install -D -m 644 hostapd_cli.1 $PKG/usr/man/man1/hostapd_cli.1
+	install -D -m 644 hostapd.8 $PKG/usr/man/man8/hostapd.8
+
+	# Add syslog-ng configuration file if /etc/syslog-ng.d exists
+	if [ -d /etc/syslog-ng.d ]; then
+		mkdir -p -m 755 $PKG/etc/syslog-ng.d
+		sed 's|\\t|\t|g' <<-EOF >$PKG/etc/syslog-ng.d/$name.conf
+		destination dst_$name { dst_default(prefix("$name")); };
+		log {
+		\tsource(src_default);
+		\tfilter { program('$name' type(string)); };
+		\tdestination(dst_$name);
+		};
+		EOF
+	fi
+}

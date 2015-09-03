@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+    <head>
+        <meta charset='utf-8'>
+        <title>Postgresql</title>
+    </head>
+    <body>
+
+        <h1>Postgresql</h1>
+
+
+        <h2 id="install">Install</h2>
+
+        <pre>
+        prt-get depinst postgresql
+        </pre>
+
+        <p>Mount Point;</p>
+
+        <pre>
+        # mkdir -p /srv/pgsql
+        # mount /srv/pgsql
+        </pre>
+
+        <p>Create user;</p>
+        
+        <pre>
+        # useradd -U -m -d /srv/pgsql -s /bin/false postgres
+        # passwd -l postgres
+
+        # mkdir -p /srv/pgsql/data
+        # touch /var/log/pgsql
+        # touch /srv/pgsql/.psql_history
+        # chown -R postgres:postgres /srv/pgsql /var/log/pgsql
+        </pre>
+
+        <p>Edit /etc/rc.d/postgresql to new data and log location;</p>
+
+        <pre>
+        PG_DATA=/srv/pgsql/data
+        </pre>
+
+	<pre>
+        sudo -u postgres pg_ctl -D "$PG_DATA" -l /var/log/pgsql "$1"
+	</pre>
+
+        <pre>
+        # ldconfig /user/lib/postgresql
+        </pre>
+
+        <pre>
+        # sudo -u postgres initdb -D /srv/pgsql/data
+        </pre>
+
+        <p><a href="http://michael.otacoo.com/postgresql-2/postgres-settings-simple-syslog-configuration-with-syslog-ng/">Configure syslog-ng</a>,
+        this example;</p>
+
+        <pre>
+        destination postgres { file("/var/log/pgsql"); };
+        filter f_postgres { facility(local0); };
+        log { source(s_log); filter(f_postgres); destination(postgres); };
+        </pre>
+
+        <p>Edit /srv/pgsql/data/postgresql.conf;</p>
+
+        <pre>
+        log_destination = 'syslog' # Can specify multiple destinations
+        syslog_facility='LOCAL0'
+        syslog_ident='postgres'
+        log_connections = on
+        </pre>
+
+        <p>Create /etc/logrotate.d/postgres;</p>
+
+        <pre>
+        /var/log/pgsql {
+            weekly
+            compress
+            delaycompress
+            rotate 10
+            notifempty
+            create 640 root postgres
+        } 
+        </pre>
+
+        <p>Edit /etc/rc.d/postgresql;</p>
+
+        <pre>
+        #
+        # /etc/rc.d/postgresql: start, stop or restart PostgreSQL server postmaster
+        #
+
+        PG_DATA=/srv/pgsql/data
+
+        case "$1" in
+            start|stop|status|restart|reload)
+                sudo -u postgres pg_ctl -D "$PG_DATA" "$1"
+                ;;
+            *)
+                echo "usage: $0 start|stop|restart|reload|status"
+                ;;
+        esac
+
+        # End of file
+        </pre>
+
+        <pre>
+        # /etc/rc.d/postgresql start
+        </pre>
+
+        <p>Create password for super user;</p>
+
+        <pre>
+        $ psql -U postgres
+        </pre>
+
+        <pre>
+        postgres=# alter user postgres with password 'new_password';
+        </pre>
+
+        <p>Edit /pgsql/data/postgresql.conf;</p>
+
+
+        <pre>
+        password_encryption=on
+        </pre>
+
+        <p>Edit /pgsql/data/pg_hba.conf;</p>
+
+
+        <pre>
+        # TYPE  DATABASE        USER            ADDRESS                 METHOD
+
+        # "local" is for Unix domain socket connections only
+        #local   all             all                                     trust
+        local   all             postgres                                 ident
+        # IPv4 local connections:
+        hostssl    all             all             127.0.0.1/32             md5
+        # IPv6 local connections:
+        #host    all             all             ::1/128                 trust
+        # Allow replication connections from localhost, by a user with the
+        # replication privilege.
+        #local   replication     postgres                                trust
+        #host    replication     postgres        127.0.0.1/32            trust
+        #host    replication     postgres        ::1/128                 trust
+        </pre>
+
+        <pre>
+        # /etc/rc.d/postgresql start
+        </pre>
+
+        <h2 id="createuser">Create User</h2>
+
+        <p>Create a new user with createuser command;</p>
+
+        <pre>
+        $ sudo -u postgres createuser --pwprompt --encrypted \
+        --no-createrole --no-createdb drupal_user
+        Enter password for new user: 
+        Enter it again: 
+        </pre>
+
+        <h2 id="createdb">Create Database</h2>
+
+        <p>Create a new database for new user with createdb command;</p>
+
+        <pre>
+        $ sudo -u postgres createdb --template=template0 --encoding=UTF8 \
+        --owner=drupal_user drupal_db
+        </pre>
+
+        <h2 id="dropdb">Drop Database</h2>
+
+        <p>Deleting database with dropdb command;</p>
+
+        <pre>
+        sudo -u postgres dropdb drupal_db
+        </pre>
+
+        <h2 id="dropdb">Drop User</h2>
+
+        <p>Deleting user with dropuser command;</p>
+
+        <pre>
+        sudo -u postgres dropuser drupal_user
+        </pre>
+
+
+        <h2 id="psql">Psql</h2>
+
+        <p>Lets check with psql, login with user postgres;</p>
+
+        <pre>
+        $ sudo -u postgres psql 
+        </pre>
+
+        <p>First show help;</p>
+
+        <pre>
+        postgres=# \?
+        </pre>
+
+        <h3 id="listdb">Psql - List Databases and Roles</h3>
+
+        <p>List roles then list databases;</p>
+
+        <pre>
+        postgres=# \dg
+        postgres=# \l
+        </pre>
+       
+        <h3 id="psqldb">Psql - Create Database</h3>
+
+        <pre>
+        postgres=# create database drupal_db_ext owner drupal_user encoding 'UTF-8' template template0;
+        </pre>
+
+        <h3 id="droptables">Psql - Drop Tables</h3>
+
+        <p>This example assumes that all tables,
+        are in public schema. First connect to database and
+        list tables;</p>
+        
+        <pre>
+        postgres=# \c drupal_db
+        postgres=# \dt
+        </pre>
+
+        <p>Drop all tables on public schema and recreate public schema;</p>
+
+        <pre>
+        drupal_db=# drop schema public cascade;
+        drupal_db=# create schema public;
+        </pre>
+
+        <h3 id="backup">Backup</h3>
+
+        <h3 id="convmysql">Convert Mysql sql file to Postgres</h3>
+
+        <p>This solution require that you have php and mysql installed,
+        this example will restore database from sql file and use php
+        script to copy to postgresql. Install Mysql;</p>
+        
+        <pre>
+        $ prt-get depinst mysql php-pdo-mysql
+        $ sudo -u mysql mysql_install_db
+        $ sudo -u mysql mysqladmin -u root password uber_secret_pass
+        </pre>
+
+        <p>Edit /etc/my.cnf and add this;</p>
+
+        <pre>
+        [mysqld]
+        init-connect='SET NAMES utf8'
+        character-set-server=utf8
+        collation-server=utf8_general_ci
+
+        [mysql]
+        default-character-set=utf8
+
+        [client]
+        default-character-set=utf8
+        </pre>
+
+        <p>Start Mysqld, create user and database;</p>
+
+        <pre>
+        $ sudo sh /etc/rc.d/mysqld start
+        $ mysql -u root -p -h localhost
+        mysql> CREATE DATABASE drupal_db;
+        mysql> CREATE USER 'drupal_user'@'localhost' IDENTIFIED BY 'password';
+        mysql> GRANT ALL PRIVILEGES ON drupal_db.* TO 'drupal_user'@'localhost';
+        mysql> quit
+        </pre>
+
+        <p>Restore Database</p>
+
+        <pre>
+        $mysql -u drupal_user -p -h localhost drupal_db &lt; dump.sql
+        </pre>
+
+        <p>Get tool to convert;</p>
+
+        <pre>
+        $ cd ~
+        $ git clone https://github.com/AnatolyUss/FromMySqlToPostgreSql.git
+        $ cd FromMySqlToPostgreSql
+        </pre>
+
+        <p>Edit sample_config.json or sample_config.xml with host settings,
+        in this example it will be used sample_config.xml;</p>
+
+        <pre>
+        {
+            "Following parameters are" : "mandatory",
+            "source_description" : [
+                "Connection string to your MySql database"
+            ],
+            "source" : "mysql:host=localhost;port=3306;dbname=drupal_db,root,uber_secret_pass",
+            
+            "target_description" : [
+                "Connection string to your PostgreSql database"
+            ],
+            "target" : "pgsql:host=localhost;port=5432;dbname=drupal_db,postgres,uber_secret_pass",
+            
+            "temporary_directory_description" : [
+                "Path to temporary directory, that will be used during migration only.",
+                "When the migration will be accomplished the 'temporary_directory' will be deleted."
+            ],
+            "temporary_directory" : "/var/ports/work/migrate",
+            
+            
+            "Following parameters are" : "optional",
+            "encoding_description" : [
+                "Encoding type of your PostgreSql database.",
+                "If not supplied, then UTF-8 will be used as a default."
+            ],
+            "encoding" : "UTF-8",
+            
+            "write_error_log_to_description" : [
+                "Path to a text file, which will be created and filled with error logs only.",
+                "If not supplied, then no 'error_log' file will be created."
+            ],
+            "write_error_log_to" : "/var/ports/work/migrate/errors-only.log",
+            
+            "write_summary_report_to_description" : [
+                "Path to a text file, which will be created and filled with a summary report, a grid of migration statistics.",
+                "If not supplied, then no 'summary_report' file will be created."
+            ],
+            "write_summary_report_to" : "/var/ports/work/migrate/report-only.log",
+            
+            "write_common_log_to_description" : [
+                "Path to a text file, which will be created and filled with logs and error messages during migration.",
+                "If not supplied, then no 'common_log' file will be created."
+            ],
+            "write_common_log_to" : "/var/ports/work/migrate/all.log"
+        }        
+        <pre>
+
+        <p>Run Script;</p>
+
+        <pre>
+        $ sudo php index.php sample_config.json
+        </pre>
+
+        <h3 id="backup">Restore</h3>
+        
+        <pre>
+        psql drupal_db &lt; database_dump
+        </pre>
+
+    </body>
+</html>

@@ -1,0 +1,15 @@
+# Description:  Composer is a tool for dependency management in PHP. 
+# URL:          https://getcomposer.org/
+# Maintainer:   Silvino, silvino at bk dot ru
+# Depends on:   php
+
+name=composer
+version=0
+release=1
+source=(https://getcomposer.org/installer)
+build() {
+
+        php installer
+        install -d $PKG/usr/bin
+	install composer.phar $PKG/usr/bin/composer
+}

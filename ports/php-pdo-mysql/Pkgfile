@@ -1,0 +1,20 @@
+# Description:  PHP PDO Mysql Driver 
+# URL:          http://php.net
+# Maintainer:   Silvino, silvino at bk dot ru
+
+name=php-pdo-mysql
+version=5.5.27
+release=1
+source=(http://www.php.net/distributions/php-$version.tar.bz2)
+build() {
+	cd php-$version
+
+	./configure --disable-all \
+				--enable-pdo=shared \
+				--with-pdo-mysql=shared,/usr
+	make build-modules
+
+	install -d $PKG/{etc/php/conf.d,usr/lib/php/extensions}
+	install -m 755 modules/pdo_mysql.so $PKG/usr/lib/php/extensions
+	echo "extension=pdo_mysql.so" > $PKG/etc/php/conf.d/pdo_mysql.ini
+}

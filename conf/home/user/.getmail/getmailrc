@@ -1,0 +1,14 @@
+[retriever]
+type = SimplePOP3SSLRetriever
+server = pop.external.com
+username = user@external.com
+port = 995
+password = password
+
+[destination]
+type = Maildir
+path = ~/MailExt/
+
+[options]
+read_all = False
+message_log = ~/.getmail/log_external

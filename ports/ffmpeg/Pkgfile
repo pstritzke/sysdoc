@@ -1,0 +1,59 @@
+# Description: Complete solution to record, convert and stream audio and video.
+# URL: http://ffmpeg.org/
+# Maintainer: Silvino, silvino at bk dot ru
+# Depends on: gnutls lame libass libbluray libgmp libmodplug libsdl libtheora libva libvpx libxvid opencore-amr openjpeg opus rtmpdump schroedinger speex x264 x265
+
+name=ffmpeg
+version=2.7.2
+release=1
+source=(http://ffmpeg.org/releases/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+     export TMPDIR=$SRC/tmp
+     mkdir $TMPDIR
+
+	./configure \
+		--prefix=/usr \
+		--mandir=/usr/man \
+		--disable-debug \
+		--disable-doc \
+		--enable-avfilter \
+		--enable-avresample \
+		--enable-dxva2 \
+		--enable-fontconfig \
+		--enable-gnutls \
+		--enable-gpl \
+		--enable-libass \
+		--enable-libbluray \
+		--enable-libfreetype \
+		--enable-libmodplug \
+		--enable-libmp3lame \
+		--enable-libopencore_amrnb \
+		--enable-libopencore_amrwb \
+		--enable-libopenjpeg \
+		--enable-libopus \
+		--enable-librtmp \
+		--enable-libschroedinger \
+		--enable-libspeex \
+		--enable-libtheora \
+		--enable-libvorbis \
+		--enable-libx264 \
+		--enable-libx265 \
+		--enable-libvpx \
+		--enable-libxvid \
+		--enable-pic \
+		--enable-postproc \
+		--enable-pthreads \
+		--enable-shared \
+		--enable-swresample \
+		--enable-vaapi \
+		--enable-vdpau \
+		--enable-version3 \
+		--enable-x11grab
+
+	[ "$CC" ] || CC=gcc
+	make CC="$CC" SHARED_PP='yes' $MAKEFLAGS
+	make DESTDIR=$PKG install install-man
+}

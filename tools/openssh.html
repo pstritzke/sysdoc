@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+    <head>
+        <meta charset='utf-8'>
+        <title>OpenSSH</title>
+    </head>
+    <body>
+        <h1>OpenSSH</h1>
+
+
+        <h2 id="sshd">Server</h2>
+
+        <p>Read OpenSSH server 
+        <a href="http://www.cyberciti.biz/tips/linux-unix-bsd-openssh-server-best-practices.html">Best Security Practices</a>,
+        on crux openssh port install this files to etc;</p>
+
+        <pre>
+        $ pkginfo -l openssh
+        etc/rc.d/sshd
+        etc/ssh/moduli
+        etc/ssh/ssh_config
+        etc/ssh/sshd_config
+        </pre>
+
+        <p>User commands;</p>
+
+        <pre>
+        usr/bin/scp
+        usr/bin/sftp
+        usr/bin/slogin
+        usr/bin/ssh
+        usr/bin/ssh-add
+        usr/bin/ssh-agent
+        usr/bin/ssh-keygen
+        usr/bin/ssh-keyscan
+        </pre>
+
+        <p>More information about sshd in man;</p>
+
+        <pre>
+        $ man sshd
+        </pre>
+
+        <h3 id="sshd_config">sshd config</h3>
+
+        <p>Since we are testing we will be only listening on
+        local interface, we will use 2222 port to avoid 
+        "default" port;</p>
+
+        <pre>
+        Port 2222
+        ListenAdress 127.0.0.1
+        #ListenAddress 192.168.1.65
+        #ListenAddress ::
+
+        # The default requires explicit activation of protocol 1
+        Protocol 2
+        </pre>
+
+        <pre>
+        # Logging
+        # obsoletes QuietMode and FascistLogging
+        SyslogFacility AUTH
+        LogLevel INFO
+
+        # Authentication:
+
+        #LoginGraceTime 2m
+        PermitRootLogin no
+        StrictModes yes
+        #MaxAuthTries 6
+        #MaxSessions 10
+        </pre>
+
+        <p>Only defined AllowUsers can log in, AllowGroups defines only
+        members of listed groups can log in.</p>
+
+        <pre>
+        #AllowUsers gitolite
+        AllowGroups sftponly gitolite
+
+        RSAAuthentication yes
+        PubkeyAuthentication yes
+
+        # The default is to check both .ssh/authorized_keys and .ssh/authorized_keys2
+        # but this is overridden so installations will only check .ssh/authorized_keys
+        AuthorizedKeysFile      .ssh/authorized_keys
+        </pre>
+
+        <pre>
+        # For this to work you will also need host keys in /etc/ssh/ssh_known_hosts
+        #RhostsRSAAuthentication no
+        # similar for protocol version 2
+        HostbasedAuthentication no
+        # Change to yes if you don't trust ~/.ssh/known_hosts for
+        # RhostsRSAAuthentication and HostbasedAuthentication
+        #IgnoreUserKnownHosts no
+        # Don't read the user's ~/.rhosts and ~/.shosts files
+        IgnoreRhosts yes
+
+        # To disable tunneled clear text passwords, change to no here!
+        PasswordAuthentication no
+        PermitEmptyPasswords no
+
+        # Change to no to disable s/key passwords
+        ChallengeResponseAuthentication no
+        </pre>
+
+        <pre>
+        LogLevel INFO
+
+        UsePAM no
+
+        #AllowAgentForwarding yes
+        AllowTcpForwarding no
+        #GatewayPorts no
+        X11Forwarding no
+        #X11DisplayOffset 10
+        #X11UseLocalhost yes
+        #PermitTTY yes
+        #PrintMotd yes
+        #PrintLastLog yes
+        #TCPKeepAlive yes
+        #UseLogin no
+        UsePrivilegeSeparation yes 
+        #PermitUserEnvironment no
+        #Compression delayed
+        ClientAliveInterval 300
+        ClientAliveCountMax 0
+        #UseDNS no
+
+        # no default banner path
+        Banner /etc/issue
+
+        # override default of no subsystems
+        Subsystem       sftp    /usr/lib/ssh/sftp-server
+        Match group sftponly
+                 ChrootDirectory /home/%u
+                 X11Forwarding no
+                 AllowTcpForwarding no
+                 ForceCommand internal-sftp
+        </pre>
+        
+        <pre>
+        # addgroup sftponly
+        </pre>
+
+        <p>Iptables;</p>
+
+        <p>Example of <a href="../src/bash/iptables/iptables.sh">iptable script</a></p>
+
+        <pre>
+        # Allow ssh
+        #$IPT -A INPUT -p tcp --destination-port 22 -j ACCEPT
+        $IPT -A INPUT  -i ${PUB_IF} -p tcp --dport 2222 -m state --state NEW -m limit --limit 3/min --limit-burst 3 -j ACCEPT
+        $IPT -A INPUT  -i ${PUB_IF} -p tcp --dport 2222 -m state --state ESTABLISHED -j ACCEPT
+        $IPT -A OUTPUT -o ${PUB_IF} -p tcp --sport 2222 -m state --state ESTABLISHED -j ACCEPT
+        </pre>
+
+        <p>TCP Wrappers</p>
+
+        <pre>
+        sshd : 192.168.1.2 172.16.23.12
+        </pre>
+
+        <p>
+        <a href="http://www.cyberciti.biz/tips/ssh-public-key-based-authentication-how-to.html">RSA</a>
+        </p>
+
+        <h2 id="ssh">User - Client</h2>
+
+        <h3>Create user</h3>
+
+        <p>On server create user;</p>
+
+        <pre>
+        # useradd -g  sftponly -d /home/bob -m -s /bin/false bob
+        # mkdir /home/bob/.ssh
+        </pre>
+
+        <p>Add to /root/.bashrc</p>
+
+        <pre>
+        genpasswd() {
+                local l=$1
+                [ "$l" == "" ]  &amp;&amp; l=20
+                tr -dc A-Za-z0-9_ &lt; /dev/urandom | head -c ${l} | xargs
+        }
+        </pre>
+
+        <pre>
+        # source ~/.bashrc
+        </pre>
+
+        <pre>
+        genpasswd 16
+        </pre>
+
+        <p>there is no -stdin option to genpasswd 16 | passwd --stdin bob;</p>
+
+        <pre>
+        # passwd bob
+        </pre>
+
+        <p>Add bob public key to authorized_keys;</p>
+
+        <pre>
+        # cat bob_rsa.pub &gt;&gt; /home/bob/.ssh/authorized_keys
+        </pre>
+
+        <pre>
+        # chown -R root:sftponly /home/bob
+        # chmod -R 750 /home/bob
+        </pre>
+
+        <h3>Client</h3>
+
+        <p>To create new key;</p>
+
+        <pre>
+        $ ssh-keygen -t rsa
+        </pre>
+
+        <p>By default this creates two files;</p>
+
+        <pre>
+        ~/.ssh/id_rsa : identification (private) key
+        ~/.ssh/id_rsa.pub : public key
+        </pre>
+
+        <p>Send id_rsa.pub to server. If you
+        are on same host;</p>
+
+        <pre>
+        # install -o user -g user ~/.ssh/id_rsa.pub /home/user/.ssh/user_rsa.pub
+        </pre>
+        
+        <pre>
+        $ sftp -P 2222 bob@remote.org
+        </pre>
+        
+        <p>
+        <a href="http://www.cyberciti.biz/faq/ssh-password-less-login-with-dsa-publickey-authentication/">DSA</a>
+        </p>
+        
+        <h3 id="ssh_config">SSH config</h3>
+
+        <p>When you have multiple accounts/identities you
+        can configure ssh client so you dont need to give 
+        -i flag. Create or edit ~/.ssh/config</p>
+
+        <pre>
+        Host local
+                HostName localhost
+                IdentityFile ~/.ssh/id_rsa
+                Port 2222
+                User user
+        Host gitolite
+                HostName git.remote.org
+                IdentityFile ~/.ssh/gitolite_rsa 
+                User void
+        </pre>
+
+        <p>Now you can just type;</p>
+
+        <pre>
+        $ ssh local
+        </pre>
+       
+        <pre>
+        $ sftp local
+        </pre>
+        
+    </body>
+</html>

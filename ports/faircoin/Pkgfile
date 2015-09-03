@@ -1,0 +1,34 @@
+# Description:  FairCoin is a peer-to-peer network based digital currency with moral values.
+# URL:          https://fair-coin.org/
+# Maintainer:   Silvino Silva, silvino at bk dot ru
+# Depends on:   protobuf, qrencode, miniupnpd, openssl, db, boost, qt5
+
+name=faircoin-qt
+version=1.5.1
+release=1
+source=(https://github.com/FairCoinTeam/fair-coin/archive/v$version.zip)
+        
+
+build() {
+    
+    ls $SRC
+
+    cd $SRC/fair-coin-$version
+
+    export BOOST_LIB_SUFFIX="-mt"
+    export LIBS=-lrt
+
+    ./autogen.sh
+
+    ./configure --prefix=/usr \
+        --disable-maintainer-mode \
+        --with-incompatible-bdb \
+        --with-gui=qt5 \
+        --disable-tests 
+
+
+    make -j `nproc`
+
+    make  DESTDIR=$PKG install 
+
+}

@@ -1,0 +1,147 @@
+execve("./cpkg", ["./cpkg"], [/* 23 vars */]) = 0
+brk(0)                                  = 0xa53000
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7fe88495a000
+access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)
+open("/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+fstat(3, {st_mode=S_IFREG|0644, st_size=83056, ...}) = 0
+mmap(NULL, 83056, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7fe884945000
+close(3)                                = 0
+open("/lib/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\340\33\2\0\0\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0755, st_size=1721680, ...}) = 0
+mmap(NULL, 3828224, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7fe884395000
+mprotect(0x7fe884532000, 2097152, PROT_NONE) = 0
+mmap(0x7fe884732000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x19d000) = 0x7fe884732000
+mmap(0x7fe884738000, 14848, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7fe884738000
+close(3)                                = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7fe884944000
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7fe884943000
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7fe884942000
+arch_prctl(ARCH_SET_FS, 0x7fe884943700) = 0
+mprotect(0x7fe884732000, 16384, PROT_READ) = 0
+mprotect(0x7fe88495b000, 4096, PROT_READ) = 0
+munmap(0x7fe884945000, 83056)           = 0
+brk(0)                                  = 0xa53000
+brk(0xa74000)                           = 0xa74000
+open("/etc/pkgmk.conf", O_RDONLY)       = 3
+fstat(3, {st_mode=S_IFREG|0644, st_size=799, ...}) = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7fe884959000
+read(3, "#\n# /etc/pkgmk.conf: pkgmk(8) co"..., 4096) = 799
+stat("/home/pkgmk/distfiles", {st_mode=S_IFDIR|0775, st_size=40960, ...}) = 0
+stat("/home/pkgmk/packages", {st_mode=S_IFDIR|0775, st_size=28672, ...}) = 0
+stat("/home/pkgmk/work", {st_mode=S_IFDIR|S_ISVTX|0777, st_size=40, ...}) = 0
+read(3, "", 4096)                       = 0
+close(3)                                = 0
+munmap(0x7fe884959000, 4096)            = 0
+open("/etc/prt-get.conf", O_RDONLY)     = 3
+fstat(3, {st_mode=S_IFREG|0644, st_size=1446, ...}) = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7fe884959000
+read(3, "###\n### prt-get conf\n###\n\n# note"..., 4096) = 1446
+stat("/usr/ports/core", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+stat("/usr/ports/opt", {st_mode=S_IFDIR|0775, st_size=12288, ...}) = 0
+stat("/usr/ports/xorg", {st_mode=S_IFDIR|0755, st_size=12288, ...}) = 0
+stat("/usr/ports/contrib", {st_mode=S_IFDIR|0775, st_size=20480, ...}) = 0
+stat("/usr/ports/romster", {st_mode=S_IFDIR|0755, st_size=12288, ...}) = 0
+stat("/usr/ports/emulators", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+read(3, "", 4096)                       = 0
+close(3)                                = 0
+munmap(0x7fe884959000, 4096)            = 0
+openat(AT_FDCWD, "/etc/ports/", O_RDONLY|O_NONBLOCK|O_DIRECTORY|O_CLOEXEC) = 3
+getdents(3, /* 13 entries */, 32768)    = 480
+open("/etc/ports/opt.rsync", O_RDONLY)  = 4
+fstat(4, {st_mode=S_IFREG|0644, st_size=71, ...}) = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7fe884959000
+read(4, "host=crux.nu\ncollection=ports/cr"..., 4096) = 71
+read(4, "", 4096)                       = 0
+close(4)                                = 0
+munmap(0x7fe884959000, 4096)            = 0
+open("/etc/ports/emulators.httpup", O_RDONLY) = 4
+fstat(4, {st_mode=S_IFREG|0644, st_size=182, ...}) = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7fe884959000
+read(4, "# Collection romster, by crux at"..., 4096) = 182
+read(4, "", 4096)                       = 0
+close(4)                                = 0
+munmap(0x7fe884959000, 4096)            = 0
+open("/etc/ports/romster.httpup", O_RDONLY) = -1 EACCES (Permission denied)
+open("/etc/ports/core.rsync", O_RDONLY) = 4
+fstat(4, {st_mode=S_IFREG|0644, st_size=73, ...}) = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7fe884959000
+read(4, "host=crux.nu\ncollection=ports/cr"..., 4096) = 73
+read(4, "", 4096)                       = 0
+close(4)                                = 0
+munmap(0x7fe884959000, 4096)            = 0
+open("/etc/ports/xorg.rsync", O_RDONLY) = 4
+fstat(4, {st_mode=S_IFREG|0644, st_size=73, ...}) = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7fe884959000
+read(4, "host=crux.nu\ncollection=ports/cr"..., 4096) = 73
+read(4, "", 4096)                       = 0
+close(4)                                = 0
+munmap(0x7fe884959000, 4096)            = 0
+open("/etc/ports/contrib.rsync", O_RDONLY) = 4
+fstat(4, {st_mode=S_IFREG|0644, st_size=79, ...}) = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7fe884959000
+read(4, "host=crux.nu\ncollection=ports/cr"..., 4096) = 79
+read(4, "", 4096)                       = 0
+close(4)                                = 0
+munmap(0x7fe884959000, 4096)            = 0
+getdents(3, /* 0 entries */, 32768)     = 0
+close(3)                                = 0
+fstat(1, {st_mode=S_IFCHR|0620, st_rdev=makedev(136, 1), ...}) = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7fe884959000
+write(1, "pkgmk configuration:\n", 21)  = 21
+write(1, "\n", 1)                       = 1
+write(1, "Source Dir: /home/pkgmk/distfile"..., 34) = 34
+write(1, "Package Dir: /home/pkgmk/package"..., 34) = 34
+write(1, "Work Dir: /home/pkgmk/work\n", 27) = 27
+write(1, "\nprt-get configuration:\n", 24) = 24
+write(1, "\n", 1)                       = 1
+write(1, "Name: core\n", 11)            = 11
+write(1, "Dir:  /usr/ports/core\n", 22) = 22
+write(1, "Description:  (null)\n", 21)  = 21
+write(1, "Config:  /etc/ports/core.rsync\n", 31) = 31
+write(1, "Driver:  rsync\n", 15)        = 15
+write(1, "Host: crux.nu\n", 14)         = 14
+write(1, "Collection: ports/crux-3.1/core/"..., 33) = 33
+write(1, "\n", 1)                       = 1
+write(1, "Name: opt\n", 10)             = 10
+write(1, "Dir:  /usr/ports/opt\n", 21)  = 21
+write(1, "Description:  (null)\n", 21)  = 21
+write(1, "Config:  /etc/ports/opt.rsync\n", 30) = 30
+write(1, "Driver:  rsync\n", 15)        = 15
+write(1, "Host: crux.nu\n", 14)         = 14
+write(1, "Collection: ports/crux-3.1/opt/\n", 32) = 32
+write(1, "\n", 1)                       = 1
+write(1, "Name: xorg\n", 11)            = 11
+write(1, "Dir:  /usr/ports/xorg\n", 22) = 22
+write(1, "Description:  (null)\n", 21)  = 21
+write(1, "Config:  /etc/ports/xorg.rsync\n", 31) = 31
+write(1, "Driver:  rsync\n", 15)        = 15
+write(1, "Host: crux.nu\n", 14)         = 14
+write(1, "Collection: ports/crux-3.1/xorg/"..., 33) = 33
+write(1, "\n", 1)                       = 1
+write(1, "Name: contrib\n", 14)         = 14
+write(1, "Dir:  /usr/ports/contrib\n", 25) = 25
+write(1, "Description:  (null)\n", 21)  = 21
+write(1, "Config:  /etc/ports/contrib.rsyn"..., 34) = 34
+write(1, "Driver:  rsync\n", 15)        = 15
+write(1, "Host: crux.nu\n", 14)         = 14
+write(1, "Collection: ports/crux-3.1/contr"..., 36) = 36
+write(1, "\n", 1)                       = 1
+write(1, "Name: (null)\n", 13)          = 13
+write(1, "Dir:  /usr/ports/romster\n", 25) = 25
+write(1, "Description:  (null)\n", 21)  = 21
+write(1, "Config:  (null)\n", 16)       = 16
+write(1, "Driver:  (null)\n", 16)       = 16
+write(1, "Host: (null)\n", 13)          = 13
+write(1, "Collection: (null)\n", 19)    = 19
+write(1, "\n", 1)                       = 1
+write(1, "Name: emulators\n", 16)       = 16
+write(1, "Dir:  /usr/ports/emulators\n", 27) = 27
+write(1, "Description:  (null)\n", 21)  = 21
+write(1, "Config:  /etc/ports/emulators.ht"..., 37) = 37
+write(1, "Driver:  httpup\n", 16)       = 16
+write(1, "Host: http://crux.ster.zone/port"..., 45) = 45
+write(1, "Collection: (null)\n", 19)    = 19
+write(1, "\n", 1)                       = 1
+exit_group(0)                           = ?
++++ exited with 0 +++

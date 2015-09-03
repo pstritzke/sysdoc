@@ -1,0 +1,90 @@
+ <!DOCTYPE html>
+<html dir="ltr" lang="en">
+    <head>
+        <meta charset='utf-8'>
+        <title>4. Kernel Linux</title>
+    </head>
+    <body>
+
+        <h1 id="kernel">4. Kernel Linux</h1>
+
+        <p>Linux is a monolith kernel, a big one !!!.</p>
+
+        <p>This instructions are done
+       with <a href="install.html#step6">active chroot</a>
+       and inside chroot;</p>
+
+       <pre>
+       # chroot $CHROOT /bin/bash
+       </pre>
+
+        <h2 id="#linuxlibre">4.1. Port Linux Libre</h2>
+
+        <p>This will install kernel and dracut;</p>
+
+        <pre>
+        $ prt-get depinst linux-libre
+        </pre>
+
+        <p>Now system is ready to <a href="reboot.html">prepare for reboot</a>.</p>
+
+        <h2 id="#kdownload">4.2. Download Sources</h2>
+
+        <p>Download <a href="http://linux-libre.fsfla.org/pub/linux-libre/releases/">Linux Source</a>
+        from linux libre, this ensure that kernel is free of bad things.</p>
+
+
+        <p>If you like <a href="https://github.com/graysky2/kernel_gcc_patch/archive/master.zip">Kernel Gcc Patch</a>
+        that adds more cpu options (FLAGS native)</p>
+
+        <pre>
+        $ unzip kernel_gcc_patch-master.zip
+        </pre>
+
+        <pre>
+        $ cd ~/linux-3.18.11/
+        $ patch -p1 &lt; ../kernel_gcc_patch-master/enable_additional_cpu_optimizations_fo
+        r_gcc_v4.9+_kernel_v3.15+.patch
+        patching file arch/x86/include/asm/module.h
+        patching file arch/x86/Kconfig.cpu
+        patching file arch/x86/Makefile
+        Hunk #1 succeeded at 85 (offset -7 lines).
+        patching file arch/x86/Makefile_32.cpu
+        </pre>
+
+        <h2 id="kconf">4.3. Configure</h2>
+
+        <p>Crux iso comes with config that you can use as
+        a starting point.</p>
+
+        <pre>
+        $ cp /iso/crux/kernel/linux-3.12.24.config .config
+        $ make oldefconfig
+        </pre>
+
+        <h2 id="kinstall">4.4. Manual Install</h2>
+
+        <pre>
+        $ cd ~/linux-3.18.11/
+        $ make all
+        $ sudo make modules_install
+        $ sudo cp arch/x86/boot/bzImage /boot/vmlinuz-3.18.11
+        $ sudo cp System.map /boot/System.map-3.18.11
+        </pre>
+
+        <h2 id="kuninstall">4.5. Manual Remove</h2>
+
+        <pre>
+        $ sudo rm -r /lib/modules/3.18.11-gnu
+        $ sudo rm /boot/vmlinuz-3.18.11
+        $ sudo rm /boot/System.map-3.18.11
+        </pre>
+
+        <p>This is part of the SysDoc Manual.
+Copyright (C) 2015 
+Silvino Silva.
+See the file <a href="fdl-1.3-standalone.html">Gnu Free Documentation License</a>
+for copying conditions.</p>
+
+    </body>
+</html>

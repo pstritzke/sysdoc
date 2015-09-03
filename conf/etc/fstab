@@ -1,0 +1,22 @@
+#
+# /etc/fstab: static file system information
+#
+# <file system>        <dir>     <type>    <options>                        <dump> <pass>
+UUID=cafff33b-ef51-493b-9f7c-1d72293afbb9 	/boot		ext4	defaults,noexec,nosuid,errors=remount-ro,noatime	0 1
+
+UUID=3cf7fbf7-9bcc-40a9-94f4-c9cb89602a76	/		ext4	defaults,errors=remount-ro,noatime			0 1
+
+tmp             /tmp            tmpfs   defaults,nodev,nosuid,noexec,noatime	                0 0
+devpts		/dev/pts	devpts	noexec,nosuid,gid=tty,mode=0620				0 0
+shm            	/dev/shm     	tmpfs	defaults,nodev,nosuid,noexec				0 0
+
+#UUID=54c7dca5-1558-4f90-8d81-c01e4e50c6ae	/srv/git		ext4 defaults,nosuid,nodev,noatime	1 2
+#UUID=6ecd9caf-8d27-4215-9060-7a3843a053ac	/srv/pgsql		ext4 defaults,noatime	1 2
+#UUID=cfc582fd-0136-4453-ade1-de151ebb5153	/srv/www		ext4 defaults,nosuid,noexec,nodev,noatime	1 2
+#UUID=0aba2d28-8e3a-4a89-bff5-1698708e13d0       /var/ports/distfiles    ext4 defaults,noatime   1 2
+#UUID=08295a67-a056-4dea-9462-209f151e4cdf   swap    swap    sw
+
+# To improve performance of pkgmk
+pkgmk /var/ports/work tmpfs size=3G,uid=102,defaults 0 0
+
+# End of file

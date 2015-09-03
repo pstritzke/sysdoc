@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+    <head>
+        <meta charset='utf-8'>
+        <title>2. Prt-get</title>
+    </head>
+    <body>
+
+        <h1>2. Prt-get</h1>
+
+        <p>For more information read crux handbook:
+        <a href="https://crux.nu/Handbook3-1#ntoc20">Package management front-end: prt-get</a>
+        </p>
+
+        <p>Test configuration by runing prt-get as user installing 
+        ports that are related;</p>
+
+        <pre>
+        $ prt-get depinst prt-utils prt-get-bashcompletion
+        </pre>
+
+        <h2 id="sysup">2.1. Updating system</h2>
+
+        <p>Before build software get latest version of port collections;</p>
+
+        <pre>
+        $ sudo ports -u
+        </pre>
+
+        <p>When coming from install or there is to much updates, I prefer to
+        update glibc, gcc, libtool and binutils before doing a sysup;</p>
+
+        <pre>
+        $ prt-get update glibc
+        $ prt-get update gcc
+        $ prt-get update libtool
+        $ prt-get update binutils
+        </pre>
+
+        <p>Build and install updated versions of ports;</p>
+
+
+        <pre>
+        $ prt-get sysup
+        </pre>
+
+        <p>Rebuild any revision dependency;</p>
+
+        <pre>
+        $ prt-get update -fr $(revdep)
+        </pre>
+
+        <h2 id="depinst">2.2. Install port including dependencies</h2>
+
+        <pre>
+        $ sudo prt-grt depinst iw
+        </pre>
+
+
+        <h2 id="info">2.3. Show port information</h2>
+
+        <pre>
+        $ prt-get info port_name
+        </pre>
+
+        <h2 id="depends">2.4. Show port dependencies</h2>
+
+        <pre>
+        $ prt-get depends port_name
+        </pre>
+
+        <h2 id="printf">2.5. Print information</h2>
+
+        <p>Example how to get ports installed from contrib. Maybe there is
+        a "cleaner" way to this, for now is ok;</p>
+
+        <pre>
+        prt-get printf "%p %i %n %v\n" | grep "/usr/ports/contrib yes"
+        </pre>
+
+        <p>This is part of the SysDoc Manual.
+Copyright (C) 2015 
+Silvino Silva.
+See the file <a href="fdl-1.3-standalone.html">Gnu Free Documentation License</a>
+for copying conditions.</p>
+
+    </body>
+</html>

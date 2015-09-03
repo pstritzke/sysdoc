@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+    <head>
+        <meta charset='utf-8'>
+        <title>Samhain</title>
+    </head>
+    <body>
+        <h1 id="samhain">Samhain</h1>
+
+        <p>Read 
+        <a href="http://www.la-samhna.de/samhain/manual/">Samhain Manual</a>,
+        samhain is a file and host integrity and intrusion alert system 
+        suitable for single hosts as well as for large, UNIX-based networks. 
+        samhain offers advanced features to support and facilitate 
+        centralized monitoring.</p>
+
+        <p>The client (or standalone) part is called samhain, while the 
+        server is referred to as yule. Both can run as daemon processes.</p>
+
+        <p>Most of the options require being defined at compile time, is
+        easy to start with basic and then compile as more features are
+        required.</p>
+
+        <pre>
+        $ sudo prt-get depinst samhain
+        </pre>
+
+        <dl>
+            <dt>/var/lib/samhain/samhain_file</dt>
+            <dd>signature database</dd>
+            <dt>/etc/samhainrc</dt>
+            <dd>configuration file</dt>
+            <dt>/var/log/samhain.log</dt>
+            <dd>log file</dd>
+        </dl>
+
+        <p>For more information on configuration check 
+        <a href="http://www.la-samhna.de/samhain/manual/filedef.htm">Monitoring Policies</a>.
+        Description of section headings;</p>
+
+        <dl>
+            <dt>ReadOnly</dt>
+
+            <dd>All modifications except access times will be 
+            reported for these files.</dd>
+            <dd>Checked: owner, group, permissions, file type, device number,
+            hardlinks, links, inode, checksum, size, mtime, ctime.</dd>
+
+            <dt>LogFiles</dt>
+
+            <dd>Modifications of timestamps, file size, and signature will be
+            ignored.</dd>
+            <dd>Checked: owner, group, permissions, file type, device number,
+            hardlinks, links, inode.<dd>
+
+            <dt>GrowingLogFiles</dt>
+
+            <dd>Modifications of timestamps, and signature will be ignored.
+            Modification of the file size will only be ignored if the file size
+            has increased.</dd>
+            <dd>Checked: owner, group, permissions, file type, device number,
+            hardlinks, links, inode, size >= previous_size, checksum(file start
+            up to previous size) equals previous checksum.</dd>
+
+            <dt>Attributes</dt>
+
+            <dd>Only modifications of ownership, access permissions, and device
+            number will be checked.</dd>
+            <dd>Checked: owner, group, permissions, file type, device number.</dd>
+
+            <dt>IgnoreAll</dt>
+
+            <dd>No modifications will be reported. However, the existence of the
+            specified file or directory will still be checked.</dd>
+
+            <dt>IgnoreNone</dt>
+
+            <dd>All modifications, including access time, but excluding ctime, will
+            be reported - checking atime and ctime would require to play with
+            the system clock.</dd>
+            <dd>Checked: owner, group, permissions, file type, device number,
+            hardlinks, links, inode, checksum, size, mtime, atime.</dd>
+
+        </dl>
+
+        <pre>
+        $ vim /etc/samhainrc
+        </pre>
+
+        <p>This is just a resume, there is a complete template
+        on crux ports?.</p>
+
+        <pre>
+        [Misc]
+
+        [ReadOnly]
+        dir = 0/
+
+        [Attributes]
+        file = /tmp
+        file = /dev
+        file = /media
+        file = /proc
+        file = /sys
+
+        [ReadOnly]
+        dir = 99/etc
+
+        [Attributes]
+        file = /etc/mtab
+        file = /etc/adjtime
+        file = /etc/motd
+        file = /etc/fstab
+
+        file = /etc
+
+        [ReadOnly]
+        dir = 99/boot
+
+        [ReadOnly]
+        dir = 99/bin
+        dir = 99/sbin
+
+        [ReadOnly]
+        dir = 99/lib
+
+        [Attributes]
+        dir = 99/dev
+
+        [IgnoreAll]
+        dir = -1/dev/pts
+
+        [ReadOnly]
+        dir = 99/usr
+
+        [IgnoreAll]
+        dir = -1/usr/ports/core
+        dir = -1/usr/ports/opt
+        dir = -1/usr/ports/contrib
+        dir = -1/usr/ports/work
+        dir = -1/usr/ports/distfiles
+
+        [ReadOnly]
+        dir = 99/var
+
+        [IgnoreAll]
+        dir = -1/var/cache
+        dir = -1/var/lock
+        dir = -1/var/mail
+        dir = -1/var/run
+        dir = -1/var/spool
+        dir = -1/var/tmp
+
+        [Attributes]
+
+        file = /var/lib/mlocate
+        file = /var/lib/mlocate/mlocate.db
+        file = /var/lib/urandom
+        file = /var/lib/urandom/seed
+
+        [GrowingLogFiles]
+        dir = 99/var/log
+
+        file = /var/log/samhain.log.lock
+
+        [Attributes]
+        file = /var/log/old/*.[0-9].gz
+
+        [Misc]
+        IgnoreAdded = /var/log/.*\.[0-9]+$
+        IgnoreAdded = /var/log/.*\.[0-9]+\.gz$
+        IgnoreAdded = /var/log/.*\.[0-9]+\.log$
+        IgnoreAdded = /var/log/[[:alnum:]]+/.*\.[0-9]+$
+        IgnoreAdded = /var/log/[[:alnum:]]+/.*\.[0-9]+\.gz$
+        IgnoreAdded = /var/log/[[:alnum:]]+/.*\.[0-9]+\.log$
+        IgnoreAdded = /var/lib/slocate/slocate.db.tmp
+        IgnoreMissing = /var/lib/slocate/slocate.db.tmp
+
+        [IgnoreNone]
+
+        [Prelink]
+
+        [User0]
+
+        [User1]
+
+        [EventSeverity]
+
+        [Log]
+        MailSeverity=notice
+        PrintSeverity=none
+
+        [Misc]
+        Daemon = yes
+        ChecksumTest=check
+        SetNiceLevel = 19
+        SetIOLimit = 500
+        SetLoopTime = 600
+        SetFileCheckTime = 7200
+        ReportOnlyOnce = True
+        SetMailTime = 86400
+        SetMailNum = 10
+        SetMailAddress=root@localhost
+        SyslogFacility=LOG_LOCAL2
+
+        </pre>
+
+        <p>Initialize database;</p>
+
+        <pre>
+        # samhain -t init -p notice
+        </pre>
+
+        <p>If you want to "restart" remove samhain_file and run again 
+        the command above. If daemon is set on config file you just 
+        need to run;</p>
+
+        <pre>
+        # samhain -t check -p notice
+        </pre>
+
+        <p>To control daemon;</p>
+
+        <pre>
+        # samhain stop
+        # samhain start
+        # samhain restart
+        # samhain reload or force-reload
+        # samhain status
+        </pre>
+
+        <h2>Update Database</h2>
+
+        <p><a href="http://www.la-samhna.de/samhain/manual/updating-the-file-signature-database.html">Manual</a>,
+        You can update the database while the daemon is running, as long
+        as you don't interfere with its logging. Using flag -l like this
+        samhain -t update -l none make sure the log file is not accessed.</p>
+
+        <pre>
+        # samhain -t update -l none --interactive
+        </pre>
+
+        <p>Interactive update are supported with the command line flag
+        --interactive. A file with a list of good files, absolute path, 
+        one per line, can be passed with flag --listfile. Example;</p>
+
+        <pre>
+        # samhain -t update -l none --listfile=/root/list_of_files
+        </pre>
+
+    </body>
+</html>

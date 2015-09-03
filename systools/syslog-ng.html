@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+    <head>
+        <meta charset='utf-8'>
+        <title>9. Logs</title>
+    </head>
+    <body>
+        <h1>Logs</h1>
+
+        <p>A simple way to "watch" log files is to use tail, with
+        exception of faillog, see man faillog for more information.</p>
+
+        <pre>
+        $ cd /var/log
+        $ sudo tail -f messages kernel cron auth
+        </pre>
+
+        <h2 id="syslog-ng">9.1 Syslog NG</h2>
+
+        <p>Syslog-ng offers more than sysklogd, for example, we
+        can log messages to different files based on pattern. It
+        is possible to have both syslog-ng and sysklog, I will
+        only configure syslog-ng and remove sysklog.</p>
+
+        <h3 id="eventlog">9.1.1 Install Event Log</h3>
+
+        <pre>
+        $ mkdir eventlog 
+        $ vim Pkgfile
+        </pre>
+
+        <pre>
+        # Description: replacement of the simple syslog() API
+        # URL:         http://www.balabit.com/network-security/syslog-ng/opensource-logging-system
+        # Maintainer:  Thomas Penteker, tek at serverop dot de
+        #
+        # Depends on:
+
+        name=eventlog
+        version=0.2.12
+        release=1
+        source=(http://ftp.uni-erlangen.de/pub/mirrors/gentoo/distfiles/${name}_${version}.tar.gz)
+
+        build() {
+        cd $name-$version
+
+        ./configure \
+        --prefix=/usr \
+        --disable-nls \
+        --mandir=/usr/man
+
+        make && make DESTDIR=$PKG install
+        rm -rf $PKG/usr/doc
+        }
+        </pre>
+
+        <pre>
+        $ fakeroot pkgmk -d
+        $ sudo pkgadd /usr/ports/packages/eventlog#0.2.12-1.pkg.tar.gz
+        </pre>
+
+        <h3 id="pkgfile">9.1.2 Syslog NG Pkgfile</h3>
+
+        <pre>
+        $ cd ..
+        $ mkdir syslog-ng
+        $ vim Pkgfile
+        </pre>
+
+        <pre>
+        # Description: alternate syslogging daemon
+        # URL:         http://www.balabit.com/network-security/syslog-ng/opensource-logging-system
+        # Packager:    Silvino Silva, silvino at bk dot ru
+        # Depends on:  eventlog, glib, libwrap
+
+        name=syslog-ng
+        version=3.5.6
+        release=1
+        source=(http://balabit.com/downloads/files/syslog-ng/sources/$version/source/${name}_${version}.tar.gz
+        syslog-ng.rc syslog-ng.conf)
+
+        build() {
+           cd $name-$version
+
+           ./configure \
+              --prefix=/usr \
+              --sysconfdir=/etc \
+              --libexecdir=/var/libexec \
+              --localstatedir=/var \
+              --mandir=/usr/man \
+              --enable-dynamic-linking \
+              --sbindir=/sbin \
+              --enable-tcp-wraper
+
+
+           make && make DESTDIR=$PKG install
+           rm -rf $PKG/usr/doc
+           rm -rf $PKG/usr/share/include/scl/syslogconf/README
+           install -D -m 644 ../syslog-ng.conf $PKG/etc/syslog-ng.conf
+           install -D -m 755 ../syslog-ng.rc $PKG/etc/rc.d/syslog-ng
+        }
+        </pre>
+
+        <h3 id="syslog-rc">9.1.3 Syslog NG RC</h3>
+
+        <pre>
+        $ vim syslog-ng.rc
+        </pre>
+
+        <pre>
+        #!/bin/sh
+        #
+        # /etc/rc.d/syslog-ng: start/stop syslog-ng logging daemon
+        #
+
+        case $1 in
+        start)
+          /sbin/syslog-ng -f /etc/syslog-ng.conf -p /var/run/syslog-ng.pid
+          ;;
+        stop)
+          killall -q /sbin/syslog-ng
+          rm -f /var/run/syslog-ng.pid
+          ;;
+        restart)
+          $0 stop
+          sleep 2
+          $0 start
+          ;;
+        *)
+          echo "usage: $0 [start|stop|restart]"
+          ;;
+        esac
+        </pre>
+
+        <h3 id="syslog-conf">9.1.4 Syslog NG Conf</h3>
+
+        <p>Configure syslog-ng for common systems, vim syslog-ng.conf</p>
+
+        <pre>
+        #############################################################################
+        # Simple syslog-ng.conf for crux.nu,
+        # 
+        # Silvino Siva &lt; silvino at bk dot ru &gt;
+        # Created: 1/12/2014
+        #
+        # Reference: 
+        # 	http://www.campin.net/syslog-ng/expanded-syslog-ng.con
+        #
+        # Notes:
+        #	* f_error and f_console are not used
+        # --------------------------------------------------------------------------
+        @version: 3.5
+        @include "scl.conf"
+
+        options {
+            flush_lines(0);
+            time_reopen(10);
+            chain_hostnames(off);
+            create_dirs(no);
+            stats_freq(1200);
+            use_dns(no);
+            use_fqdn(no);
+            perm(0600);
+            log_fifo_size(2048);
+            log_msg_size(1024);
+            keep_hostname(yes);
+        };
+
+        source s_log { unix-dgram("/dev/log"); };
+        source s_internal { internal(); };
+        source s_kernel { file("/proc/kmsg" program_override("kernel")); };
+
+        template t_debug { template("$DATE fac $FACILITY lvl $LEVEL prg $PROGRAM: $MSG\n"); };
+
+        destination d_auth 	{ file("/var/log/auth"); };
+        destination d_cron 	{ file("/var/log/cron"); };
+        destination d_debug 	{ file("/var/log/debug" template(t_debug)); };
+        destination d_kernel 	{ file("/var/log/kernel"); };
+        destination d_mail 	{ file("/var/log/mail"); };
+        destination d_messages	{ file("/var/log/messages"); };
+        destination d_lpr	{ file("/var/log/lpr"); };
+        destination d_user	{ file("/var/log/user"); };
+
+        destination d_all_tty	{ usertty("*"); };
+
+        filter f_emerg		{ level(emerg); };
+        filter f_alert		{ level(alert); };
+        filter f_crit 		{ level(crit); };
+        filter f_err 		{ level(err); };
+        filter f_warn 		{ level(warn); };
+        filter f_notice 	{ level(notice); };
+        filter f_info 		{ level(info); };
+        filter f_errors 	{ level(err..emerg); };
+        filter f_debug 		{ 
+            level(debug) 
+            and not facility(auth, authpriv, mail) 
+        }; 
+
+        filter f_kernel 	{ facility(kern); };
+        filter f_user		{ facility(user); };
+        filter f_mail 		{ facility(mail); };
+        filter f_auth 		{ facility(auth, authpriv); };
+        filter f_cron 		{ facility(cron); };
+        filter f_lpr		{ facility(lpr); };
+
+        filter f_messages 	{ 
+            level(info..warn) 
+            and not facility(auth, authpriv, mail, cron) 
+        };
+
+        filter f_console {
+            facility(mail)
+            or level(debug, info, notice, warn)
+        };
+
+        #connect filter and destination
+        log { source(s_log); source(s_internal); filter(f_auth); destination(d_auth); };
+        log { source(s_internal); destination(d_messages); };
+        log { source(s_log); filter(f_cron); destination(d_cron); };
+        log { source(s_log); filter(f_debug); destination(d_debug); };
+        log { source(s_kernel); filter(f_kernel); destination(d_kernel); };
+        log { source(s_log); filter(f_mail); destination(d_mail); };
+        log { source(s_log); filter(f_messages); destination(d_messages); };
+        log { source(s_log); filter(f_lpr); destination(d_lpr); };
+        log { source(s_log); filter(f_user); destination(d_user); };
+
+        #default log
+        log { source(s_log); filter(f_emerg); destination(d_all_tty); };
+        </pre>
+
+        <p>Description off global options used;</p>
+
+        <dl>
+            <dt>chain-hostnames()</dt>
+
+            <dd>Accepted values: yes | no</dd>
+            <dd>Default: no</dd>
+
+            <dd>Description: Enable or disable the chained hostname format.
+            If the log message is forwarded to the log server via a relay,
+            and the chain-hostnames() option is enabled, the relay adds its
+            own hostname to the hostname of the client, separated with
+            a / character.</dd>
+
+            <dt>create-dirs()</dt>
+
+            <dd>Accepted values: yes | no</dd>
+            <dd>Default: no</dd>
+
+            <dd>Description: Enable or disable directory creation for
+            destination files.</dd>
+
+            <dt>use-dns()</dt>
+
+            <dd>Type: yes, no, persist_only</dd>
+            <dd>Default: yes</dd>
+
+            <dd>Description: Enable or disable DNS usage. The persist_only
+            option attempts to resolve hostnames locally from file (for example
+            from /etc/hosts). The syslog-ng OSE application blocks on DNS
+            queries, so enabling DNS may lead to a Denial of Service attack.</dd>
+
+            <dt>stats_freq()</dt>
+
+            <dd>Accepted values: number</dd>
+            <dd>Default: 600</dd>
+
+            <dd>Description: The period between two STATS messages in seconds.
+            STATS are log messages sent by syslog-ng, containing statistics
+            about dropped log messages. Set to 0 to disable the STATS
+            messages.</dd>
+
+            <dt>perm()</dt>
+
+            <dd>Accepted values: permission value</dd>
+            <dd>Default: 0600</dd>
+
+            <dd>Description: The default permission for output files.
+            By default, syslog-ng changes the privileges of accessed files
+            (for example /dev/null) to root.root 0600. To disable modifying
+            privileges, use this option with the -1 value.</dd>
+
+            <dt>log-fifo-size()</dt>
+
+            <dd>Accepted values: number</dd>
+            <dd>Default: 10000</dd>
+
+            <dd>Description: The number of messages that the output queue
+            can store.</dd>
+
+            <dt>log-msg-size()</dt>
+
+            <dd>Accepted values: number</dd>
+            <dd>Default: 8192</dd>
+
+            <dd>Description: Maximum length of a message in bytes. This
+            length includes the entire message (the data structure and
+            individual fields). The maximal value that can be set is 268435456
+            bytes (256MB). For messages using the IETF-syslog message format
+            (RFC5424), the maximal size of the value of an SDATA field is
+            64kB.</dd>
+
+            <dt>flush-lines()</dt>
+
+            <dd>Type: number</dd>
+            <dd>Default: Use global setting.</dd>
+
+            <dd>Description: Specifies how many lines are flushed to a
+            destination at a time. The syslog-ng OSE application waits for
+            this number of lines to accumulate and sends them off in a single
+            batch. Increasing this number increases throughput as more
+            messages are sent in a single batch, but also increases message
+            latency.</dd>
+        </dl>
+
+        <h3 id="install">9.1.5 Syslog NG Install</h3>
+
+        <pre>
+        $ sudo prt-get depinst glib
+        $ pkgmk -um
+        $ pkgmk -uf
+        $ fakeroot pkgmk -d 
+        $ sudo pkgadd /usr/ports/packages/syslog-ng#3.5.6-1.pkg.tar.gz
+        </pre>
+
+        <p>Change /etc/rc.conf, replace sysklog with syslog-ng, rc.conf
+        example with syslog-ng;</p>
+
+        <pre>
+        #
+        # /etc/rc.conf: system configuration
+        #
+
+        FONT=default
+        KEYMAP=dvorak
+        TIMEZONE="Europe/Lisbon"
+        HOSTNAME=box
+        SYSLOG=syslog-ng
+        SERVICES=(syslog-ng lo net crond)
+
+        # End of file
+        </pre>
+
+        <pre>
+        $ sudo sh /etc/rc.d/syslog-ng start
+        $ sudo sh /etc/rc.d/sysklogd stop 
+        </pre>
+
+        <p>This is part of the SysDoc Manual.
+Copyright (C) 2015 
+Silvino Silva.
+See the file <a href="fdl-1.3-standalone.html">Gnu Free Documentation License</a>
+for copying conditions.</p>
+
+
+    </body>
+</html>

@@ -1,0 +1,11 @@
+--- gitolite-shell	2015-04-27 21:08:30.581444560 +0000
++++ gitolite-shell_fix	2015-04-27 21:07:11.578539222 +0000
+@@ -5,7 +5,7 @@
+ 
+ use FindBin;
+ 
+-BEGIN { $ENV{GL_BINDIR} = $FindBin::RealBin; }
++BEGIN { $ENV{GL_BINDIR} = "/usr/share/gitolite" }
+ BEGIN { $ENV{GL_LIBDIR} = "$ENV{GL_BINDIR}/lib"; }
+ use lib $ENV{GL_LIBDIR};
+ 

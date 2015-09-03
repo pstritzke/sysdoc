@@ -1,0 +1,25 @@
+# Description: Gstreamer libav Plugin.
+# URL: http://gstreamer.freedesktop.org/modules/gst-libav.html
+# Maintainer: Silvino Silva, silvino at bk dot ru
+# Depends on: gst-plugins-base yasm
+
+name=gst-libav
+version=1.4.5
+release=1
+source=(http://gstreamer.freedesktop.org/src/$name/$name-$version.tar.xz)
+
+build() {
+	cd $name-$version
+
+     export TMPDIR=$SRC/tmp
+     mkdir $TMPDIR
+
+	./configure \
+		--prefix=/usr \
+		--mandir=/usr/man
+
+	make
+	make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share/gtk-doc
+}

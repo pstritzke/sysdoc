@@ -1,0 +1,38 @@
+# Description: Lynis is a security auditing tool for Unix and Linux based systems. It performs in-depth security scans, with almost no configuration.
+# URL: https://cisofy.com/
+# Maintainer:  Silvino, silvino at bk dot ru
+# Depends on: 
+
+name=lynis
+version=2.1.0
+release=1
+source=(https://cisofy.com/files/lynis-$version.tar.gz)
+
+build() {
+
+    ls $SRC/
+    
+    cd $SRC/$name
+
+# Install profile
+    install -d $PKG/etc/lynis
+    install default.prf $PKG/etc/lynis
+# Install binary
+    install -d $PKG/usr/bin
+    install lynis $PKG/usr/bin
+# Install man page
+    install -d $PKG/usr/man/man8
+    install lynis.8 $PKG/usr/man/man8
+# Install functions/includes
+    install -d $PKG/usr/share/lynis/include
+    cp -R include/* $PKG/usr/share/lynis/include
+# Install plugins
+    install -d $PKG/usr/share/lynis/plugins
+    cp -R plugins/* $PKG/usr/share/lynis/plugins
+# Install database files
+    install -d $PKG/var/lib/lynix
+    cp -R db/* $PKG/var/lib/lynix
+
+}
+
+

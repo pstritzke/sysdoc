@@ -1,0 +1,7 @@
+#
+# /etc/ports/sysdoc.httpup: SysDoc port collection
+#
+
+ROOT_DIR=/usr/ports/sysdoc
+URL=https://github.com/s1lvino/sysdoc/raw/master/ports/
+# End of file

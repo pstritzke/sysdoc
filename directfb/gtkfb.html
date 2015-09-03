@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+    <head>
+        <meta charset='utf-8'>
+        <title>GTK+ for the Linux Framebuffer</title> 
+    </head>
+
+    <body>
+        <h1>GTK+ for the Linux Framebuffer</h1>
+
+        <p><a href="http://www.gtk.org/api/2.6/gtk/gtk-framebuffer.htm">GTKFB manual</a>.
+        The linux-fb port of GTK+, also known as GtkFB is an implementation of GDK
+        (and therefore GTK+) that runs on the Linux framebuffer. It runs in a single
+        process that doesn't need X. It should run most GTK+ programs without any
+        changes to the source.</p>
+
+        <p>Manual says that packages should be instaled in this
+        order;</p>
+
+        <pre>
+        $ sudo prt-get depinst glib
+        $ sudo prt-get depinst atk
+        $ sudo prt-get depinst fontconfig  
+        </pre>
+        
+        <p>To have better control over dependencies the next packages 
+        are build and installed using pkgmk and pkgadd.</p>
+
+        <pre>
+        cairo
+        xorg-mkfontdir
+        xorg-libpixman
+        xorg-libpciaccess
+        xorg-kbproto
+        xorg-fonts-dejavu-ttf
+        harfbuzz
+        </pre>
+
+        <h2 id="gdk-pixbuf">GDK Pixbuf</h2>
+
+        <p>The Gdk Pixbuf is a toolkit for image loading and pixel buffer manipulation.</p>
+
+           <pre>
+        # Description: An image loading library for GTK+
+        # URL: http://www.gtk.org/
+        # Maintainer: Fredrik Rinnestam, fredrik at crux dot nu
+        # Depends on: glib libjpeg-turbo gobject-introspection libpng libtiff 
+
+        name=gdk-pixbuf
+        version=2.30.8
+        release=2
+        source=(http://download.gnome.org/sources/$name/2.30/$name-$version.tar.xz \
+                gdk-pixbuf.loaders gdk-pixbuf-register.sh)
+
+        build () {
+            cd $name-$version
+
+            ./configure --prefix=/usr --mandir=/usr/man --disable-nls \
+                        --without-libjasper 
+            make
+            make DESTDIR=$PKG install
+
+            install -m 644 $SRC/gdk-pixbuf.loaders \
+                    $PKG/usr/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
+            install -m 755 $SRC/gdk-pixbuf-register.sh \
+                    $PKG/usr/bin/gdk-pixbuf-register
+            rm -r $PKG/usr/share/gtk-doc
+        }
+           </pre>
+        <h2 id="cairo">Cairo</h2>
+
+        <pre>
+# Description: A 2D graphics library with support for multiple output devices
+# URL: http://www.cairographics.org/
+# Maintainer: Silvino, silvino at bk dot ru
+# Depends on: fontconfig, libpng, xorg-libxext, xorg-libpixman, glib
+
+name=cairo
+version=1.14.0
+release=1
+source=(http://cairographics.org/releases/$name-$version.tar.xz)
+
+build() {
+        cd $name-$version
+        ./configure --prefix=/usr \
+                --enable-directfb \
+                --disable-xlib \
+                --disable-win32 \
+                --disable-gtk-doc 
+        make
+        make DESTDIR=$PKG install
+        rm -rf $PKG/usr/share
+}
+        </pre>
+
+        <pre>
+        $ sudo prt-get depinst pango
+        $ sudo prt-get depinst gdk-pixbuf
+        </pre>
+        
+        <p>Configure GTK+, make a copy of ports/opt/gtk and 
+        add --with-gdktarget=linux-fb to configure in Pkgfile;</p> 
+
+        <pre>
+        # Description: A multi-platform toolkit for creating graphical user interfaces
+        # URL: http://www.gtk.org/
+        # Maintainer: Fredrik Rinnestam, fredrik at crux dot nu
+        # Depends on: glib, atk, pango, cairo, gdk-pixbuf, hicolor-icon-theme, xorg-libsm, xorg-libxcursor, xorg-libxinerama, xorg-libxrandr, xorg-libxcomposite
+
+        name=gtk
+        version=2.24.24
+        release=1
+        source=(http://download.gnome.org/sources/gtk+/2.24/${name}+-$version.tar.xz \
+                gtk.immodules gtk-register.sh)
+
+        build () {
+            cd gtk+-$version
+
+            export PREFIX=/usr/gtkdfb
+            export LD_LIBRARY_PATH=$PREFIX/lib
+            export PKG_CONFIG_PATH=$LD_PATH/pkgconfig
+            export CFLAGS="-g"
+
+            ./configure --prefix=$PREFIX --enable-directfb --disable-xlib --mandir=/usr/man --disable-win32
+
+            make
+            make DESTDIR=$PKG install
+            mkdir -p $PKG/usr/etc/gtk-2.0
+            install -m 644 $SRC/gtk.immodules $PKG/usr/etc/gtk-2.0/
+            rm -r $PKG/usr/share/{locale,gtk-doc,gtk-2.0} $PKG/usr/bin/gtk-demo
+
+            install -m 0755 $SRC/gtk-register.sh $PKG/usr/bin/gtk-register
+        }
+        </pre>
+      
+        <p>Instaling this way gives more control over dependencies,
+        helps to avoid unecessary xorg libraries.</p>
+
+        <pre>
+        $ sudo -H -u pkgmk fakeroot pkgmk -d
+        </pre>
+
+    </body>
+</html>

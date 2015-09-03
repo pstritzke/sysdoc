@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+    <head>
+        <meta charset='utf-8'>
+        <title>GDB - C</title>
+    </head>
+    <body>
+
+        <h1>GDB - C</h1>
+        <a href="http://blog.fourthbit.com/2013/06/18/creating-an-open-source-program-in-c-with-autotools-part-1-of-2/">C program with autotools</a>
+
+        <pre>
+        $ touch NEWS README AUTHORS ChangeLog
+        $ mkdir -p src/bin src/lib
+        </pre>
+        
+        <p>
+        <a href="http://web.eecs.umich.edu/~sugih/pointers/gdbQS.html">GDB Quick Start</a>,
+        <a href="https://www.hackerschool.com/blog/5-learning-c-with-gdb">Learning C with GDB</a>
+        and <a href="http://www.dirac.org/linux/gdb/02a-Memory_Layout_And_The_Stack.php">Memory Layout and the Stack</a>
+        are great sources of introductory information.</a>
+        </p>
+
+        <p>To use gdb you need to compile program with -g flag. To
+        debug a program;</p>
+
+        <pre>
+        gdb program
+        </pre>
+
+        <p>If the program needs arguments you can set it;</p>
+
+        <pre>
+        (gdb)set args -parameter1 -parameter2
+        </pre>
+
+        <p>To start the program you can type run, this way gdb
+        will try to run the program until the end. If program
+        crash, gdb will stop it for debuging.</p>
+
+        <pre>
+        (gdb) run
+        </pre>
+
+        <pre>
+        n - execute next line
+        s - step in next line
+        b - backtrace
+        info locals
+        print
+        x
+        </pre>
+
+        <h2>SysCalls</h2>
+        
+        <pre>catch syscall open</pre>
+
+        <h2>Threads</h2>
+
+        <p>When new thread is created you receive 
+        a notification. To get information about 
+        threads;</p>
+
+        <pre>
+        info threads
+        </pre>
+
+        <p>To select thread;</p>
+
+        <pre>
+        thread 1
+        </pre>
+
+        <p><a href=" http://ftp.gnu.org/old-gnu/Manuals/gdb/html_node/gdb_39.html#SEC40">Stopping and Starting</a>
+        multi-thread programs</p>
+        
+        <pre>
+        break linespec thread threadno
+        </pre>
+
+        <h2>Strace</h2>
+
+        <pre>
+        strace -c ./program
+        </pre>
+
+    </body>
+</html>

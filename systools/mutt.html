@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+    <head>
+        <meta charset='utf-8'>
+        <title>Mutt</title>
+    </head>
+    <body>
+        <h1 id="mutt">Mutt</h1>
+
+        <p>Mutt is a powerfull mail reader, 
+        <a href="http://www.mutt.org/doc/devel/manual.html">Mutt Manual</a>,
+        is the best place to find information. 
+        I recomend <a href="http://realprogrammers.com/jump_start/mutt/">Jump Start: Mutt</a>,
+        name says it all.</p>
+
+        <p>The reason to create a diferent port from the official opt/mutt
+        is to enable smtp, this way we can use builtin SMTP, or, use external 
+        programs like msmtp. You can get the Patch file from crux ports.</p>
+
+        <pre>
+        $ prt-get depinst cyrus-sasl
+        </pre>
+
+        <pre>
+        # Description: Text-based email client that sucks less
+        # URL:         http://www.mutt.org
+        # Maintainer:  Silvino, silvino at bk dot ru
+        # Depends on:  gdbm ncurses openssl zlib
+
+        name=mutt
+        version=1.5.23
+        release=2
+        source=(http://downloads.sourceforge.net/project/$name/$name/$name-$version.tar.gz
+                CVE-2014-9116.patch)
+
+        build () {
+            cd $name-$version
+
+            patch -p1 -i $SRC/CVE-2014-9116.patch
+
+            ./configure --prefix=/usr \
+                        --mandir=/usr/man \
+                        --with-docdir=/usr/share/mutt \
+                        --with-mailpath=/var/spool/mail \
+                        --enable-pop \
+                        --enable-imap \
+                        --with-ssl \
+                        --enable-hcache \
+                        --disable-nls \
+                        --enable-smtp \
+                        --with-sasl 
+
+            make
+            make DESTDIR=$PKG install
+
+            find $PKG/usr/share/mutt/* ! -name manual.txt -delete
+            rm $PKG/usr/etc/{Muttrc,mime.types}.dist 
+            rm $PKG/usr/bin/{flea,muttbug}
+            rm $PKG/usr/man/man1/{flea.1,muttbug.1}
+            rm $PKG/usr/man/man5/{mmdf.5,mbox.5}
+        }
+        </pre>
+
+        <pre>
+        $ mutt
+        /home/user/Mail does not exist. Create it? ([yes]/no): yes
+        </pre>
+
+        <p>After this I get the following error;</p>
+
+        <pre>
+        /var/spool/mail/user: No such file or directory (errno = 2)
+        </pre>
+
+        <p>Press q or x and lets send email to root, this way we test
+        if alias is working and exim create mail dir for us;</p>
+
+        <pre>
+        $ mutt -s "test" root@localhost &lt; /dev/null 
+        </pre>
+
+        <h2>Basic Configuration</h2>
+
+        <p>Mutt will recognize two locations for its configuration file;
+        ~/.muttrc and ~/.mutt/muttrc. We will use the second one; </p>
+
+        <pre>
+        $ mkdir ~/.mutt
+        $ vim ~/.mutt/muttrc
+        </pre>
+
+        <pre>
+        set config_charset="utf-8"
+        # set locale="de_CH"
+        set charset="utf-8"
+        set send_charset="utf-8"
+        set editor="vim"
+        set sort=reverse-date-received
+        </pre>
+
+        <h2>Use Gnupg</h2>
+
+        <p>Justin R. Miller <a href="http://codesorcery.net/old/mutt/mutt-gnupg-howto">Document</a>
+        "Everything You Need To Know To Start Using GnuPG with Mutt" is
+        a great reference.</p>
+
+        <pre>
+        $ cp /usr/ports/distfiles/mutt-1.5.23.tar.gz .
+        $ tar xf mutt-1.5.23.tar.gz
+        $ cp mutt-1.5.23/contrib/gpg.rc ~/.mutt/gpg.rc
+        $ rm mutt-1.5.23.tar.gz
+        $ rm -R mutt-1.5.23
+        </pre>
+
+        <pre>
+        vim ~/.mutt/muttrc
+        </pre>
+
+        <pre>
+        set config_charset="utf-8"
+        set charset="utf-8"
+        set send_charset="utf-8"
+        set editor="vim"
+        set sort=reverse-date-received
+
+        source ~/.mutt/gpg.rc
+
+        set pgp_autosign=yes
+        set pgp_sign_as=0x29CA16D3
+        set pgp_replyencrypt=yes
+        set pgp_timeout=1800
+
+        # automatically sign all outgoing messages
+        set crypt_autosign
+
+        # sign only replies to signed messages
+        set crypt_replysign
+
+        # automatically encrypt outgoing messages
+        set crypt_autoencrypt=yes
+
+        # encrypt only replies to signed messages
+        set crypt_replyencrypt=yes
+
+        # encrypt and sign replies to encrypted messages
+        set crypt_replysignencrypted=yes
+
+        # automatically verify the sign of a message when opened
+        set crypt_verify_sig=yes        
+        </pre>
+
+        <p>When listing messages the status flag mean;</p>
+
+        <ul>
+            <dt>s</dt>
+            <dd>if the message is signed and not yet verified</dd>
+            <dt>S</dt>
+            <dd>if the message is signed and the signature is successfully verified</dd>
+            <dt>P</dt>
+            <dd>if the message is PGP encrypted<dd>
+        </ul>
+
+        <h2>Setting Multiple Accounts</h2>
+
+        <p>Multiple email accounts are gracefully handle by folder hooks,
+        this hooks are defined in muttrc. When we change folder the
+        hook is called, setting up the email account sepecific settings.<p>
+
+        <p>Lets configure two accounts, one for system related emails and 
+        another for external email account;</p>
+
+        <pre>
+        set config_charset="utf-8"
+        # set locale="de_CH"
+        set charset="utf-8"
+        set send_charset="utf-8"
+        set editor="vim"
+        set auto_tag=yes
+        set sort=threads
+
+        set sort_browser=reverse-date
+        set sort_aux=reverse-last-date-received
+        set duplicate_threads=yes
+
+        source ~/.mutt/gpg.rc
+
+        set pgp_autosign=yes
+        set pgp_sign_as=0x29CA16D3
+        set pgp_replyencrypt=yes
+        set pgp_timeout=1800
+
+        # automatically sign all outgoing messages
+        set crypt_autosign
+
+        # sign only replies to signed messages
+        set crypt_replysign
+
+        # automatically encrypt outgoing messages
+        #set crypt_autoencrypt=yes
+
+        # encrypt only replies to signed messages
+        set crypt_replyencrypt=yes
+
+        # encrypt and sign replies to encrypted messages
+        set crypt_replysignencrypted=yes
+
+        # automatically verify the sign of a message when opened
+        set crypt_verify_sig=yes
+
+        source "~/.mutt/mail_alias"
+        set alias_file=~/.mutt/mail_alias
+
+        # Header
+        set header_cache =~/.mutt/cache/headers  
+        set message_cachedir =~/.mutt/cache/bodies  
+        set certificate_file =~/.mutt/certificates
+
+        ignore *
+        unignore from: date subject to cc
+        unignore x-mailing-list: posted-to:
+        unignore x-mailer:
+
+        folder-hook . 'unset sendmail; \
+                unset pop_host; \
+                unset smtp_url; \
+                unset pop_user; \
+                unset from; \
+                unset pop_pass'
+
+        # Local system account 
+        folder-hook mail_system/* source ~/.mutt/system
+
+        # Remote account
+        folder-hook mail_external/* source ~/.mutt/external
+
+        # Default account 
+        source ~/.mutt/system
+
+        ## Shortcuts
+        macro index,pager <f2> '<sync-mailbox><enter-command>source ~/.mutt/system<enter><change-folder>!<enter>'
+        macro index,pager <f3> '<sync-mailbox><enter-command>source ~/.mutt/external<enter><change-folder>!<enter>'
+
+        set timeout=60	#Check for mail every minute
+        set mail_check=5
+        </pre>
+
+        <p>Content of ~/.mutt/system;</p>
+
+        <pre>
+        color status green default
+        set mbox_type=maildir
+        set folder="~/mail_system"
+        set postponed="+postponed"
+        set record="+sent"
+
+        set spoolfile=/var/spool/mail/user
+        set sendmail=/usr/sbin/exim
+
+        set realname='Local User'
+        set from=user@host.localhost
+        set use_from=yes
+        </pre>
+
+        <p>Mutt in crux is build with pop support,
+        you can use external program as fetchmail or
+        getmail. For more information read mutt 
+        <a href="http://www.mutt.org/doc/manual/manual.html#toc4.10">POP3 Support</a>.
+        Edit ~/.mutt/external and set with
+        values of your server.</p>
+
+        <pre>
+        color status blue default
+        set mbox_type=maildir
+        set folder="~/mail_external"
+        set postponed="+postponed"
+        set record="+sent"
+
+        set spoolfile="~/mail_external"
+
+        set realname='Realhuman'
+        set from=realhuman@external.pt
+        set use_from=yes
+
+        set ssl_starttls=yes
+
+        set pop_user="realhuman@external.pt"
+        set pop_pass="password"
+        set pop_delete=yes
+
+        set pop_host="pops://$pop_user:$pop_pass@pop.external.org:995"
+        set smtp_url="smtps://$pop_user:$pop_pass@smtp.external.org/"
+        </pre>
+
+        <h2>SMTP</h2>
+
+        <p>Mutt in crux is build without SMTP, the above Pkgfile
+        build mutt with SMTP support. External programs like
+        msmtp can be used.</p>
+
+        <pre>
+        set mbox_type=maildir
+        set folder="~/MailExt/"
+        set spoolfile=+/
+
+        set realname='User'
+        set from=user@remote.com
+        set use_from=yes
+
+        set ssl_starttls = yes
+
+        set pop_user="user@remote.com"
+        set pop_pass="password"
+        set pop_delete=yes
+
+        set pop_host="pops://$pop_user:$pop_pass@pop.remote.com:995"
+
+        set smtp_url="smtps://$pop_user:$pop_pass@smtp.remote.com/"
+        </pre>
+
+        <h2>Alias</h2>
+       
+        <p><a href="http://dev.mutt.org/trac/wiki/MuttGuide/Aliases">Alias</a>
+        makes easy to manage email addresses. Add this to your muttrc;</p>
+
+        <pre>
+        source "~/.mutt/mail_alias"
+        set alias_file=~/.mutt/mail_alias
+        </pre>
+        
+        <p>While on index or page press "a" to add address to alias file.</p>
+
+        <h2>Tagging</h2>
+
+        <p>Just press shift-T and then read 
+        <a href="http://www.mutt.org/doc/manual/manual-4.html#patterns">Patterns</a> 
+        . After matching desired messages press ; then the order, for example, d will
+        mark all taged for deletion.<p>
+    </body>
+</html>

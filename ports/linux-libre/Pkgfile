@@ -1,0 +1,41 @@
+# Description:  Linux libre kernel that comes without blobs 
+# URL:          http://linux-libre.fsfla.org
+# Maintainer:   Silvino, silvino at bk dot ru
+# Depends on:   grub2 dracut
+
+name=linux-libre
+version=3.18.20
+release=3
+source=(http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/$name-$version-gnu.tar.xz \
+        config-3.18.20)
+
+build() {
+	cd linux-$version
+
+        make distclean
+        cp ../config-$version .config
+        make olddefconfig
+        make silentoldconfig
+
+        make -j $(nproc) all
+        make INSTALL_MOD_PATH=$PKG modules_install
+
+        install -m 0644 -D arch/x86_64/boot/bzImage $PKG/boot/vmlinuz-$version-gnu_crux
+        install -m 0644  System.map $PKG/boot/System.map-$version-gnu_crux
+        install -m 0644 .config $PKG/boot/config-$version-gnu_crux
+
+
+        install -d $PKG/usr/src
+        make clean
+
+        mv $SRC/linux-$version $PKG/usr/src/
+        
+        cd $PKG/lib/modules/$version-gnu_crux/
+	
+        rm build
+        rm source
+
+        ln -sf /usr/src/linux-$version build
+        ln -sf /usr/src/linux-$version source
+
+}

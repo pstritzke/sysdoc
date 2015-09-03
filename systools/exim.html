@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+    <head>
+        <meta charset='utf-8'>
+        <title>10. Exim</title>
+    </head>
+    <body> 
+        <h1 id="exim">10. Exim</h1>
+
+        <p>Exim come with default configuration, we will change
+        /etc/exim/aliases;</p>
+
+        <p>Add exim to hosts.allow</p>
+
+        <pre>
+        #
+        # /etc/hosts.allow
+        #
+
+        # <service>: <ip>
+        exim: 127.0.0.1
+
+        # End of file
+        </pre>
+
+        <p>Lets create alias for user so system email gets delivered
+        to user mail dir;</p>
+
+
+        <pre>
+        # Default aliases file, installed by Exim. This file contains no real aliases.
+        # You should edit it to taste.
+
+        # The following alias is required by the mail RFCs 2821 and 2822.
+        # Set it to the address of a HUMAN who deals with this system's mail problems.
+
+        postmaster: user@localhost
+
+        # It is also common to set the following alias so that if anybody replies to a
+        # bounce message from this host, the reply goes to the postmaster.
+
+        mailer-daemon: postmaster
+
+        # You should also set up an alias for messages to root, because it is not
+        # usually a good idea to deliver mail as root.
+
+        root: postmaster
+
+        # It is a good idea to redirect any messages sent to system accounts so tha
+        # they don't just get ignored. Here are some common examples:
+
+        bin: root
+        daemon: root
+        ftp: root
+        nobody: root
+        operator: root
+        uucp: root
+
+        # You should check your /etc/passwd for any others.
+
+        # Other commonly enountered aliases are:
+        #
+        # abuse:       the person dealing with network and mail abuse
+        # hostmaster:  the person dealing with DNS problems
+        # webmaster:   the person dealing with your web site
+
+        ####
+        </pre>
+
+        <p>Configure rc.conf so it will be started at next boot time.</p>
+
+        <pre>
+        $ sudo vim /etc/rc.conf
+        </pre>
+
+        <pre>
+        #
+        # /etc/rc.conf: system configuration
+        #
+
+        FONT=default
+        KEYMAP=dvorak
+        TIMEZONE="Europe/Lisbon"
+        HOSTNAME=host
+        SYSLOG=syslog-ng
+        SERVICES=(hdparm lo net crond exim)
+
+        # End of file
+        </pre>
+
+        <p>We can start exim;</p>
+
+        <pre>
+        $ sudo sh /etc/rc.d/exim start
+        </pre>
+
+    </body>
+</html>

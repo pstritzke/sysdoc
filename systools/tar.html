@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+    <head>
+        <meta charset='utf-8'>
+        <title>1. Tar</title>
+    </head>
+    <body>
+        <h1>1. Tar</h1>
+
+
+        <h2 id="tarbkup">1.1. Create Backup</h2>
+
+        <p><a href="../src/bash/crux/backup-system.sh">This script</a> use tldp 
+        <a href="http://tldp.org/LDP/lame/LAME/linux-admin-made-easy/server-backup.html">Backup</a>
+        and <a href="http://tldp.org/LDP/lame/LAME/linux-admin-made-easy/server-restore.html">Restore</a>
+        as a reference.</p>
+
+        <pre>
+        #!/bin/sh
+
+        echo -n "root directory you want backup (/mnt/): "
+        read ROOT_DIR
+
+        echo -n "where you want to save (/home/user): "
+        read DEST_DIR
+
+        echo $DES_DIR
+        echo $ROOT_DIR
+
+        tar -zcpf $DEST_DIR/full-backup-`date '+%d-%B-%Y'`.tar.gz \
+            --directory=$ROOT_DIR \
+            --exclude=mnt \
+            --exclude=dev \
+            --exclude=tmp \
+            --exclude=proc \
+            --exclude=sys .
+        </pre>
+
+        <h2 id="tarview">1.2. View content of tar</h2>
+
+        <p>List files inside tar;</p>
+
+        <pre>
+        $tar -tvf backup.tar.gz
+        </pre>
+
+        <p>To restore is better to use first t flag and then x,
+        this prevents any --absolute-paths problem;<p>
+
+        <pre>
+        $ tar -ztvpf full-backup-11-November-2045.tar.gz &gt; file.lst
+        </pre>
+        
+        <h2 id="tarextract">1.3. Extract content from tar</h2>
+
+        <p>If you want to extrat to different directory;</p>
+
+        <pre>
+        $ tar xf full-backup-11-November-2045.tar.gz --directory=/mnt
+        </pre>
+
+
+        <p>If path is fine, extract everything;</p>
+
+        <pre>
+        $ tar -zxvpf full-backup-11-November-2045.tar.gz
+        </pre>
+
+        <p>Extract just one file;</p>
+
+        <pre>
+        $ tar --extract --file=core.tar.gz libidn#1.32-1.pkg.tar.gz
+        </pre>
+
+        <h2 id="taradd">1.4. Add content to tar</h2>
+        
+        <p>Only uncompressed tar can append files without having
+        to extract and compress again.</p>
+
+        <p>First create a tar with all files current directory;</p>
+
+        <pre>
+        $ tar cpf core.tar *.tar.gz
+        </pre>
+
+        <p>List files before appending new file and after;</p>
+
+        <pre>
+        $ tar -tvf core.tar
+        $ tar --append --file=core.tar libidn#1.32-1.pkg.tar.gz
+        $ tar -tvf core.tar
+        </pre>
+
+        <h2 id="tarrm">1.5. Remove content to tar</h2>
+
+        <pre>
+        $ tar -tvf core.tar
+        $ tar --delete --file=core.tar libidn#1.32-1.pkg.tar.gz
+        $ tar -tvf core.tar
+        </pre>
+
+    </body>
+</html>

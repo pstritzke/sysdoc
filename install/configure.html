@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+    <head>
+        <meta charset='utf-8'>
+        <title>2. Configure</title>
+    </head>
+    <body>
+
+        <h1 id="conf">2. Configure</h1>
+
+        <p>This instructions are done
+       with <a href="install.html#step6">active chroot</a>
+       and inside chroot;</p>
+
+       <pre>
+       # chroot $CHROOT /bin/bash
+       </pre>
+
+        <h2 id="hostname">2.1. Set hostname and hosts</h2>
+
+        <p>Give it a name, this example we will call it box ;</p>
+
+        <pre>
+        # hostname box
+        </pre>
+
+        <p>Edit /etc/hosts to contain your hostname;</p>
+
+        <pre>
+        #
+        # /etc/hosts: static lookup table for host names
+        #
+
+        # IPv4
+        127.0.0.1	localhost.localdomain localhost
+        127.0.1.1       dev.box box
+        </pre>
+
+        <h2 id="time">2.2. Set timezone</h2>
+
+        <p>Setup timezone;</p>
+
+        <pre>
+        # tzselect
+        Please identify a location so that time zone rules can be set correctly.
+        Please select a continent, ocean, "coord", or "TZ".
+         1) Africa
+         2) Americas
+         3) Antarctica
+         4) Asia
+         5) Atlantic Ocean
+         6) Australia
+         7) Europe
+         8) Indian Ocean
+         9) Pacific Ocean
+        10) coord - I want to use geographical coordinates.
+        11) TZ - I want to specify the time zone using the Posix TZ format.
+        #? 7
+
+        Please select a country whose clocks agree with yours.
+         1) ?land Islands         18) Greece                35) Norway
+         2) Albania               19) Guernsey              36) Poland
+         3) Andorra               20) Hungary               37) Portugal
+         4) Austria               21) Ireland               38) Romania
+         5) Belarus               22) Isle of Man           39) Russia
+         6) Belgium               23) Italy                 40) San Marino
+         7) Bosnia & Herzegovina  24) Jersey                41) Serbia
+         8) Britain (UK)          25) Latvia                42) Slovakia
+         9) Bulgaria              26) Liechtenstein         43) Slovenia
+        10) Croatia               27) Lithuania             44) Spain
+        11) Czech Republic        28) Luxembourg            45) Svalbard & Jan Mayen
+        12) Denmark               29) Macedonia             46) Sweden
+        13) Estonia               30) Malta                 47) Switzerland
+        14) Finland               31) Moldova               48) Turkey
+        15) France                32) Monaco                49) Ukraine
+        16) Germany               33) Montenegro            50) Vatican City
+        17) Gibraltar             34) Netherlands
+        #? 37
+
+        Please select one of the following time zone regions.
+        1) mainland
+        2) Madeira Islands
+        3) Azores
+        #? 1
+
+        The following information has been given:
+
+                Portugal
+                mainland
+
+        Therefore TZ='Europe/Lisbon' will be used.
+        Local time is now:      Sun Aug  9 17:36:05 WEST 2015.
+        Universal Time is now:  Sun Aug  9 16:36:05 UTC 2015.
+        Is the above information OK?
+        1) Yes
+        2) No
+        #? 1
+
+        You can make this change permanent for yourself by appending the line
+                TZ='Europe/Lisbon'; export TZ
+        to the file '.profile' in your home directory; then log out and log in again.
+
+        Here is that TZ value again, this time on standard output so that you
+        can use the /usr/bin/tzselect command in shell scripts:
+        Europe/Lisbon
+        #
+        </pre>
+
+       <h2 id="locale">2.3. Set locale</h2>
+
+
+        <pre>
+        bash-4.3# localedef -i en_US -f UTF-8 en_US.UTF-8
+        </pre>
+
+        <h2 id="user">2.4. Users</h2>
+
+        <h3>2.4.1. Set root password</h3>
+
+        <pre>
+        bash-4.3# passwd
+        </pre>
+
+        <h3>2.4.2. Create Administrator User</h3>
+
+        <pre>
+        bash-4.3# useradd -U -m -s /bin/bash admin
+        bash-4.3# passwd admin
+        </pre>
+
+        <pre>
+        # chmod 0700 /home/admin
+        </pre>
+
+        <p>If home user directory is not empty, consider 
+        <a href="http://superuser.com/questions/176686/shared-linux-machine-block-home-folder-access-to-other-users">this tip</a> 
+        from Aaron Digulla;</p>
+
+        <pre>
+        find $HOME -type d -exec chmod go-rwx "{}" \;
+        </pre>
+
+        <h3>2.4.3 Add Administrator to group Wheel</h3>
+
+        <pre>
+        bash-4.3# sudoedit /etc/sudoers
+        </pre>
+
+        <pre>
+        ## Uncomment to allow members of group wheel to execute any command
+        %wheel ALL=(ALL) ALL
+        </pre>
+
+        <pre>
+        # usermod -a -G wheel admin
+        </pre>
+
+        <h2 id="fstab">2.5. File system table</h2>
+        
+        <p>First we will discover block id (UUID) of 
+        <a href="install.html#step2">target partition</a>,
+        blkid list all while vol_id --uuid /dev/sdb1 returns
+        only uuid. blkid example;</a>
+
+        <pre>
+        # blkid
+        /dev/sdb1: PARTLABEL="bios" PARTUUID="5b17eee5-71e6-48e9-9633-692e4a6ce2c1"
+        /dev/sdb2: UUID="05b9757d-3166-4ddc-8bd9-0cd43bcf548a" TYPE="ext4" PARTLABEL="boot" PARTUUID="4e498af1-0aee-4fd6-a950-82a5150b6356"
+        /dev/sdb3: UUID="8beb5484-e083-41e3-a5a7-a1ad92a78079" TYPE="ext4" PARTLABEL="root" PARTUUID="37b4bed5-f0eb-4212-b664-ce47aa8265dd"
+        </pre>
+
+        <p>Read <a href="http://linux-audit.com/securing-mount-points-on-linux/" title="Securing mount points">Securing mount points</a>,
+        and edit /etc/fstab according to your <a href="../systools/lvm.html">disk layout</a>, there is a <a href="../conf/etc/fstab">fstab example</a>.</p>
+
+        <pre>
+        #
+        # /etc/fstab: static file system information
+        #
+        # &lt;file system&gt;        &lt;dir&gt;     &lt;type&gt;    &lt;options&gt;                       &lt;dump&gt;  &lt;pass&gt; 
+        UUID=05b9757d-3166-4ddc-8bd9-0cd43bcf548a 	/boot		ext4	defaults,noexec,nosuid,errors=remount-ro,noatime	0 1
+        UUID=8beb5484-e083-41e3-a5a7-a1ad92a78079	/		ext4	defaults,errors=remount-ro,noatime			0 1
+
+        tmp             /tmp            tmpfs   defaults,nodev,nosuid,noexec,noatime	                0 0
+        devpts		/dev/pts	devpts	noexec,nosuid,gid=tty,mode=0620				0 0
+        shm            	/dev/shm     	tmpfs	defaults,nodev,nosuid,noexec				0 0
+
+        #UUID=08295a67-a056-4dea-9462-209f151e4cdf   swap    swap    sw
+
+        # End of file
+        </pre>
+
+        <p>In this example is not present a sawp partition, plan is to
+        use it inside <a href="../systools/lvm.html">lvm</a>. Pass option 
+        control in wich order fsck checks devices. If is
+        a multiple partition scheme; 1 for root, 2 for others or 0 to 
+        disable.</p>
+
+        <h2 id="rcconf">2.6. Initialization Scripts</h2>
+
+        <p>Edit /etc/rc.conf and define keyboard layout, hostname and timezone,
+        more information about 
+        <a href="http://crux.nu/Main/Handbook3-1#ConfigurationVariables">configuration variables</a>.
+        </p>
+
+        <pre>
+        #
+        # /etc/rc.conf: system configuration
+        #
+
+        FONT=default
+        KEYMAP=dvorak
+        TIMEZONE="Europe/Lisbon"
+        HOSTNAME=box
+        SYSLOG=sysklogd
+        SERVICES=(lo net crond)
+
+        # End of file
+        </pre>
+
+        <p>Content of /etc/inittab shows layout organization and default
+        run level;</p>
+
+        <pre>
+        #
+        # /etc/inittab: system runlevel description
+        #
+
+        # Runlevels:
+        #  0	Halt
+        #  1(S)	Single-user
+        #  2	Multi-user
+        #  3-5	Not used
+        #  6	Reboot
+
+        id:2:initdefault:
+
+        rc::sysinit:/etc/rc
+        rs:S1:wait:/etc/rc.single
+        rm:2:wait:/etc/rc.multi
+        rd:06:wait:/etc/rc.shutdown
+        su:S:wait:/sbin/sulogin -p
+
+        c1:2:respawn:/sbin/agetty --noclear 38400 tty1 linux
+        c2:2:respawn:/sbin/agetty 38400 tty2 linux
+        c3:2:respawn:/sbin/agetty 38400 tty3 linux
+        c4:2:respawn:/sbin/agetty 38400 tty4 linux
+        c5:2:respawn:/sbin/agetty 38400 tty5 linux
+        c6:2:respawn:/sbin/agetty 38400 tty6 linux
+        #s1:2:respawn:/sbin/agetty 38400 ttyS0 vt100
+
+        ca::ctrlaltdel:/sbin/shutdown -t3 -r now
+
+        # End of file
+        </pre>
+
+        
+        <p>This is part of the SysDoc Manual.
+Copyright (C) 2015 
+Silvino Silva.
+See the file <a href="fdl-1.3-standalone.html">Gnu Free Documentation License</a>
+for copying conditions.</p>
+
+
+    </body>
+</html>

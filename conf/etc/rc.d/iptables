@@ -1,0 +1,31 @@
+#!/bin/sh
+#
+# /etc/rc.d/iptables: load/unload iptable rules  
+#
+
+case $1 in
+start)
+  	echo "Starting IPv4 firewall filter table..."
+	/usr/sbin/iptables-restore < /etc/iptables/rules.v4	
+	;;
+stop)
+	echo "Stopping firewall and deny everyone..."
+ 	/usr/sbin/iptables -F
+        /usr/sbin/iptables -X
+        /usr/sbin/iptables -t nat -F
+        /usr/sbin/iptables -t nat -X
+        /usr/sbin/iptables -t mangle -F
+        /usr/sbin/iptables -t mangle -X
+        /usr/sbin/iptables -P FORWARD DROP
+        /usr/sbin/iptables -P OUTPUT DROP
+	;;
+restart)
+	$0 stop
+	$0 start
+	;;
+*)
+	echo "usage: $0 [start|stop|restart]"
+	;;
+esac
+
+# End of file

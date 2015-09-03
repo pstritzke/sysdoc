@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+    <head>
+        <meta charset='utf-8'>
+        <title>Nginx</title>
+    </head>
+    <body>
+        <h1>Nginx</h1>
+
+        <h2 id="install">Install</h2>
+
+        <pre>
+        $ prt-get depinst nginx php php-fpm php-gd php-postgresql
+        </pre>
+   
+        <p>Allow minimal privileges via mount options, view /etc/fstab;</p>
+
+        <pre>
+        UID=xxxxx-xxx-xxx-xxx-xxxxxxxx	/srv/www		ext4 defaults,nosuid,noexec,nodev,noatime	1 2
+        </pre>
+
+        <p>Number of worker_processes must be equal or less than the number of 
+        available cpu cores</p>
+        
+        <pre>
+        $ nproc
+        </pre>
+
+        <p>Number of worker_connections must be equal or less than the number
+        file-size writing limit, you can get it by;</p>
+
+        <pre>
+        $ nlimit -n
+        1024
+        </pre>
+        <p><a href="http://wiki.nginx.org/Pitfalls">READ NGINX PITFALLS</a>, for more information 
+        about optimization <a href="https://www.digitalocean.com/community/tutorials/how-to-optimize-nginx-configuration">digitalocean</a></p>
+        <pre>
+        #
+        # /etc/nginx/nginx.conf
+        #
+
+        user www;
+        worker_processes  2;
+
+        error_log  /var/log/nginx/error.log  info;
+
+        events {
+                worker_connections  1024;
+        }
+
+        http {
+                include			/etc/nginx/mime.types;
+                default_type		application/octet-stream;
+
+                access_log		/var/log/nginx/access.log  combined;
+
+                gzip			on;
+                #tcp_nopush		on;
+                sendfile		on;
+
+                keepalive_timeout	65;
+                
+                #passenger_root  /usr/share/nginx/passenger;
+
+                include /etc/nginx/conf.d/*.conf;
+        }
+
+        # End of file  
+        </pre>
+        
+        <h2>User Directory</h2>
+
+        <p><a href="http://wiki.nginx.org/UserDir">Nginx Wiki UserDir</a></p>
+
+        <pre>
+         location ~ ^/~(.+?)(/.*)?$ {
+            alias /home/$1/public_html$2;
+            index  index.html index.htm;
+            autoindex on;
+         }
+        </pre>
+
+        <p>Directories should have 644 or 664 and
+        files chmod 755 or 775;</p>
+
+        <pre>
+        # find . -type f -print0 | xargs -0 chmod 644
+        # find . -type d -print0 | xargs -0 chmod 755
+        </pre>
+
+        <h2>Nginx Certificates</h2>
+
+        <p>Certificates allow a more secure connection. Lets create
+        self-signed certificate;</p>
+
+        <pre>
+        # mkdir /etc/nginx/ssl
+        # cd /etc/nginx/ssl
+        </pre>
+
+        <p>Create private key;</p>
+
+        <pre>
+        # openssl genrsa -des3 -out server.key 2048
+        </pre>
+
+        <p>Create ceritificate signing request, for "Common Name"
+        provide domain name or ip address, leave challange password
+        and optional company name blank;</p>
+
+        <pre>
+        # openssl req -new -key server.key -out server.csr
+        </pre>
+
+        <p>Sign SSL cetificate;</p>
+
+        <pre>
+        # openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+        </pre>
+
+        <p>Example of simple server block with ssl configured;</p>
+
+        <pre> 
+        server {
+                listen 443;
+                server_name host.localhost;
+
+                root /svr/www;
+                index index.html index.htm;
+
+                ssl on;
+                ssl_certificate /etc/nginx/ssl/server.crt;
+                ssl_certificate_key /etc/nginx/ssl/server.key; 
+        }
+        </pre>
+
+        <h3>Remove Password</h3>
+
+        <p>Having password is a good idea, but requires it every
+        time nginx is restarted. To remove;</p>
+
+        <pre>
+        sudo cp server.key server.key.org
+        sudo openssl rsa -in server.key.org -out server.key
+        </pre>
+
+        <h2 id="ngx-drupal">Nginx - Drupal</h2>
+
+        <p>Drupal and Nginx configuration based
+        on <a href="http://wiki.nginx.org/Drupal">Nginx Wiki Drupal</a>
+        </p>
+
+        <pre>
+        server {
+
+                listen 127.0.1.1:443;
+                server_name dev.box;
+
+                ssl on;
+                ssl_certificate /etc/nginx/ssl/dev.box.crt;
+                ssl_certificate_key /etc/nginx/ssl/dev.box.key;
+
+                root /srv/www/drupal; ## &lt;-- Your only path reference.
+         
+                # Enable compression, this will help if you have for instance advagg¿? module
+                # by serving Gzip versions of the files.
+                gzip_static on; 
+
+                location = /favicon.ico {
+                        log_not_found off;
+                        access_log off;
+                }
+         
+                location = /robots.txt {
+                        allow all;
+                        log_not_found off;
+                        access_log off;
+                }
+         
+                # This matters if you use drush prior to 5.x
+                # After 5.x backups are stored outside the Drupal install.
+                #location = /backup {
+                #        deny all;
+                #}
+         
+                # Very rarely should these ever be accessed outside of your lan
+                location ~* \.(txt|log)$ {
+                        allow 192.168.0.0/16;
+                        deny all;
+                }
+         
+                location ~ \..*/.*\.php$ {
+                        return 403;
+                }
+         
+                # No no for private
+                location ~ ^/sites/.*/private/ {
+                        return 403;
+                }
+         
+                # Block access to "hidden" files and directories whose names begin with a
+                # period. This includes directories used by version control systems such
+                # as Subversion or Git to store control files.
+                location ~ (^|/)\. {
+                        return 403;
+                }
+         
+                location / {
+                        # This is cool because no php is touched for static content
+                        try_files $uri @rewrite;
+                }
+         
+                location @rewrite {
+                        # You have 2 options here
+                        # For D7 and above:
+                        # Clean URLs are handled in drupal_environment_initialize().
+                        rewrite ^ /index.php;
+                        # For Drupal 6 and bwlow:
+                        # Some modules enforce no slash (/) at the end of the URL
+                        # Else this rewrite block wouldn't be needed (GlobalRedirect)
+                        #rewrite ^/(.*)$ /index.php?q=$1;
+                }
+         
+                location ~ \.php$ {
+                        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+                        #NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
+                        include fastcgi_params;
+                        fastcgi_param SCRIPT_FILENAME $request_filename;
+                        fastcgi_intercept_errors on;
+                        #fastcgi_pass unix:/tmp/phpfpm.sock;
+                        fastcgi_pass 127.0.1.1:9000;
+                }
+         
+                # Fighting with Styles? This little gem is amazing.
+                # This is for D6
+                #location ~ ^/sites/.*/files/imagecache/ {
+                # This is for D7 and D8
+                location ~ ^/sites/.*/files/styles/ {
+                        try_files $uri @rewrite;
+                }
+         
+                location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
+                        expires max;
+                        log_not_found off;
+                }
+
+        }        
+        </pre>
+
+    </body>
+</html>

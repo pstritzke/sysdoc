@@ -1,0 +1,13 @@
+drwxr-xr-x	root/root	etc/
+-rw-r--r--	root/root	etc/hostapd.conf
+drwxr-xr-x	root/root	etc/rc.d/
+-rwxr-xr-x	root/root	etc/rc.d/hostapd
+drwxr-xr-x	root/root	usr/
+drwxr-xr-x	root/root	usr/man/
+drwxr-xr-x	root/root	usr/man/man1/
+-rw-r--r--	root/root	usr/man/man1/hostapd_cli.1.gz
+drwxr-xr-x	root/root	usr/man/man8/
+-rw-r--r--	root/root	usr/man/man8/hostapd.8.gz
+drwxr-xr-x	root/root	usr/sbin/
+-rwxr-xr-x	root/root	usr/sbin/hostapd
+-rwxr-xr-x	root/root	usr/sbin/hostapd_cli

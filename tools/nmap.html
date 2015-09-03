@@ -1,0 +1,43 @@
+ <!DOCTYPE html>
+<html dir="ltr" lang="en">
+    <head>
+        <meta charset='utf-8'>
+        <title>Nmap</title>
+    </head>
+    <body>
+        <h1>Nmap</h1>
+
+       <h2 id="nmap">Nmap</h2>
+
+        <p>Discover other hosts on local lan;</p>
+
+        <pre>
+        # nmap -sP 192.168.1.0/24
+        </pre>
+
+        <p>Check for vulnerabilities on host;</p>
+
+        <pre>
+        # nmap --script=vuln 127.0.1.1
+
+        Starting Nmap 6.47 ( http://nmap.org ) at 2015-07-20 22:07 UTC
+        Nmap scan report for dev.box (127.0.1.1)
+        Host is up (0.000028s latency).
+        Not shown: 998 closed ports
+        PORT   STATE SERVICE
+        25/tcp open  smtp
+        | smtp-vuln-cve2010-4344:
+        |   Exim version: 4.85
+        |   Exim heap overflow vulnerability (CVE-2010-4344):
+        |     Exim (CVE-2010-4344): NOT VULNERABLE
+        |   Exim privileges escalation vulnerability (CVE-2010-4345):
+        |     Exim (CVE-2010-4345): NOT VULNERABLE
+        |_  To confirm and exploit the vulnerabilities, run with --script-args='smtp-vuln-cve2010-4344.exploit'
+        53/tcp open  domain
+
+        Nmap done: 1 IP address (1 host up) scanned in 2.68 seconds
+        #
+        </pre>
+
+    </body>
+</html>

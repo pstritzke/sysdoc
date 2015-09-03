@@ -1,0 +1,22 @@
+# Description:  SysBench is a modular, cross-platform and multi-threaded benchmark tool
+# URL:          https://github.com/akopytov/sysbench
+# Maintainer:   Silvino, silvino at bk dot ru
+# Depends on:   libaio
+
+name=sysbench
+version=0.5
+release=1
+source=(https://github.com/akopytov/sysbench/archive/$version.zip)
+build() {
+	cd $name-$version
+
+        ./autogen.sh
+
+        ./configure \
+		--prefix=/usr \
+                --without-mysql
+	
+        make DESTDIR=$PKG install
+
+	rm -r $PKG/usr/share
+}

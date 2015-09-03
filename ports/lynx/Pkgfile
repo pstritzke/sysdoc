@@ -1,0 +1,27 @@
+# Description: Text-based web browser.
+# URL: http://lynx.isc.org/
+# Maintainer: Silvino Silva, silvino at bk dot ru
+# Depends on: ncurses openssl zlib
+
+name=lynx
+version=2.8.8
+release=1
+source=(http://lynx.isc.org/lynx$version/lynx$version.tar.bz2 lynx.cfg)
+
+build() {
+	cd lynx${version//./-}
+
+	./configure \
+		--prefix=/usr \
+		--disable-nls \
+		--enable-color-style \
+		--enable-ipv6 \
+		--with-ssl=/usr/lib \
+		--with-zlib \
+		--with-screen=ncursesw \
+        --mandir=/usr/man
+
+	make
+	make -j 1 DESTDIR=$PKG install
+    install -D -m 644 ../lynx.cfg $PKG/usr/etc/lynx.cfg
+}

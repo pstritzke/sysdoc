@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+    <head>
+        <meta charset='utf-8'>
+        <title>7. Tmux</title>
+    </head>
+
+    <body>
+
+        <h1 id="tmux">7. Tmux</h1>
+
+        <p>Install tmux, improves eficiency of work;</p> 
+
+        <pre>
+        $ sudo prt-get depinst tmux
+        </pre>
+
+        <pre>
+        $ sudo vim ~/.tumx.conf
+        </pre>
+
+
+        <pre>
+        set -g default-terminal "screen-256color"
+
+        set-option -g status-keys vi
+        set-option -g set-titles on
+        set-option -g set-titles-string '#S> #I.#P #W'
+
+        set -g visual-activity on
+        set -g monitor-activity on
+        set -g visual-bell on
+        set -g bell-action any
+
+        ## Join windows: <prefix> s, <prefix> j
+        bind-key j command-prompt -p "join pane from:"  "join-pane -s '%%'"
+        bind-key s command-prompt -p "send pane to:"  "join-pane -t '%%'"
+        </pre>
+
+
+        <p>Para iniciar o tmux</p>
+
+        <pre>
+        $tmux
+
+        Para obter ajuda
+        ctrl + b ?
+
+        Para sair da ajuda
+        q
+
+        key = bind-key (default ctrl + b)
+
+        Window
+        key	c   new window
+        key	" 	split-window
+        key	n	next window
+        key	p	previous window
+
+        Panes
+        key	; 	last-pane
+        key	space	next-layout
+        key	!	break-pane
+        key	{	swap pane
+        key	}	swap pane
+
+        copy past:
+
+        1) enter copy mode using Control+b [
+        2) navigate to beginning of text, you want to select and hit Control+Space
+        3) move around using arrow keys to select region
+        4) when you reach end of region simply hit Alt+w to copy the region
+        5) now Control+b ] will paste the selection
+        </pre> 
+
+               <p>This is part of the SysDoc Manual.
+Copyright (C) 2015 
+Silvino Silva.
+See the file <a href="fdl-1.3-standalone.html">Gnu Free Documentation License</a>
+for copying conditions.</p>
+
+
+
+    </body>
+</html>

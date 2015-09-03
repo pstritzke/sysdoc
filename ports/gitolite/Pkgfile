@@ -1,0 +1,33 @@
+# Description: A centralized git server, with very fine-grained access control and many powerful features.
+# URL: https://github.com/sitaramc/gitolite
+# Maintainer:  Silvino, silvino at bk dot ru
+# Depends on: git
+
+name=gitolite
+version=3.6.3
+release=1
+source=(https://github.com/sitaramc/gitolite/archive/v$version.zip gitolite.patch gitolite-shell.patch)
+
+build() {
+
+	cd $SRC/$name-$version
+
+        patch src/gitolite < $SRC/gitolite.patch
+        patch src/gitolite-shell < $SRC/gitolite-shell.patch
+
+	install -d $PKG/usr/bin
+	install -d $PKG/etc/gitolite
+	install -d $PKG/usr/share/gitolite/hooks
+	install -d $PKG/usr/share/doc/gitolite
+
+        cp -R src/VREF $PKG/usr/share/gitolite/
+        cp -R src/commands $PKG/usr/share/gitolite/
+        cp -R src/syntactic-sugar $PKG/usr/share/gitolite/
+        cp -R src/triggers $PKG/usr/share/gitolite/
+        cp -R src/lib $PKG/usr/share/gitolite/
+
+        cp src/gitolite-shell $PKG/usr/share/gitolite/
+        echo "v"$version > $PKG/usr/share/gitolite/VERSION
+        cp src/gitolite $PKG/usr/bin
+
+}

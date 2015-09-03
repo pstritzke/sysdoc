@@ -1,0 +1,19 @@
+# Description:  dracut is an event driven initramfs infrastructure. 
+# URL:          https://dracut.wiki.kernel.org/
+# Maintainer:   Silvino, silvino at bk dot ru
+# Depends on:   grub2 nbd nfs-utils lvm2 mdadm
+
+name=dracut
+version=043
+release=1
+source=(https://www.kernel.org/pub/linux/utils/boot/$name/$name-$version.tar.xz)
+
+build() {
+    cd $name-$version
+
+    ./configure --prefix=/usr
+
+    make
+    make DESTDIR=$PKG install
+
+}

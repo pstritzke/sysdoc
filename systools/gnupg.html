@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+    <head>
+        <meta charset='utf-8'>
+        <title>4. GnuPG</title>
+    </head>
+    <body>
+        <h1>4. GnuPG</h1>
+
+        <pre>
+        $ sudo prt-get depinst gnupg 
+        </pre>
+ 
+        <h2 id="gpg-genkey">4.1. Generate keys</h2>
+
+        <p>Key Management;</p>
+
+        <pre>
+        $ gpg --list-keys
+        $ gpg --list-secret-keys
+        $ gpg --fingerprint
+        $ gpg --delete-key UID
+        $ gpg --delete-secret-key
+        $ gpg --edit-key UID
+        </pre>
+
+        <h3>RSA</h3>
+
+        <pre>
+        $ gpg --gen-key
+        gpg (GnuPG) 2.0.27; Copyright (C) 2015 Free Software Foundation, Inc.
+        This is free software: you are free to change and redistribute it.
+        There is NO WARRANTY, to the extent permitted by law.
+
+        Please select what kind of key you want:
+            (1) RSA and RSA (default)
+            (2) DSA and Elgamal
+            (3) DSA (sign only)
+            (4) RSA (sign only)
+        Your selection? 1
+        RSA keys may be between 1024 and 4096 bits long.
+        What keysize do you want? (2048) 4096
+        Requested keysize is 4096 bits
+        Please specify how long the key should be valid.
+            0 = key does not expire
+            &lt;n&gt;  = key expires in n days
+            &lt;n&gt;w = key expires in n weeks
+            &lt;n&gt;m = key expires in n months
+            &lt;n&gt;y = key expires in n years
+        Key is valid for? (0) 0
+        Key does not expire at all
+        Is this correct? (y/N) y
+
+        GnuPG needs to construct a user ID to identify your key.
+
+        Real name: User Name 
+        Email address: user@host.org
+        Comment: user at host
+        You selected this USER-ID:
+            "User Name (user at host) &lt;user@host.org&gt;"
+
+        Change (N)ame, (C)omment, (E)mail or (O)kay/(Q)uit? O
+        You need a Passphrase to protect your secret key.
+
+        We need to generate a lot of random bytes. It is a good idea to perform
+        some other action (type on the keyboard, move the mouse, utilize the
+        disks) during the prime generation; this gives the random number
+        generator a better chance to gain enough entropy.
+        </pre>
+
+        <h3>DSA</h3>
+        <pre>
+        $gpg --gen-key
+        Select DSA/ElGamal
+        KeySize is ok 2048
+        </pre>
+
+        <dl>
+            <dt>Key Size</dt>
+            <dd>the defaults are ok.</dd>
+            <dt>Expiring Date</dt>
+            <dd>Choose a non-expiring key for your own use. For public
+            at least choose yearly expiration.</dd>
+            <dt>Name and Email</dt>
+            <dd>Real name and e-mail address used to identify your key.</dd>
+            <dt>Comment</dt>
+            <dd>Can be empty, make a small comment to help indentify.</dd>
+            <dt>Passphrase</dt>
+            <dd>Password should use numebers and special chars.</dd>
+        </dl>
+
+        <h2 id="gpg-ei">4.2. Export and import public keys</h2>
+        
+        <p>Public keys can be exported in binary format
+        or ASCII-armored format.</p>
+
+        <h3>Export Key</h3>
+
+        <p>To export binary format;</p>
+
+        <pre>
+        $ gpg --list-keys
+        </pre>
+        
+        <pre>
+        $ gpg --output user.gpg --export user@localhost
+        </pre>
+
+        <p>To export ASCII text format;</p>
+
+        <p>Generate an ASCII version of your public key;</p>
+
+        <pre>
+        $ gpg --armor --output user.asc --export 'User Name'
+        </pre>
+
+        <h3>Import Key</h3>
+
+        <p>Is very easy to import public keys;</p>
+
+        <pre>
+        $ gpg --import user.gpg
+        </pre>
+
+        <p>To list imported keys;</p>
+
+        <pre>
+        $ gpg --list-keys
+        </pre>
+
+        <h2 id="gpg-crypt">4.3. Encrypt and decrypt</h2>
+        
+        <pre>
+        $ gpg --output index.html.gpg --encrypt --recipient bob@localhost index.html
+        </pre>
+
+        <p>To be abble to decrypt the document we need to include public key 
+        in the recipient list;</p>
+        
+        <pre>
+        $ gpg --output index.html.gpg --encrypt \
+        --recipient user@localhost \
+        --recipient bob@localhost \
+        index.html
+        </pre>
+
+        <p>To decrypt the file;</p>
+
+        <pre>
+        $ gpg --output index.html --decrypt index.html.gpg
+        </pre>
+
+        <h3>Signing a File</h3>
+
+        <p>A digital signature certifies and timestamps a document. If the
+        document is subsequently modified in any way, a verification of the
+        signature will fail. A digital signature can serve the same purpose as
+        a hand-written signature with the additional benefit of being
+        tamper-resistant.</p>
+
+        <p>Example on how to sign a file;</p>
+
+        <p>To send document uncompressed and wrapped in an ASCII-armored
+        signature;</p>
+
+        <pre>
+        $ gpg --clearsign index.html
+        </pre>
+
+        <p>Verify signature;</p>
+
+        <pre>
+        $ gpg --verify index.html.asc
+        </pre>
+
+        <p>To encrypt and sign a file;</p>
+
+        <pre>
+        $ gpg --output index.html.gpg --sign --encrypt \
+        --recipient bob@localhost \
+        index.html
+        </pre>
+
+        <p>To decrypt;</p>
+
+        <pre>
+        $ gpg --output index.html --decrypt index.html.gpg
+        </pre>
+        
+        <p>You should see this message on the output;</p>
+
+        <pre>
+        gpg: Good signature from "User (user at localhost) &lt;user@localhost&gt;"
+        </pre>
+
+        <p>Detached signatures create a separate file for
+        signature;</p>
+
+        <pre>
+        $ gpg --output index.html.sig --detach-sig index.html
+        </pre>
+
+        <p>Now you can send index.html.sig and on the other end;</p>
+
+        <pre>
+        $ gpg --verify index.html.sig
+        </pre>
+         
+        <h2 id="gpg-email">Edit email of key</h2>
+
+        <pre>
+        $ gpg --edit-key KEYID
+        adduid
+        </pre>
+
+        <p>Follow the instructions and then select the user you
+        want to revoque, where N is the UID of the user;</p>
+
+        <pre>
+        uid N
+        revuid
+        save
+        </pre>
+
+        <p>This is part of the SysDoc Manual.
+        Copyright (C) 2015 
+        Silvino Silva.
+        See the file <a href="fdl-1.3-standalone.html">Gnu Free Documentation License</a>
+        for copying conditions.</p>
+
+    </body>
+</html>

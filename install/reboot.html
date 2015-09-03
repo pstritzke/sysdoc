@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+    <head>
+        <meta charset='utf-8'>
+        <title>5. Prepare Reboot</title>
+    </head>
+    <body>
+
+       <h1>5. Prepare for Reboot</h1>
+
+        <p>This instructions are done
+        with <a href="install.html#step6">active chroot</a>
+        and inside chroot;</p>
+
+        <pre>
+        # chroot $CHROOT /bin/bash
+        </pre>
+
+       <h2 id="dracut">5.1. Dracut initramfs</h2>
+
+       <pre>
+       # dracut --kver 3.18.20-gnu_crux
+       </pre>
+
+       <h2 id="grub">5.2. Configuring Grub2</h2>
+
+       <p>Create grub file in /etc/default with values;</p>
+
+       <pre>
+        GRUB_DISABLE_LINUX_UUID=false
+        GRUB_ENABLE_LINUX_LABEL=false
+       </pre>
+
+       <p><a href="http://www.gnu.org/software/grub/manual/grub.html">Grub Manual</a>,
+       install grub on MBR of disk sdb;</p>
+
+        <pre>
+        # grub-install /dev/sdb
+        Installation finished. No error reported.
+        </pre>
+
+        <p>If you are installing on removable media;</p>
+
+        <pre>
+        # grub-install --removable /dev/sdb
+        Installation finished. No error reported.
+        </pre>
+        
+        <p>grub-mkconfig generates grub.cfg, it will try to discover
+        available kernels and attempt to generate menu entries for
+        them;</p>
+
+        <pre>
+        # grub-mkconfig -o /boot/grub/grub.cfg
+        Generating grub.cfg ...
+        Found linux image: /boot/vmlinuz-3.18.20-gnu_crux
+        Found initrd image: /boot/initramfs-3.18.20-gnu_crux.img
+        done
+        #
+        </pre>
+
+       <h2 id="checkup">5.2. Checkup</h2>
+
+        <p>If you have qemu installed you can see if it boots, in this
+        example sdb is usb external drive;</p>
+
+        <pre>
+        # qemu-system-x86_64 -curses -usb -usbdevice disk:/dev/sdb
+        </pre>
+
+        <p>This is part of the SysDoc Manual.
+Copyright (C) 2015 
+Silvino Silva.
+See the file <a href="fdl-1.3-standalone.html">Gnu Free Documentation License</a>
+for copying conditions.</p>
+
+
+    </body>
+</html>

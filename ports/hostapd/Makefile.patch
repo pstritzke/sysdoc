@@ -1,0 +1,19 @@
+--- iwlwifi-1.2.0/Makefile.orig	2007-11-21 00:34:07.000000000 -0430
++++ iwlwifi-1.2.0/Makefile	2008-03-05 23:00:43.685482018 -0430
+@@ -146,7 +146,6 @@
+ install: $(addprefix $(DIR),$(addsuffix .ko,$(list-m)))
+ 	@install -d $(KMISC)
+ 	@install -m 644 -c $^ $(KMISC)
+-	@/sbin/depmod -a ${KVER}
+ 	@echo -e "\nModule " $^ "(s) installed into:\n\t$(KMISC)"
+ 	@echo -e "\nDon't forget to copy firmware to your hotplug's firmware directory "
+ 	@echo "and have the hotplug tools in place."
+@@ -178,7 +177,7 @@
+ 	else \
+ 		echo -e "\nMakefile has been modified" \
+ 			"by generate_compatible, please run \`make' again\n"; \
+-		exit 1; \
++		exit 0; \
+ 	fi
+ 
+ 

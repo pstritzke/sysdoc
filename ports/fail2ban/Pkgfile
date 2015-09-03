@@ -1,0 +1,19 @@
+# Description:  Fail2ban scans log files and bans IPs that show the malicious signs -- too many password failures.
+# URL:          http://www.fail2ban.org/wiki/index.php/Main_Page
+# Maintainer:   Silvino, silvino at bk dot ru
+# Depends on:   python 
+
+name=fail2ban
+version=0.8.14
+release=2
+source=(https://github.com/fail2ban/fail2ban/archive/$version.tar.gz 
+        fail2ban.rc)
+build() {
+	cd $name-$version
+
+        python setup.py install --root=$PKG
+        rm -R $PKG/usr/share/doc
+
+        install -m 0750 -D $SRC/fail2ban.rc $PKG/etc/rc.d/fail2ban
+
+}
