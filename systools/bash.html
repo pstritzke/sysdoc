@@ -13,6 +13,8 @@
         $ chsh
         </pre>
 
+        <h2 id="bash-profile">3.1 Bash Profile</h2>
+
         <p>Example of bash_profile with <a href="#gpg">gpg agent</a></p>
 
         <pre>
@@ -39,6 +41,8 @@
         export SSH_AUTH_SOCK   # enable gpg-agent for ssh
         </pre>
 
+        <h2 id="bashrc">3.2 Bash RC</h2>
+
         <p>Example of bashrc with <a href="#gpg">gpg agent</a> and history.</p>
 
         <pre>
@@ -53,6 +57,7 @@
         esac
 
         alias tmux="tmux -2"
+        alias shutdown="sudo /sbin/shutdown"
 
         # Configure gpg-agent
         GPG_TTY=$(tty)
