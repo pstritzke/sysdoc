@@ -4,10 +4,10 @@
 # Depends on:   grub2 dracut
 
 name=linux-libre
-version=3.18.20
-release=3
+version=3.18.21
+release=0
 source=(http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/$name-$version-gnu.tar.xz \
-        config-3.18.20)
+        config-3.18.21)
 
 build() {
 	cd linux-$version
