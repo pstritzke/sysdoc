@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+    <head>
+        <meta charset='utf-8'>
+        <title>Kernel modules</title>
+    </head>
+    <body>
+        <h1>Kernel modules</h1>
+
+
+        <p>Edit /etc/rc.modules so it contains the modules needed by
+        host hardware, this example load ath9k and r8169;</p>
+
+        <pre>
+        #!/bin/bash
+        #
+        # /etc/rc.modules: module initialization script
+        #
+
+        /sbin/modprobe ath9k
+        /sbin/modprobe r8169
+
+        /sbin/depmod -a
+
+        # End of file
+        </pre>
+
+    </body>
+</html>

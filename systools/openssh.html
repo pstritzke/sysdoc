@@ -271,5 +271,28 @@
         $ sftp local
         </pre>
         
+        <h2 id="reverse">Remote Maintenance</h2>
+        
+        <p>This information is inspired by 
+        <a href="http://www.vdomck.org/2005/11/reversing-ssh-connection.html">Reverse SSH connections</a>
+        and implement the update from <a href="http://www.vdomck.org/2009/11/ssh-all-time.html">SSH all the time</a>,
+
+        <p>Simple way, run this command on the machine you want to
+        access (server);</p>
+        
+        <pre>
+        $ ssh -f -N -R 2222:localhost:22 user@laptop
+        </pre>
+
+        <p>This creates a connection from server to client, client will listen 
+        on 2222 port and forward requests to the server as they are on localhost
+        on port 22.</p>
+
+        <pre>
+        wget http://github.com/mikeymckay/reverse_ssh_tunnel/raw/master/setup_reverse_tunnel.sh
+        chmod +x ./setup_reverse_tunnel.sh
+        sudo ./setup_reverse_tunnel.sh
+        </pre>
+
     </body>
 </html>

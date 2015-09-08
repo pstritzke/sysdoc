@@ -44,11 +44,11 @@ f:83e1f2683d0df95573ff895d635aaf5d:php-pdo-pgsql/.footprint
 f:8e5661170666a601dde5ea3f682f711b:composer/.md5sum
 f:a8d2987308dfb6022edb6fcf1e60abe9:composer/Pkgfile
 f:679356f8fffe547e95a2db86def23a24:composer/.footprint
-f:d90a1006ba86345f675ee41f91c7854a:linux-libre/.md5sum
+f:cf40a4a6c654bf52d0de800c172b5dc9:linux-libre/config-3.18.21
+f:0eb6c17914cebbac315d37d893d0ccc6:linux-libre/.md5sum
 f:aafdf303779334584c66345dd29696c0:linux-libre/post-install
-f:76e70526b506d7d04fc095086fd381b8:linux-libre/config-3.18.20
-f:8701cf28088689b1382de50fa598e52e:linux-libre/Pkgfile
-f:ca16f6fb2aa4d239afcfebe9357717f5:linux-libre/.footprint
+f:2eb75f769e4046759e80ce641533a07a:linux-libre/Pkgfile
+f:f4466a3c718bc98ef033adbc9b3725a9:linux-libre/.footprint
 f:ece3767154be55e99a49b4dcf0517bf0:wesnoth/.md5sum
 f:b83a2d597a23737a692402cf926c7c0e:wesnoth/README
 f:1f739ef0f4431e1a102e00fa36e8de6b:wesnoth/Pkgfile
