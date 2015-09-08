@@ -3,9 +3,9 @@
 # Maintainer:   Silvino, silvino at bk dot ru
 
 name=php-pdo-pgsql
-version=5.5.27
+version=5.5.29
 release=1
-source=(http://www.php.net/distributions/php-$version.tar.bz2)
+source=(http://www.php.net/distributions/php-$version.tar.xz)
 build() {
 	cd php-$version
 
