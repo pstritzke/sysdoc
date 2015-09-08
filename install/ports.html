@@ -127,6 +127,7 @@
         # End of file
         </pre>
 
+
         <h2 id="pkgmk">3.4. Configure pkgmk</h2>
  
         <p>Read <a href="systemdoc/Handbook3-1.html#ntoc22">4.5. Adjust/Configure the Package Build Process</a> 
@@ -173,12 +174,10 @@
 
         <h2 id="prtget">3.5 Configure prt-get</h2>
 
-        <p>Edit /etc/prt-get.conf and change to activate sysdoc and contrib 
-        collections;</p>
+        <p>Edit /etc/prt-get.conf and change to activate contrib port collection;</p>
 
         <pre>
         # the following line enables the user maintained contrib collection
-        prtdir /usr/ports/sysdoc
         prtdir /usr/ports/contrib
         </pre>
 
@@ -264,6 +263,9 @@
         $ sudo pkgadd /iso/crux/opt/wpa_supplicant#2.2-1.pkg.tar.xz
         </pre>
 
+
+        <h3>Activate Sysdoc ports</h3>
+
         <p>Clone this documentation;</p>
 
         <pre>
@@ -275,6 +277,19 @@
 
         <pre>
         $ sudo cp sysdoc/ports/sysdoc.httpup /etc/ports/
+        </pre>
+
+        <p>Edit /etc/prt-get.conf to activate sysdoc collection;</p>
+
+        <pre>
+        prtdir /usr/ports/sysdoc
+        # the following line enables the user maintained contrib collection
+        prtdir /usr/ports/contrib
+        </pre>
+
+        <p>Get sysdoc ports;</p>
+
+        <pre>
         $ sudo ports -u sysdoc
         </pre>
 
