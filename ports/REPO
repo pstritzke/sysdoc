@@ -16,6 +16,7 @@ d:ffmpeg
 d:sysbench
 d:gparted
 d:gitolite
+d:qcachegrind
 f:90b87de22d432cfff0af8474acdbb666:hostapd/hostapd.conf
 f:d1bcb6ff51dfce7a1bcdbde9ad4520b1:hostapd/.md5sum
 f:f6ffaaaa2d1c28e58b68a436af93c56c:hostapd/Makefile.patch
@@ -87,3 +88,6 @@ f:814677bf4bbec5d742ba1de23c8fff9e:gitolite/gitolite.patch
 f:563e1b92cbd67350b904c844c6435820:gitolite/gitolite-shell.patch
 f:651bea14af8d6b547d7414fe2d294759:gitolite/Pkgfile
 f:fdf66fe5ae9306892e811b20ded97ee5:gitolite/.footprint
+f:c8bf3f47469fdeffb9b0b676c9721058:qcachegrind/.md5sum
+f:e985261038a5141442cd628288762f3b:qcachegrind/Pkgfile
+f:a67c9cb9b5ee65f14eefa097e01a06aa:qcachegrind/.footprint
