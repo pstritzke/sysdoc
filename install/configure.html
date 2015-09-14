@@ -155,24 +155,6 @@
         # usermod -a -G wheel admin
         </pre>
 
-        <h3>2.4.5 Administrator shutdown permissions</h3>
-
-        <p>To allow administrator to use shutdown command without password,
-        for other user you can create alias, both for commands and users 
-        groups.</p>
-
-        <pre>
-        bash-4.3# sudoedit /etc/sudoers
-        </pre>
-
-        <p>This example just configure admin user, add this to the end;</p>
-
-        <pre>
-        admin ALL=NOPASSWD: /sbin/shutdown
-        </pre>
-
-        <p>You can add alias to your <a href="../systools/bash.html">bash</a>.
-
         <h2 id="fstab">2.5. File system table</h2>
         
         <p>First we will discover block id (UUID) of 

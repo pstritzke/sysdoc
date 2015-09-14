@@ -2,16 +2,16 @@
 <html dir="ltr" lang="en">
     <head>
         <meta charset='utf-8'>
-        <title>4. GnuPG</title>
+        <title>5. GnuPG</title>
     </head>
     <body>
-        <h1>4. GnuPG</h1>
+        <h1>5. GnuPG</h1>
 
         <pre>
         $ sudo prt-get depinst gnupg 
         </pre>
  
-        <h2 id="gpg-genkey">4.1. Generate keys</h2>
+        <h2 id="gpg-genkey">5.1. Generate keys</h2>
 
         <p>Key Management;</p>
 
@@ -89,7 +89,7 @@
             <dd>Password should use numebers and special chars.</dd>
         </dl>
 
-        <h2 id="gpg-ei">4.2. Export and import public keys</h2>
+        <h2 id="gpg-ei">5.2. Export and import public keys</h2>
         
         <p>Public keys can be exported in binary format
         or ASCII-armored format.</p>
@@ -128,7 +128,7 @@
         $ gpg --list-keys
         </pre>
 
-        <h2 id="gpg-crypt">4.3. Encrypt and decrypt</h2>
+        <h2 id="gpg-crypt">5.3. Encrypt and decrypt</h2>
         
         <pre>
         $ gpg --output index.html.gpg --encrypt --recipient bob@localhost index.html
