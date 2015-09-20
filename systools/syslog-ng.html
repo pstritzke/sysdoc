@@ -2,7 +2,7 @@
 <html dir="ltr" lang="en">
     <head>
         <meta charset='utf-8'>
-        <title>8. Logs</title>
+        <title>11. Logs</title>
     </head>
     <body>
         <h1>Logs</h1>
@@ -15,14 +15,14 @@
         $ sudo tail -f messages kernel cron auth
         </pre>
 
-        <h2 id="syslog-ng">8.1 Syslog NG</h2>
+        <h2 id="syslog-ng">11.1 Syslog NG</h2>
 
         <p>Syslog-ng offers more than sysklogd, for example, we
         can log messages to different files based on pattern. It
         is possible to have both syslog-ng and sysklog, I will
         only configure syslog-ng and remove sysklog.</p>
 
-        <h3 id="eventlog">8.1.1 Install Event Log</h3>
+        <h3 id="eventlog">11.1.1 Install Event Log</h3>
 
         <pre>
         $ mkdir eventlog 
@@ -59,7 +59,7 @@
         $ sudo pkgadd /usr/ports/packages/eventlog#0.2.12-1.pkg.tar.gz
         </pre>
 
-        <h3 id="pkgfile">8.1.2 Syslog NG Pkgfile</h3>
+        <h3 id="pkgfile">11.1.2 Syslog NG Pkgfile</h3>
 
         <pre>
         $ cd ..
@@ -101,7 +101,7 @@
         }
         </pre>
 
-        <h3 id="syslog-rc">8.1.3 Syslog NG RC</h3>
+        <h3 id="syslog-rc">11.1.3 Syslog NG RC</h3>
 
         <pre>
         $ vim syslog-ng.rc
@@ -132,7 +132,7 @@
         esac
         </pre>
 
-        <h3 id="syslog-conf">8.1.4 Syslog NG Conf</h3>
+        <h3 id="syslog-conf">11.1.4 Syslog NG Conf</h3>
 
         <p>Configure syslog-ng for common systems, vim syslog-ng.conf</p>
 
@@ -313,7 +313,7 @@
             latency.</dd>
         </dl>
 
-        <h3 id="install">8.1.5 Syslog NG Install</h3>
+        <h3 id="install">11.1.5 Syslog NG Install</h3>
 
         <pre>
         $ sudo prt-get depinst glib
