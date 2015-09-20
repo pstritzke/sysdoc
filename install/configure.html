@@ -132,14 +132,6 @@
         # chmod 0700 /home/admin
         </pre>
 
-        <p>If home user directory is not empty, consider 
-        <a href="http://superuser.com/questions/176686/shared-linux-machine-block-home-folder-access-to-other-users">this tip</a> 
-        from Aaron Digulla;</p>
-
-        <pre>
-        find $HOME -type d -exec chmod go-rwx "{}" \;
-        </pre>
-
         <h3>2.4.3 Add Administrator to group Wheel</h3>
 
         <pre>
