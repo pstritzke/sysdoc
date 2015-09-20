@@ -9,16 +9,17 @@
 
         <h1 id="tmux">5. Tmux</h1>
 
-        <p>Install tmux, improves eficiency of work;</p> 
+        <p>Install tmux, improves cli work efficiency;</p> 
 
         <pre>
         $ sudo prt-get depinst tmux
         </pre>
 
-        <pre>
-        $ sudo vim ~/.tumx.conf
-        </pre>
+        <p>Create skeleton configuration file for users;</p>
 
+        <pre>
+        $ sudo vim /etc/skel/.tumx.conf
+        </pre>
 
         <pre>
         set -g default-terminal "screen-256color"
@@ -37,18 +38,21 @@
         bind-key s command-prompt -p "send pane to:"  "join-pane -t '%%'"
         </pre>
 
-
-        <p>Para iniciar o tmux</p>
+        <p>Copy to your current home and start tmux;</p>
 
         <pre>
-        $tmux
+        $ cp /etc/skel/.tmux.conf ~/
+        $ tmux
+        </pre>
 
-        Para obter ajuda
+        <p>Get help;</p>
+
+        <pre>
         ctrl + b ?
+        </pre>
 
-        Para sair da ajuda
-        q
-
+        
+        <pre>
         key = bind-key (default ctrl + b)
 
         Window
@@ -63,9 +67,11 @@
         key	!	break-pane
         key	{	swap pane
         key	}	swap pane
+        </pre>
 
-        copy past:
+        <h2>Copy Past</h2>
 
+        <pre>
         1) enter copy mode using Control+b [
         2) navigate to beginning of text, you want to select and hit Control+Space
         3) move around using arrow keys to select region
@@ -78,7 +84,6 @@ Copyright (C) 2015
 Silvino Silva.
 See the file <a href="fdl-1.3-standalone.html">Gnu Free Documentation License</a>
 for copying conditions.</p>
-
 
 
     </body>
