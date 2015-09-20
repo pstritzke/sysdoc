@@ -10,8 +10,21 @@
 
         <p>Read 
         <a href="http://dougblack.io/words/a-good-vimrc.htm">A good vimrc</a>
-        Global configuration file is at /usr/etc/vimrc, per user configuration
-        is /home/user/.vimrc</p>
+        for more information. Global configuration file
+
+        <dl>
+            <dt>/usr/share/vim/vimrc</dt>
+            <dd>System wide Vim initializations.</dd>
+            <dt>~/.vimrc</dt>
+            <dd>Your personal Vim initializations.</dd>
+        </dl>
+
+        <p>Create a vimrc skeleton to be copied by useradd to
+        each user home directory;</p>
+
+        <pre>
+        $ sudo vim /etc/skel/.vimrc
+        </pre>
 
         <pre>
         if &amp;term =~ '256color'
