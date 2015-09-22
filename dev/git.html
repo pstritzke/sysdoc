@@ -1,142 +1,156 @@
-<!DOCTYPE html>
-<html dir="ltr" lang="en">
-    <head>
-        <meta charset='utf-8'>
-        <title>Git</title>
-    </head>
-    <body>
-        
-        <h1>Local work flow</h1>
-
-        <pre>
-        $ git config --global user.name "User Name"
-        $ git config --global user.email user@dev.box
-        </pre>
-
-        <pre>
-        $ git clone https://github.com/s1lvino/sysdoc
-        $ git remote -v
-        </pre>
-
-        <h2>Team WorkFlow</h2>
-
-        <p>This work flow is based on 
-        <a href="http://nvie.com/posts/a-successful-git-branching-model/">Vicent Driessen</a>,
-        development model, it defines rules how branches are forked,
-        merged and tagged. By having well defined set of branches,
-        the project structure is used as a communication tool, 
-        allowing to work simultaneously on different stages 
-        of the development.</p>
-        
-        <p>Main Branches;</p> 
-
-        <dl>
-            <dt>Stable</dt>
-            <dd>Current official stable release history.</dd>
-            <dt>Release</dt>
-            <dd>Next release, new features not allowed.</dd>
-            <dt>Develop</dt>
-            <dd>Integration branch for features.</dd>
-        </dl>
-
-        <p>Add-on Branches;</p>
-
-        <dl>
-            <dt>Feature</dt>
-            <dd>New features, improvement proposal, tests, etc...</dd>
-            <dt>Hotfix</dt>
-            <dd>Hotfix is branched of master and should only contain isolated bugfixes.</dd>
-        </dl>
-
+<!DOCTYPEhtml>
+<htmldir="ltr" lang="en">
+   <head>
+       <meta charset='utf-8'>
+       <title>Git</title>
+   </head>
+   <body>
        
-        <h3>Feature</h3>
+       <h1>Local work flow</h1>
+
+       <p>Configure your global identity, global configuration resides on ~/.gitconfig ;</p>
+
+       <pre>
+       $ git config --global user.name "User Name"
+       $ git config --global user.email user@dev.box
+       </pre>
+
+       <pre>
+       $ git clone https://github.com/s1lvino/sysdoc.git
+       $ git remote -v
+       </pre>
+
+       <p>Easy way to configure authentication is by creating a ~/.netrc;</p>
+
+       <pre>
+       machine bitbucket.org
+       login yourname
+       password yourpass
+
+       machine github.com
+       login yourname
+       password yourpass
+       </pre>
+
+       <h2>Team WorkFlow</h2>
+
+       <p>This work flow is based on 
+       <a href="http://nvie.com/posts/a-successful-git-branching-model/">Vicent Driessen</a>,
+       development model, it defines rules how branches are forked,
+       merged and tagged. By having well defined set of branches,
+       the project structure is used as a communication tool, 
+       allowing to work simultaneously on different stages 
+       of the development.</p>
        
-        <pre>
-        $ git checkout -b myfeature develop
-        </pre>
+       <p>Main Branches;</p> 
 
-        <pre>
-        $ git checkout develop
-        Switched to branch 'develop'
-        $ git merge --no-ff myfeature
-        Updating ea1b82a..05e9557
-        (Summary of changes)
-        $ git branch -d myfeature
-        Deleted branch myfeature (was 05e9557).
-        $ git push origin develop
-        </pre>
+       <dl>
+           <dt>Stable</dt>
+           <dd>Current official stable release history.</dd>
+           <dt>Release</dt>
+           <dd>Next release, new features not allowed.</dd>
+           <dt>Develop</dt>
+           <dd>Integration branch for features.</dd>
+       </dl>
 
-        <h3>Release</h3>
+       <p>Add-on Branches;</p>
 
-        <pre>
-        $ git checkout -b release-1.2 develop
-        Switched to a new branch "release-1.2"
-        $ ./bump-version.sh 1.2
-        Files modified successfully, version bumped to 1.2.
-        $ git commit -a -m "Bumped version number to 1.2"
-        [release-1.2 74d9424] Bumped version number to 1.2
-        1 files changed, 1 insertions(+), 1 deletions(-)
-        </pre>
+       <dl>
+           <dt>Feature</dt>
+           <dd>New features, improvement proposal, tests, etc...</dd>
+           <dt>Hotfix</dt>
+           <dd>Hotfix is branched of master and should only contain isolated bugfixes.</dd>
+       </dl>
 
-        <p>Only documentation or bugfixes are allowed,
-        when release is ready for production;</p>
+      
+       <h3>Feature</h3>
+      
+       <pre>
+       $ git checkout -b myfeature develop
+       </pre>
 
-        <pre>
-        $ git checkout master
-        Switched to branch 'master'
-        $ git merge --no-ff release-1.2
-        Merge made by recursive.
-        (Summary of changes)
-        $ git tag -a 1.2
-        </pre>
+       <pre>
+       $ git checkout develop
+       Switched to branch 'develop'
+       $ git merge --no-ff myfeature
+       Updating ea1b82a..05e9557
+       (Summary of changes)
+       $ git branch -d myfeature
+       Deleted branch myfeature (was 05e9557).
+       $ git push origin develop
+       </pre>
 
-        <p>Conflict will happen in next step</p>
+       <h3>Release</h3>
 
-        <pre>
-        $ git checkout develop
-        Switched to branch 'develop'
-        $ git merge --no-ff release-1.2
-        Merge made by recursive.
-        (Summary of changes)
-        </pre>
+       <pre>
+       $ git checkout -b release-1.2 develop
+       Switched to a new branch "release-1.2"
+       $ ./bump-version.sh 1.2
+       Files modified successfully, version bumped to 1.2.
+       $ git commit -a -m "Bumped version number to 1.2"
+       [release-1.2 74d9424] Bumped version number to 1.2
+       1 files changed, 1 insertions(+), 1 deletions(-)
+       </pre>
 
-        <h3>Hotfix</h3>
+       <p>Only documentation or bugfixes are allowed,
+       when release is ready for production;</p>
 
-        <p>This branch should never exist, ;)</p>
+       <pre>
+       $ git checkout master
+       Switched to branch 'master'
+       $ git merge --no-ff release-1.2
+       Merge made by recursive.
+       (Summary of changes)
+       $ git tag -a 1.2
+       </pre>
 
-        <pre>
-        $ git checkout -b hotfix-1.2.1 master
-        $ ./bump-version.sh 1.2.1
-        Files modified successfully, version bumped to 1.2.1
-        $ git commit -a -m "Bumped version number to 1.2"
-        </pre>
+       <p>Conflict will happen in next step</p>
 
-        <pre>
-        $ git commit -m "Commit severe fixes"
-        </pre>
+       <pre>
+       $ git checkout develop
+       Switched to branch 'develop'
+       $ git merge --no-ff release-1.2
+       Merge made by recursive.
+       (Summary of changes)
+       </pre>
 
-        <pre>
-        $ git checkout master
-        Switched to branch 'master'
-        $ git merge --no-ff release-1.2.1
-        Merge made by recursive.
-        (Summary of changes)
-        $ git tag -a 1.2.1
-        </pre>
+       <h3>Hotfix</h3>
 
-        <p>Conflict will happen in next step</p>
+       <p>This branch should never exist, ;)</p>
 
-        <pre>
-        $ git checkout develop
-        Switched to branch 'develop'
-        $ git merge --no-ff release-1.2.1
-        Merge made by recursive.
-        (Summary of changes)
-        </pre>
+       <pre>
+       $ git checkout -b hotfix-1.2.1 master
+       $ ./bump-version.sh 1.2.1
+       Files modified successfully, version bumped to 1.2.1
+       $ git commit -a -m "Bumped version number to 1.2"
+       </pre>
 
-        <pre>
-        $ git -D hotfix-1.2.1
-        </pre>
-         
-    </body>
+       <pre>
+       $ git commit -m "Commit severe fixes"
+       </pre>
+
+       <pre>
+       $ git checkout master
+       Switched to branch 'master'
+       $ git merge --no-ff release-1.2.1
+       Merge made by recursive.
+       (Summary of changes)
+       $ git tag -a 1.2.1
+       </pre>
+
+       <p>Conflict will happen in next step</p>
+
+       <pre>
+       $ git checkout develop
+       Switched to branch 'develop'
+       $ git merge --no-ff release-1.2.1
+       Merge made by recursive.
+       (Summary of changes)
+       </pre>
+
+       <pre>
+       $ git -D hotfix-1.2.1
+       </pre>
+        
+   </body>
 </html>

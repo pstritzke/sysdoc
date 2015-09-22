@@ -34,16 +34,6 @@
         # chown -R postgres:postgres /srv/pgsql /var/log/pgsql
         </pre>
 
-        <p>Edit /etc/rc.d/postgresql to new data and log location;</p>
-
-        <pre>
-        PG_DATA=/srv/pgsql/data
-        </pre>
-
-	<pre>
-        sudo -u postgres pg_ctl -D "$PG_DATA" -l /var/log/pgsql "$1"
-	</pre>
-
         <pre>
         # ldconfig /user/lib/postgresql
         </pre>
@@ -79,7 +69,7 @@
             delaycompress
             rotate 10
             notifempty
-            create 640 root postgres
+            create 660 postgres postgres
         } 
         </pre>
 

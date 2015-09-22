@@ -2,33 +2,21 @@
 <html dir="ltr" lang="en">
     <head>
         <meta charset='utf-8'>
-        <title>Network</title>
+        <title>2. Network</title>
     </head>
     <body>
-        <h1>Network</h1>
-        
-        <pre>
-        ? exim
-        o sshd
-        o dnsmasq
-        ? squid
-        o nginx
-        ? postgresql
-        ? php-fpm
-        ? tor
-        </pre>
-       
+        <h1>2. Network</h1>
+               
         <p>resolv.conf</p>
 
         <pre>
-        192.168.1.65
         127.0.0.1
         8.8.8.8
         
         $chattr +i resolv.conf
         </pre>
 
-        <h2 id="iptables">IPtables</h2>
+        <h2 id="iptables">2.1. IPtables</h2>
 
         <p>You can use this <a href="../src/bash/iptables/iptables.sh">script</a> 
         at boot time or tools iptables-save and iptables-restore. To setup this 
@@ -55,6 +43,8 @@
         # vim /etc/rc.d/iptables
         # chmod +x /etc/rc.d/iptables
         </pre>
+
+        <h2 id="sysctl">2.2. Sysctl</h2>
 
         <p>Sysctl settings from <a href="http://www.cyberciti.biz/tips/linux-unix-bsd-nginx-webserver-security.html">Cyberciti Nginx Hardning</a>
         and <a href="http://www.cyberciti.biz/faq/linux-kernel-etcsysctl-conf-security-hardening/">Cyberciti Security Hardening</a>
@@ -136,7 +126,7 @@
         # sysctl -p
         </pre>
 
-        <h2 id="wireless">Wireless</h2>
+        <h2 id="wireless">2.3. Wireless</h2>
 
         <p>There is more information on
         <a href="http://crux.nu/Wiki/WifiStartScripts">Wiki Wifi Start Scripts</a>.</p>
@@ -157,7 +147,7 @@
         # ip addr add 192.168.1.65 dev wlp2s0
         </pre>
 
-        <h3 id="wpa">Wpa Supplicant</h3>
+        <h3 id="wpa">2.3.1. Wpa Supplicant</h3>
 
         <p>Configure wpa supplicant edit;</p>
 
@@ -208,7 +198,7 @@
             if [ "${TYPE}" == "DHCP" ]; then
         </pre>
 
-        <h4 id="wpa">Wpa Cli</h4>
+        <h4>Wpa Cli</h4>
 
         <pre>
         # wpa_cli

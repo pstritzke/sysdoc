@@ -2,10 +2,16 @@
 <html dir="ltr" lang="en">
     <head>
         <meta charset='utf-8'>
-        <title>9. Logs</title>
+        <title>11. Syslog-ng</title>
     </head>
     <body>
-        <h1>Logs</h1>
+        <h1>11. Syslog-ng</h1>
+
+        <p>Syslog-ng offers more than sysklogd, for example, we
+        can log messages to different files based on pattern. It
+        is possible to have both syslog-ng and sysklog, I will
+        only configure syslog-ng and remove sysklog.</p>
+
 
         <p>A simple way to "watch" log files is to use tail, with
         exception of faillog, see man faillog for more information.</p>
@@ -15,14 +21,8 @@
         $ sudo tail -f messages kernel cron auth
         </pre>
 
-        <h2 id="syslog-ng">9.1 Syslog NG</h2>
+        <h2 id="eventlog">11.1. Install event log</h2>
 
-        <p>Syslog-ng offers more than sysklogd, for example, we
-        can log messages to different files based on pattern. It
-        is possible to have both syslog-ng and sysklog, I will
-        only configure syslog-ng and remove sysklog.</p>
-
-        <h3 id="eventlog">9.1.1 Install Event Log</h3>
 
         <pre>
         $ mkdir eventlog 
@@ -59,7 +59,7 @@
         $ sudo pkgadd /usr/ports/packages/eventlog#0.2.12-1.pkg.tar.gz
         </pre>
 
-        <h3 id="pkgfile">9.1.2 Syslog NG Pkgfile</h3>
+        <h2 id="install">11.2. Install  syslog-ng</h2>
 
         <pre>
         $ cd ..
@@ -101,7 +101,32 @@
         }
         </pre>
 
-        <h3 id="syslog-rc">9.1.3 Syslog NG RC</h3>
+        <pre>
+        $ sudo prt-get depinst glib
+        $ pkgmk -um
+        $ pkgmk -uf
+        $ fakeroot pkgmk -d 
+        $ sudo pkgadd /usr/ports/packages/syslog-ng#3.5.6-1.pkg.tar.gz
+        </pre>
+
+        <p>Change /etc/rc.conf, replace sysklog with syslog-ng;</p>
+
+        <pre>
+        #
+        # /etc/rc.conf: system configuration
+        #
+
+        FONT=default
+        KEYMAP=dvorak
+        TIMEZONE="Europe/Lisbon"
+        HOSTNAME=box
+        SYSLOG=syslog-ng
+        SERVICES=(syslog-ng lo net crond)
+
+        # End of file
+        </pre>
+
+        <h2 id="syslogrc">11.3. Syslog-ng RC</h2>
 
         <pre>
         $ vim syslog-ng.rc
@@ -132,9 +157,10 @@
         esac
         </pre>
 
-        <h3 id="syslog-conf">9.1.4 Syslog NG Conf</h3>
+        <h3 id="syslog-conf">11.4. Syslog-ng configuration</h3>
 
-        <p>Configure syslog-ng for common systems, vim syslog-ng.conf</p>
+        <p>Configure syslog-ng matching tools already installed in the  system
+        and some that are part of <a href="../tools/index.html">tools</a>;</p>
 
         <pre>
         #############################################################################
@@ -312,34 +338,6 @@
             messages are sent in a single batch, but also increases message
             latency.</dd>
         </dl>
-
-        <h3 id="install">9.1.5 Syslog NG Install</h3>
-
-        <pre>
-        $ sudo prt-get depinst glib
-        $ pkgmk -um
-        $ pkgmk -uf
-        $ fakeroot pkgmk -d 
-        $ sudo pkgadd /usr/ports/packages/syslog-ng#3.5.6-1.pkg.tar.gz
-        </pre>
-
-        <p>Change /etc/rc.conf, replace sysklog with syslog-ng, rc.conf
-        example with syslog-ng;</p>
-
-        <pre>
-        #
-        # /etc/rc.conf: system configuration
-        #
-
-        FONT=default
-        KEYMAP=dvorak
-        TIMEZONE="Europe/Lisbon"
-        HOSTNAME=box
-        SYSLOG=syslog-ng
-        SERVICES=(syslog-ng lo net crond)
-
-        # End of file
-        </pre>
 
         <pre>
         $ sudo sh /etc/rc.d/syslog-ng start

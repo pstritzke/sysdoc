@@ -16,6 +16,7 @@ d:ffmpeg
 d:sysbench
 d:gparted
 d:gitolite
+d:qcachegrind
 f:90b87de22d432cfff0af8474acdbb666:hostapd/hostapd.conf
 f:d1bcb6ff51dfce7a1bcdbde9ad4520b1:hostapd/.md5sum
 f:f6ffaaaa2d1c28e58b68a436af93c56c:hostapd/Makefile.patch
@@ -25,9 +26,9 @@ f:5f64844feb75eda21482ea6e56908ec1:hostapd/.footprint
 f:812161e705ff9ef4117bf050aba59b14:gst-libav/.md5sum
 f:04b74b02f6296b8734ab55853e8f64cc:gst-libav/Pkgfile
 f:4253c4b4f7dc9d17def5c0c6115f10b8:gst-libav/.footprint
-f:c1feebdd725f6d4015feffc7b3c195ed:lynis/.md5sum
-f:81c067151b9aefafc0fb4d7a6a20287a:lynis/Pkgfile
-f:9ed4b8d4e380e35134de5e752f23a6c0:lynis/.footprint
+f:0c7567529fb9f96a3dc9c2368e3b8ae3:lynis/.md5sum
+f:a49382f48b1b729be9e92252d9f845ba:lynis/Pkgfile
+f:90c6a1bdd220b1b357f698f419b13e9b:lynis/.footprint
 f:58c7920e82915ffc0fa56f889eb120ea:lynx/.md5sum
 f:22212b6f6259a31fab4d78194c2b9a0e:lynx/lynx.cfg
 f:c6e73de3a6217d04039d08d991efdd0c:lynx/Pkgfile
@@ -87,3 +88,6 @@ f:814677bf4bbec5d742ba1de23c8fff9e:gitolite/gitolite.patch
 f:563e1b92cbd67350b904c844c6435820:gitolite/gitolite-shell.patch
 f:651bea14af8d6b547d7414fe2d294759:gitolite/Pkgfile
 f:fdf66fe5ae9306892e811b20ded97ee5:gitolite/.footprint
+f:c8bf3f47469fdeffb9b0b676c9721058:qcachegrind/.md5sum
+f:e985261038a5141442cd628288762f3b:qcachegrind/Pkgfile
+f:a67c9cb9b5ee65f14eefa097e01a06aa:qcachegrind/.footprint

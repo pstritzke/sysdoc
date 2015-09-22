@@ -4,7 +4,7 @@
 # Depends on: 
 
 name=lynis
-version=2.1.0
+version=2.1.1
 release=1
 source=(https://cisofy.com/files/lynis-$version.tar.gz)
 

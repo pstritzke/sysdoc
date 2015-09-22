@@ -59,8 +59,11 @@
                 #tcp_nopush		on;
                 sendfile		on;
 
-                keepalive_timeout	65;
-                
+                client_body_timeout 12;
+                client_header_timeout 12;
+                keepalive_timeout 620;
+                send_timeout 620;
+
                 #passenger_root  /usr/share/nginx/passenger;
 
                 include /etc/nginx/conf.d/*.conf;

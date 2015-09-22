@@ -7,7 +7,11 @@
     <body>
         <h1>System Tools</h1>
 
-        <p>Post install crux and system maintenance related tasks.</p>
+        <p>Post install crux and system maintenance related tasks. Only tool information
+        relevant for configuration is documented. Order is intended to make backup of
+        just installed system, update and configure some tools that help in the process
+        of configuring the rest of system for example vim and tmux.</p>
+
         <a href="../index.html">Sysdoc Index</a>
         <ul>
             <li>
@@ -20,66 +24,127 @@
                     <li><a href="tar.html#tarrm">1.5. Remove content from tar</a></li>
                 </ul>
             </li>
-            <li>
-                <a href="prtget.html">2. Prt-get</a>
-                <ul>
-                    <li><a href="prtget.html#sysup">2.1. Updating system</a></li>
-                    <li><a href="prtget.html#depinst">2.2. Install port including dependencies</a></li>
-                    <li><a href="prtget.html#info">2.3. Show port information</a></li>
-                    <li><a href="prtget.html#depends">2.4. Show port dependencies</a></li>
-                    <li><a href="prtget.html#printf">2.5. Print information</a></li>
-                </ul>
-            </li>
-            <li><a href="bash.html">3. Bash</a></li>
-            <li><a href="vim.html">4. Vim</a></li>
-            <li><a href="tmux.html">5. Tmux</a></li>
-            <li><a href="modules.html">6. Kernel modules</a></li>
-            <li><a href="syslog-ng.html">7. Syslog NG</a>
+            <li><a href="network.html">2. Network</a>
                 <ul> 
-                    <li><a href="syslog-ng.html#eventlog">7.1. Install Event Log</a></li>
-                    <li><a href="syslog-ng.html#pkgfile">7.2. Syslog NG Pkgfile</a></li>
-                    <li><a href="syslog-ng.html#syslog-rc">7.3. Syslog NG RC</a></li>
-                    <li><a href="syslog-ng.html#syslog-conf">7.4. Syslog NG Conf</a></li>
-                    <li><a href="syslog-ng.html#install">7.5. Syslog NG Install</a></li>
+                    <li><a href="network.html#iptables">2.1. Iptables</a></li>
+                    <li><a href="network.html#sysctl">2.2. Sysctl</a></li>
+                    <li><a href="network.html#wireless">2.3. Wireless</a></li>
                 </ul>
             </li>
-            <li><a href="network.html">Network</a>
+            <li>
+                <a href="prtget.html">3. Prt-get</a>
+                <ul>
+                    <li><a href="prtget.html#sysup">3.1. Updating system</a></li>
+                    <li><a href="prtget.html#depinst">3.2. Install port including dependencies</a></li>
+                    <li><a href="prtget.html#info">3.3. Show port information</a></li>
+                    <li><a href="prtget.html#depends">3.4. Show port dependencies</a></li>
+                    <li><a href="prtget.html#printf">3.5. Print information</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="bash.html">4. Bash</a>
+                <ul>
+                    <li><a href="bash.html#bash-profile">4.1. Bash profile</a></li>
+                    <li><a href="bash.html#bashrc">4.2. Bash RC</a></li>
+                </ul> 
+            </li>
+            <li>
+                <a href="vim.html">5. Vim</a> 
+                <ul>
+                    <li><a href="vim.html#vimrc">5.1. Vim RC</a></li>
+                    <li><a href="vim.html#color256">5.2. Color 256</a></li>
+                    <li><a href="vim.html#block">5.3. Visual block mode</a></li>
+                    <li><a href="vim.html#spellcheck">5.4. Spell check</a></li>
+                    <li><a href="vim.html#plugin">5.6. Additional plugins</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="tmux.html">6. Tmux</a>
+                <ul>
+                    <li><a href="tmux.html#cpypst">6.1. Copy Paste</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="gnupg.html">7. Gpg</a>
+                <ul>
+                    <li><a href="gnupg.html#gpg-genkey">7.1. Generate keys</a></li>
+                    <li><a href="gnupg.html#gpg-ei">7.2. Export and import public keys</a></li>
+                    <li><a href="gnupg.html#gpg-crypt">7.3. Encrypt and decrypt</a></li>
+                    <li><a href="gnupg.html#gpg-email">7.4 Edit email of key</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="exim.html">8. Exim</a>
+                <ul>
+                    <li><a href="exim.html#usralias">8.1. User alias</a></li>
+                    <li><a href="exim.html#smarthost">8.2. SmartHost</a></li>
+                </ul> 
+            </li>
+            <li>
+                <a href="mutt.html">9. Mutt</a>
+                <ul>
+                    <li><a href="mutt.html#conf">9.1. Configuration</a></li>
+                    <li><a href="mutt.html#localmail">9.2. Local Email</a></li>
+                    <li><a href="mutt.html#multiple">9.3. Multiple Accounts</a></li>
+                </ul>
+            </li>
+            <li><a href="modules.html">10. Kernel modules</a></li>
+            <li>
+                <a href="syslog-ng.html">11. Syslog-ng</a>
                 <ul> 
-                    <li><a href="network.html#iptables">Iptables</a></li>
-                    <li><a href="network.html#wireless">Wireless</a></li>
+                    <li><a href="syslog-ng.html#eventlog">11.1. Install event log</a></li>
+                    <li><a href="syslog-ng.html#install">11.2. Install syslog-ng</a></li>
+                    <li><a href="syslog-ng.html#syslogrc">11.3. Syslog-ng RC</a></li>
+                    <li><a href="syslog-ng.html#syslog-conf">11.4. Syslog-ng configuration</a></li>
+                </ul>
+            </li>
+            <li><a href="logrotate.html">12. Logrotate</a></li>
+            <li>
+                <a href="logwatch.html">13. Logwatch</a>
+                <ul>
+                    <li><a href="logwatch.html#conf">13.1. Configure</a></li>
+                    <li><a href="logwatch.html#cron">13.2. Set cron task</a></li>
                 </ul>
             </li>
             <li>
-                <a href="gnupg.html">4. Gpg</a>
+                <a href="fail2ban.html">14. Fail2Ban</a>
                 <ul>
-                    <li><a href="gnupg.html#gpg-genkey">4.1 Generate keys</a></li>
-                    <li><a href="gnupg.html#gpg-ei">4.2 Export and import public keys</a></li>
-                    <li><a href="gnupg.html#gpg-crypt">4.3 Encrypt and decrypt</a></li>
-                    <li><a href="gnupg.html#gpg-email">4.4 Edit email of key</a></li>
+                    <li><a href="fail2ban.html#conf">14.1. Configure</a></li>
                 </ul>
             </li>
-            <li><a href="exim.html">Exim</a></li>
-            <li><a href="mutt.html">Mutt</a></li>
-            <li><a href="logrotate.html">Logrotate</a></li>
-            <li><a href="logwatch.html">Logwatch</a></li>
-            <li><a href="fail2ban.html">Fail2Ban</a></li>
             <li>
-                <a href="openssh.html">OpenSSH</a>
+                <a href="openssh.html">15. OpenSSH</a>
                 <ul>
-                    <li><a href="openssh.html#sshd">Server</a></li>
-                    <li><a href="openssh.html#ssh">Client</a></li>
-                    <li><a href="openssh.html#reverse">Remote Maintenance</a></li>
+                    <li><a href="openssh.html#sshd">15.1. Server</a></li>
+                    <li><a href="openssh.html#ssh">15.2. Client</a></li>
+                    <li><a href="openssh.html#reverse">15.3. Reverse connection</a></li>
                 </ul>
             </li>
-            <li><a href="samhain.html">Samhain</a></li>
-            <li><a href="lvm.html">LVM</a></li>
             <li>
-                <a href="pkgutils.html">Pkgutils</a>
+                <a href="samhain.html">16. Samhain</a>
                 <ul>
-                    <li><a href="pkg.html#pkgmk">2. Pkgmk</a></li>
-                    <li><a href="pkg.html#pkgadd">3. Pkgadd</a></li>
-                    <li><a href="pkg.html#pkginfo">4. Pkginfo</a></li>
-                    <li><a href="pkg.html#pkgrm">5. Pkgrm</a></li>
+                    <li><a href="samhain.html#conf">16.1. Configure</a></li>
+                    <li><a href="samhain.html#updatedb">16.2. Udate database</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="users.html">17. Users and Grups</a>
+                <ul>
+                    <li><a href="users.html#listusers">17.1. List users</a></li>
+                    <li><a href="users.html#listgroups">17.2. List groups</a></li>
+                    <li><a href="users.html#groupadd">17.3. Add group</a></li>
+                    <li><a href="users.html#useradd">17.4. Add user</a></li>
+                    <li><a href="users.html#groupdel">17.5. Remove group</a></li>
+                    <li><a href="users.html#userdel">17.6. Remove user</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="pkgutils.html">18. Pkgutils</a>
+                <ul>
+                    <li><a href="pkg.html#pkgmk">18.1. Pkgmk</a></li>
+                    <li><a href="pkg.html#pkgadd">18.2. Pkgadd</a></li>
+                    <li><a href="pkg.html#pkginfo">18.3. Pkginfo</a></li>
+                    <li><a href="pkg.html#pkgrm">18.4. Pkgrm</a></li>
                 </ul>
             </li>
     </body>

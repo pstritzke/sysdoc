@@ -2,21 +2,31 @@
 <html dir="ltr" lang="en">
     <head>
         <meta charset='utf-8'>
-        <title>3. Bash</title>
+        <title>4. Bash</title>
     </head>
     <body>
-         <h1 id="bash">3. Bash</h1>
+        <h1 id="bash">4. Bash</h1>
 
-        <p>Setup bash as default;<p>
+        <p>First create skeleton directory to place the default user
+        files to be copied to its home directory by 
+        <a href="users.html#useradd">useradd</a> command.</p>
+
+        <pre>
+        $ sudo mkdir /etc/skel
+        </pre>
+
+        <p>Just to be sure, setup bash as default;<p>
 
         <pre>
         $ chsh
         </pre>
 
+        <h2 id="bash-profile">4.1 Bash Profile</h2>
+
         <p>Example of bash_profile with <a href="#gpg">gpg agent</a></p>
 
         <pre>
-        $ vim .bash_profile
+        $ sudo vim /etc/skel/.bash_profile
         </pre>
 
         <pre>
@@ -39,10 +49,12 @@
         export SSH_AUTH_SOCK   # enable gpg-agent for ssh
         </pre>
 
+        <h2 id="bashrc">4.2 Bash RC</h2>
+
         <p>Example of bashrc with <a href="#gpg">gpg agent</a> and history.</p>
 
         <pre>
-        $ vim .bashrc
+        $ sudo vim /etc/skel/.bashrc
         </pre>
 
         <pre>
@@ -53,6 +65,7 @@
         esac
 
         alias tmux="tmux -2"
+        alias shutdown="sudo /sbin/shutdown"
 
         # Configure gpg-agent
         GPG_TTY=$(tty)

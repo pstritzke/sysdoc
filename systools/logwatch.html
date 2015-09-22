@@ -2,10 +2,71 @@
 <html dir="ltr" lang="en">
     <head>
         <meta charset='utf-8'>
-        <title>Logwatch</title>
+        <title>13. Logwatch</title>
     </head>
     <body>
-        <h1>Logwatch</h1>
+        <h1>13. Logwatch</h1>
+
+        <p>Get <a href="https://crux.nu/portdb/index.php?a=getup&q=deepthought">deepthought.httpup</a>
+        and move it to /etc/ports. Activate collection in /etc/prt-get.conf and run;</p>
+
+        <pre>
+        $ ports -u
+        $ prt-get depinst logwatch
+        </pre>
+
+        <h2 id="conf">13.1. Configure</h2>
+
+        <pre>
+        $ sudo cp /usr/share/logwatch/default.conf/logwatch.conf /etc/logwatch/conf/
+        </pre>
+
+        <p>Example configuration;</p>
+
+        <pre>
+        MailTo = admin@box
+        MailFrom = logwatch
+        Range = Today
+        Detail = Med
+        </pre>
+
+        <p>Activate all or per service;</p>
+
+        <pre>
+        #Service = All
+        Service = http
+        Service = exim
+        Service = dhcpd
+        </pre>
+
+        <pre>
+        $ sudo /usr/share/logwatch/scripts/logwatch.pl
+        </pre>
+
+        <h2 id="cron">13.2. Set cron task</h2>
+
+        <p>First make sure that email gets deliver;</p>
+
+        <pre>
+        $ sudo /usr/share/logwatch/scripts/logwatch.pl --output mail
+        </pre>
+
+        <p>Create file /etc/cron/daily/logwatch;</p>
+
+        <pre>
+        #!/bin/sh
+        #
+        # /etc/cron/daily/logwatch: run logwatch and mail output
+        #
+
+        /usr/share/logwatch/scripts/logwatch.pl --output mail
+
+        # End of file
+        </pre>
+
+        <pre>
+        $ sudo chmod +x /etc/cron/daily/logwatch
+        </pre>
 
     </body>
 </html>

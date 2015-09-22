@@ -2,54 +2,34 @@
 <html dir="ltr" lang="en">
     <head>
         <meta charset='utf-8'>
-        <title>6. Vim</title>
+        <title>5. Vim</title>
     </head>
     <body>
 
-        <h1 id="vim">6. Vim</h1>
+        <h1 id="vim">5. Vim</h1>
+
+        <h2 id="vimrc">5.1. Vim RC</h2>
 
         <p>Read 
         <a href="http://dougblack.io/words/a-good-vimrc.htm">A good vimrc</a>
-        Global configuration file is at /usr/etc/vimrc, per user configuration
-        is /home/user/.vimrc</p>
+        for more information. Global configuration file
+
+        <dl>
+            <dt>/usr/share/vim/vimrc</dt>
+            <dd>System wide Vim initializations.</dd>
+            <dt>~/.vimrc</dt>
+            <dd>Your personal Vim initializations.</dd>
+        </dl>
+
+        <p>Copy vimrc skeleton example, so that each user have a base to start
+        personalizing it;</p>
 
         <pre>
-        if &amp;term =~ '256color'
-            " disable Background Color Erase (BCE) so that color schemes
-            " render properly when inside 256-color tmux and GNU screen.
-            " see also http://blog.greduan.com/2014/09/tbtbivtp.html
-            set t_ut=
-        endif
-
-        if &amp;term =~ '256color'
-            set t_ut=
-            set t_Co=256
-        endif
-
-        syntax on
-        colorscheme desert
-
-        set nowrap                      " don't wrap lines
-        set tabstop=8 softtabstop=4 shiftwidth=4      " a tab is two spaces (or set this to 4)
-        set expandtab                   " use spaces, not tabs (optional)
-        set backspace=indent,eol,start  " backspace through everything in insert mode
-
-        set autoindent  " Turns it on
-
-        map &gt;F2&lt; :tabnew 
-        map &gt;F3&lt; :tabprevious&lt;CR&gt;
-        map &gt;F4&lt; :tabnext&lt;CR&gt;
-        " Show Line Numbers
-        set nu
-
-        set complete=.,b,u,]
-        set wildmode=longest,list:longest
-        set completeopt=menu,preview
-
-        set spell spelllang=en_us
+        $ sudo cp ~/sysdoc/conf/etc/skel/.vimrc /etc/skel/
+        $ sudo mkdir /etc/skel/.vim
         </pre>
 
-        <h2>Color Scheme 256</h2>
+        <h2 id="color256">5.2. Color Scheme 256</h2>
 
         <pre>
         $ wget -O desert256.vim http://www.vim.org/scripts/download_script.php?src_id=4055
@@ -64,7 +44,7 @@
         colorscheme desert256
         </pre>
 
-        <h2>Visual Block Mode</h2>
+        <h2 id="block">Visual Block Mode</h2>
 
         <p>To enter visual block mode press ctrl-shift-v.</p>
 

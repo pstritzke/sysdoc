@@ -150,12 +150,24 @@
 
         <h3>Activate Deactivate</h3>
 
+        <p>Deactivate logical volumes;</p>
+
+        <pre>
+        # lvchange -a -n /dev/systemvg/packageslv
+        # lvchange -a -n /dev/systemvg/distfileslv
+        # swapoff /dev/systemvg/sawplv
+        # lvchange -a -n /dev/systemvg/swaplv
+        </pre>
+
+        <p>Deactivate volume group;</p>
+
         <pre>
          # vgchange -a n systemvg
          0 logical volume(s) in volume group "systemvg" now active
          #
         </pre>
 
+        <p>Activate volume group;</p>
         <pre>
         # vgchange -a y systemvg
           3 logical volume(s) in volume group "systemvg" now active

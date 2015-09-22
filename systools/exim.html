@@ -2,13 +2,10 @@
 <html dir="ltr" lang="en">
     <head>
         <meta charset='utf-8'>
-        <title>10. Exim</title>
+        <title>8. Exim</title>
     </head>
     <body> 
-        <h1 id="exim">10. Exim</h1>
-
-        <p>Exim come with default configuration, we will change
-        /etc/exim/aliases;</p>
+        <h1 id="exim">8. Exim</h1>
 
         <p>Add exim to hosts.allow</p>
 
@@ -23,9 +20,37 @@
         # End of file
         </pre>
 
-        <p>Lets create alias for user so system email gets delivered
-        to user mail dir;</p>
+        <p>Configure rc.conf so it will be started at next boot time.</p>
 
+        <pre>
+        $ sudo vim /etc/rc.conf
+        </pre>
+
+        <pre>
+        #
+        # /etc/rc.conf: system configuration
+        #
+
+        FONT=default
+        KEYMAP=dvorak
+        TIMEZONE="Europe/Lisbon"
+        HOSTNAME=host
+        SYSLOG=syslog-ng
+        SERVICES=(hdparm lo net crond exim)
+
+        # End of file
+        </pre>
+
+        <p>To start exim;</p>
+
+        <pre>
+        $ sudo sh /etc/rc.d/exim start
+        </pre>
+
+        <h2 id="usralias">8.1. User Alias</h2>
+
+        <p>Exim come with default configuration, we will change
+        /etc/exim/aliases;</p>
 
         <pre>
         # Default aliases file, installed by Exim. This file contains no real aliases.
@@ -67,32 +92,6 @@
         ####
         </pre>
 
-        <p>Configure rc.conf so it will be started at next boot time.</p>
-
-        <pre>
-        $ sudo vim /etc/rc.conf
-        </pre>
-
-        <pre>
-        #
-        # /etc/rc.conf: system configuration
-        #
-
-        FONT=default
-        KEYMAP=dvorak
-        TIMEZONE="Europe/Lisbon"
-        HOSTNAME=host
-        SYSLOG=syslog-ng
-        SERVICES=(hdparm lo net crond exim)
-
-        # End of file
-        </pre>
-
-        <p>We can start exim;</p>
-
-        <pre>
-        $ sudo sh /etc/rc.d/exim start
-        </pre>
-
+        <h2 id="smarthost">8.2. Smarthost</h2>
     </body>
 </html>

@@ -12,8 +12,9 @@ read DEST_DIR
 echo $DES_DIR
 echo $ROOT_DIR
 
-tar -zcpf $DEST_DIR/$BKP_NAME-`date '+%j_%H_%M_%S'`.tar.gz \
+tar -zcpf $DEST_DIR/$BKP_NAME-`date '+%S-%M-%H-%j-%Y'`.tar.gz \
     --directory=$ROOT_DIR \
+    --exclude=var/ports/distfiles \
     --exclude=mnt \
     --exclude=home \
     --exclude=dev \
@@ -21,4 +22,3 @@ tar -zcpf $DEST_DIR/$BKP_NAME-`date '+%j_%H_%M_%S'`.tar.gz \
     --exclude=tmp \
     --exclude=proc \
     --exclude=sys .
-
