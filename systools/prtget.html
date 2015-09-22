@@ -2,11 +2,11 @@
 <html dir="ltr" lang="en">
     <head>
         <meta charset='utf-8'>
-        <title>2. Prt-get</title>
+        <title>3. Prt-get</title>
     </head>
     <body>
 
-        <h1>2. Prt-get</h1>
+        <h1>3. Prt-get</h1>
 
         <p>For more information read crux handbook:
         <a href="https://crux.nu/Handbook3-1#ntoc20">Package management front-end: prt-get</a>
@@ -19,7 +19,7 @@
         $ prt-get depinst prt-utils prt-get-bashcompletion
         </pre>
 
-        <h2 id="sysup">2.1. Updating system</h2>
+        <h2 id="sysup">3.1. Updating system</h2>
 
         <p>Before build software get latest version of port collections;</p>
 
@@ -50,26 +50,26 @@
         $ prt-get update -fr $(revdep)
         </pre>
 
-        <h2 id="depinst">2.2. Install port including dependencies</h2>
+        <h2 id="depinst">3.2. Install port including dependencies</h2>
 
         <pre>
         $ sudo prt-grt depinst iw
         </pre>
 
 
-        <h2 id="info">2.3. Show port information</h2>
+        <h2 id="info">3.3. Show port information</h2>
 
         <pre>
         $ prt-get info port_name
         </pre>
 
-        <h2 id="depends">2.4. Show port dependencies</h2>
+        <h2 id="depends">3.4. Show port dependencies</h2>
 
         <pre>
         $ prt-get depends port_name
         </pre>
 
-        <h2 id="printf">2.5. Print information</h2>
+        <h2 id="printf">3.5. Print information</h2>
 
         <p>Example how to get ports installed from contrib. Maybe there is
         a "cleaner" way to this, for now is ok;</p>

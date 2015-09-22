@@ -13,107 +13,33 @@
         I recomend <a href="http://realprogrammers.com/jump_start/mutt/">Jump Start: Mutt</a>,
         name says it all.</p>
 
-        <p>The reason to create a diferent port from the official opt/mutt
-        is to enable smtp, this way we can use builtin SMTP, or, use external 
-        programs like msmtp. You can get the Patch file from crux ports.</p>
-
         <pre>
-        $ prt-get depinst cyrus-sasl
+        $ prt-get depinst mutt
         </pre>
 
-        <pre>
-        # Description: Text-based email client that sucks less
-        # URL:         http://www.mutt.org
-        # Maintainer:  Silvino, silvino at bk dot ru
-        # Depends on:  gdbm ncurses openssl zlib
+        <h2 id="conf">9.1. Configuration</h2>
 
-        name=mutt
-        version=1.5.23
-        release=2
-        source=(http://downloads.sourceforge.net/project/$name/$name/$name-$version.tar.gz
-                CVE-2014-9116.patch)
-
-        build () {
-            cd $name-$version
-
-            patch -p1 -i $SRC/CVE-2014-9116.patch
-
-            ./configure --prefix=/usr \
-                        --mandir=/usr/man \
-                        --with-docdir=/usr/share/mutt \
-                        --with-mailpath=/var/spool/mail \
-                        --enable-pop \
-                        --enable-imap \
-                        --with-ssl \
-                        --enable-hcache \
-                        --disable-nls \
-                        --enable-smtp \
-                        --with-sasl 
-
-            make
-            make DESTDIR=$PKG install
-
-            find $PKG/usr/share/mutt/* ! -name manual.txt -delete
-            rm $PKG/usr/etc/{Muttrc,mime.types}.dist 
-            rm $PKG/usr/bin/{flea,muttbug}
-            rm $PKG/usr/man/man1/{flea.1,muttbug.1}
-            rm $PKG/usr/man/man5/{mmdf.5,mbox.5}
-        }
-        </pre>
-
-        <pre>
-        $ mutt
-        /home/user/Mail does not exist. Create it? ([yes]/no): yes
-        </pre>
-
-        <p>After this I get the following error;</p>
-
-        <pre>
-        /var/spool/mail/user: No such file or directory (errno = 2)
-        </pre>
-
-        <p>Press q or x and lets send email to root, this way we test
-        if alias is working and exim create mail dir for us;</p>
-
-        <pre>
-        $ mutt -s "test" root@localhost &lt; /dev/null 
-        </pre>
-
-        <h2>Basic Configuration</h2>
+        <p>Read Justin R. Miller <a href="http://codesorcery.net/old/mutt/mutt-gnupg-howto">Mutt Gnupg Howto</a>
+        "Everything You Need To Know To Start Using GnuPG with Mutt".</p>
 
         <p>Mutt will recognize two locations for its configuration file;
-        ~/.muttrc and ~/.mutt/muttrc. We will use the second one; </p>
+        ~/.muttrc and ~/.mutt/muttrc. Skeleton configuration will use 
+        the second one.</p>
 
         <pre>
-        $ mkdir ~/.mutt
-        $ vim ~/.mutt/muttrc
+        $ mkdir /etc/skel/.mutt
+        </pre>
+
+        <p>Get gpg.rc example from distribution file;</p>
+
+        <pre>
+        $ tar --extract --file=/var/ports/distfiles/mutt-1.5.24.tar.gz \
+        > mutt-1.5.24/contrib/gpg.rc
+        $ sudo mv mutt-1.5.24/contrib/gpg.rc /etc/skel/.mutt/
         </pre>
 
         <pre>
-        set config_charset="utf-8"
-        # set locale="de_CH"
-        set charset="utf-8"
-        set send_charset="utf-8"
-        set editor="vim"
-        set sort=reverse-date-received
-        </pre>
-
-        <h2>Use Gnupg</h2>
-
-        <p>Justin R. Miller <a href="http://codesorcery.net/old/mutt/mutt-gnupg-howto">Document</a>
-        "Everything You Need To Know To Start Using GnuPG with Mutt" is
-        a great reference.</p>
-
-        <pre>
-        $ cp /usr/ports/distfiles/mutt-1.5.23.tar.gz .
-        $ tar xf mutt-1.5.23.tar.gz
-        $ cp mutt-1.5.23/contrib/gpg.rc ~/.mutt/gpg.rc
-        $ rm mutt-1.5.23.tar.gz
-        $ rm -R mutt-1.5.23
-        </pre>
-
-        <pre>
-        vim ~/.mutt/muttrc
+        $ sudo vim /etc/skel/.mutt/muttrc
         </pre>
 
         <pre>
@@ -160,7 +86,94 @@
             <dd>if the message is PGP encrypted<dd>
         </ul>
 
-        <h2>Setting Multiple Accounts</h2>
+        <h3 id="alias">9.1.1 Alias</h3>
+
+        <p><a href="http://dev.mutt.org/trac/wiki/MuttGuide/Aliases">Alias</a>
+        makes easy to manage email addresses. Add this to your muttrc;</p>
+
+        <pre>
+        source "~/.mutt/mail_alias"
+        set alias_file=~/.mutt/mail_alias
+        </pre>
+
+        <p>While on index or page press "a" to add address to alias file.</p>
+
+        <h2 id="localmail">9.2. Local Email</h2>
+
+        <pre>
+        $ mutt
+        /home/user/Mail does not exist. Create it? ([yes]/no): yes
+        </pre>
+
+        <p>After this I get the following error;</p>
+
+        <pre>
+        /var/spool/mail/user: No such file or directory (errno = 2)
+        </pre>
+
+        <p>Press q or x and lets send email to root, this way we test
+        if alias is working and exim create mail dir for us;</p>
+
+        <pre>
+        $ mutt -s "test" root@localhost &lt; /dev/null 
+        </pre>
+
+        <h3>9.2.1. Tagging Email</h3>
+
+        <p>Just press shift-T and then read 
+        <a href="http://www.mutt.org/doc/manual/manual-4.html#patterns">Patterns</a> 
+        . After matching desired messages press ; then the order, for example, d will
+        mark all taged for deletion.<p>
+
+        <h2 id="muttsmtp">9.3. POP and SMTP</h2>
+
+        <p>If you want to use built in SMTP create a copy off official opt/mutt
+        to enable SMTP and sasl. Alternative is to use external programs like msmtp.</p>
+
+        <pre>
+        $ prt-get cyrus-sasl 
+        $ cp -R /usr/ports/opt/mutt .
+        $ cd mutt
+        $ vim Pkgfile 
+        </pre>
+
+        <p>Uncomment the following line;</p>
+
+        <pre>
+        --enable-smtp --with-sasl 
+        </pre>
+
+        <p>Build your personalized mutt;</p>
+
+        <pre>
+        $ pkgmk -um
+        $ sudo -H -u pkgmk fakeroot pkgmk -d 
+        $ pkgadd -u /var/ports/packages/mutt#1.5.24-1.pkg.tar.gz
+        <pre>
+
+        <p>Configuration example of remote pop and smtp account; </p>
+
+        <pre>
+        set mbox_type=maildir
+        set folder="~/MailExt/"
+        set spoolfile=+/
+
+        set realname='User'
+        set from=user@remote.com
+        set use_from=yes
+
+        set ssl_starttls = yes
+
+        set pop_user="user@remote.com"
+        set pop_pass="password"
+        set pop_delete=yes
+
+        set pop_host="pops://$pop_user:$pop_pass@pop.remote.com:995"
+
+        set smtp_url="smtps://$pop_user:$pop_pass@smtp.remote.com/"
+        </pre>
+
+        <h2 id="multiple">9.4. Multiple Accounts</h2>
 
         <p>Multiple email accounts are gracefully handle by folder hooks,
         this hooks are defined in muttrc. When we change folder the
@@ -261,12 +274,7 @@
         set use_from=yes
         </pre>
 
-        <p>Mutt in crux is build with pop support,
-        you can use external program as fetchmail.
-        For more information read mutt 
-        <a href="http://www.mutt.org/doc/manual/manual.html#toc4.10">POP3 Support</a>.
-        Edit ~/.mutt/external and set with
-        values of your server.</p>
+        <p>Edit ~/.mutt/external and set with values of your server.</p>
 
         <pre>
         color status blue default
@@ -291,49 +299,5 @@
         set smtp_url="smtps://$pop_user:$pop_pass@smtp.external.org/"
         </pre>
 
-        <h2>SMTP</h2>
-
-        <p>Mutt in crux is build without SMTP, the above Pkgfile
-        build mutt with SMTP support. External programs like
-        msmtp can be used.</p>
-
-        <pre>
-        set mbox_type=maildir
-        set folder="~/MailExt/"
-        set spoolfile=+/
-
-        set realname='User'
-        set from=user@remote.com
-        set use_from=yes
-
-        set ssl_starttls = yes
-
-        set pop_user="user@remote.com"
-        set pop_pass="password"
-        set pop_delete=yes
-
-        set pop_host="pops://$pop_user:$pop_pass@pop.remote.com:995"
-
-        set smtp_url="smtps://$pop_user:$pop_pass@smtp.remote.com/"
-        </pre>
-
-        <h2>Alias</h2>
-       
-        <p><a href="http://dev.mutt.org/trac/wiki/MuttGuide/Aliases">Alias</a>
-        makes easy to manage email addresses. Add this to your muttrc;</p>
-
-        <pre>
-        source "~/.mutt/mail_alias"
-        set alias_file=~/.mutt/mail_alias
-        </pre>
-        
-        <p>While on index or page press "a" to add address to alias file.</p>
-
-        <h2>Tagging</h2>
-
-        <p>Just press shift-T and then read 
-        <a href="http://www.mutt.org/doc/manual/manual-4.html#patterns">Patterns</a> 
-        . After matching desired messages press ; then the order, for example, d will
-        mark all taged for deletion.<p>
     </body>
 </html>

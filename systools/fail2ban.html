@@ -1,0 +1,37 @@
+<!DOCTYPEhtml>
+<htmldir="ltr" lang="en">
+   <head>
+       <meta charset='utf-8'>
+       <title>14. Fail2ban</title>
+   </head>
+   <body>
+       <h1>14. Fail2ban</h1>
+
+       <pre>
+       $ prt-get depinst fail2ban
+       </pre>
+
+       <h2 id="conf">14. Configure</h2>
+
+       <p>To start fail2ban at next boot edit /etc/rc.conf and add fail2ban.
+       Fail2ban will verify if /etc/fail2ban/jail.local exist, if exist will
+       use it. Copy distribution jail.conf to jail.locol;</p>
+
+       <pre>
+       $ sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
+       </pre>
+
+       <p>Edit /etc/fail2ban/jail.local, example configuration;</p>
+
+       <pre>
+       [ssh-iptables]
+
+       enabled  = enable
+       filter   = sshd
+       action   = iptables[name=SSH, port=ssh, protocol=tcp]
+                  sendmail-whois[name=SSH, dest=admin@box, sender=fail2ban@box, sendername="fail2ban"]
+                  logpath  = /var/log/auth
+                  maxretry = 5
+       </pre>
+   </body>
+</html>

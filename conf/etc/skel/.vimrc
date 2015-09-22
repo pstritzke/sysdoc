@@ -25,17 +25,50 @@ if &term =~ '256color' || &t_Co > 2
 endif
 
 
-" Enable file type detection.
-" Use the default filetype settings, so that mail gets 'tw' set to 72,
-" 'cindent' is on in C files, etc.
-" Also load indent files, to automatically do language-dependent indenting.
-filetype plugin indent on
+set wrap                
 
-set clipboard=autoselect 
+" Only do this part when compiled with support for autocommands.
+if has("autocmd")
+
+
+    " Enable file type detection.
+    " Use the default filetype settings, so that mail gets 'tw' set to 72,
+    " 'cindent' is on in C files, etc.
+    " Also load indent files, to automatically do language-dependent indenting.
+    filetype plugin indent on
+
+  " Put these in an autocmd group, so that we can delete them easily.
+  augroup vimrcEx
+  au!
+
+  " For all text files set 'textwidth' to 78 characters.
+  autocmd FileType text setlocal textwidth=78
+
+  " When editing a file, always jump to the last known cursor position.
+  " Don't do it when the position is invalid or when inside an event handler
+  " (happens when dropping a file on gvim).
+  " Also don't do it when the mark is in the first line, that is the default
+  " position when opening a file.
+  autocmd BufReadPost *
+    \ if line("'\"") > 1 && line("'\"") <= line("$") |
+    \   exe "normal! g`\"" |
+    \ endif
+
+  augroup END
+
+endif " has("autocmd")
+
+
+set clipboard+=unnamed
+" set clipboard=autoselect 
+set paste
+set pastetoggle=<f5>
 
 set nowrap                      " don't wrap lines
-set tabstop=8 softtabstop=4 shiftwidth=4      " a tab is two spaces (or set this to 4)
-set expandtab                   " use spaces, not tabs (optional)
+set tabstop=8     " tabs are at proper location
+set expandtab     " don't use actual tab character (ctrl-v)
+set shiftwidth=4  " indenting is 4 spaces
+set softtabstop=4 
 set backspace=indent,eol,start  " backspace through everything in insert mode
 
 set autoindent    " turns it on
@@ -52,8 +85,7 @@ set complete=.,b,u,]
 set wildmode=longest,list:longest
 set completeopt=menu,preview
 
-set backupdir=~/.vim,~/.tmp,~/tmp,/var/tmp,/tmp
-set directory=~/.vim,~/.tmp,~/tmp,/var/tmp,/tmp
-set pastetoggle=<f5>
+set backupdir=~/.vim
+set directory=~/.vim
 
 set spell spelllang=en_us
