@@ -21,11 +21,10 @@ if &term =~ '256color' || &t_Co > 2
     set t_Co=256
     syntax on
     set hlsearch
-    colorscheme desert
+    colorscheme desert256
 endif
 
-
-set wrap                
+set wrap
 
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
@@ -59,8 +58,8 @@ if has("autocmd")
 endif " has("autocmd")
 
 
-set clipboard+=unnamed
-" set clipboard=autoselect 
+" set clipboard+=unnamed
+" set clipboard=autoselect
 set paste
 set pastetoggle=<f5>
 
@@ -68,14 +67,14 @@ set nowrap                      " don't wrap lines
 set tabstop=8     " tabs are at proper location
 set expandtab     " don't use actual tab character (ctrl-v)
 set shiftwidth=4  " indenting is 4 spaces
-set softtabstop=4 
+set softtabstop=4
 set backspace=indent,eol,start  " backspace through everything in insert mode
 
 set autoindent    " turns it on
 set smartindent   " does the right thing (mostly) in programs
 set cindent       " stricter rules for C programs
 
-map <F2> :tabnew 
+map <F2> :tabnew
 map <F3> :tabprevious<CR>
 map <F4> :tabnext<CR>
 
@@ -85,7 +84,22 @@ set complete=.,b,u,]
 set wildmode=longest,list:longest
 set completeopt=menu,preview
 
-set backupdir=~/.vim
-set directory=~/.vim
+" Directories
+set backupdir=~/.vimbackup
+set undodir=~/.vimundodir
+set viewdir=~/.vimviews
+set directory=~/.vimswap
 
+" Spell Check
 set spell spelllang=en_us
+
+" Strips whitespace
+nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
+
+" Whitespace fixes
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+autocmd BufWinLeave * call clearmatches()
