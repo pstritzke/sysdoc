@@ -81,10 +81,10 @@
         <h2 id="perm">17.7. Permissions</h2>
 
         <p>Add user to additional groups, this is necessary so it has permissions
-        to use audio, video and input. Users group is a generic group for all users;</p>
+        to use audio and video. Users group is a generic group for all users;</p>
 
         <pre>
-        # usermod -G audio,video,users,input bob
+        # usermod -G audio,video,users bob
         </pre>
 
         <p>To allow users group to use shutdown command without password,
