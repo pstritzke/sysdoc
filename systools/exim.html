@@ -4,7 +4,7 @@
         <meta charset='utf-8'>
         <title>8. Exim</title>
     </head>
-    <body> 
+    <body>
         <h1 id="exim">8. Exim</h1>
 
         <p>Add exim to hosts.allow</p>
@@ -59,7 +59,7 @@
         # The following alias is required by the mail RFCs 2821 and 2822.
         # Set it to the address of a HUMAN who deals with this system's mail problems.
 
-        postmaster: user@localhost
+        postmaster: admin@localhost
 
         # It is also common to set the following alias so that if anybody replies to a
         # bounce message from this host, the reply goes to the postmaster.
@@ -93,5 +93,108 @@
         </pre>
 
         <h2 id="smarthost">8.2. Smarthost</h2>
+
+
+        <p>Test sender rewriting;</p>
+
+        <pre>
+        # exim -brw bob@box
+        </pre>
+
+        <p>Test routing;</p>
+
+        <pre>
+        # exim -bt bob@box
+        </pre>
+
+        <h2 id="fetchmail">8.3. Fetchmail</h2>
+
+        <pre>
+        $ prt-get depinst fetchmail
+        </pre>
+
+        <pre>
+        $ sudo su
+        # mkdir /var/lib/fetchmail
+        # mkdir /var/run/fetchmail
+        # useradd -r fetchmail
+        # chown fetchmail /var/lib/fetchmail
+        # chown fetchmail /var/run/fetchmail
+        </pre>
+
+        <p>Create /etc/rc.d/fetchmail and add fetchmail to /etc/rc.conf;</p>
+
+        <pre>
+        #!/bin/sh
+        #
+        # /etc/rc.d/fetchmail: start/stop fetchmail daemon
+        #
+
+        SSD=/sbin/start-stop-daemon
+        PROG=/usr/bin/fetchmail
+        PID=/var/run/fetchmail/fetchmail.pid
+        IDS=/var/lib/fetchmail/.fetchids
+        PUID=45
+        PGID=100
+        OPTS="-f /etc/fetchmailrc -i $IDS --pidfile $PID --syslog -v"
+
+        case $1 in
+        start)
+                $SSD --chuid $PUID:$PGID --user $PUID --exec $PROG --start -- $OPTS
+                ;;
+        stop)
+                $SSD --stop --remove-pidfile --retry 10 --pidfile $PID
+                ;;
+        restart)
+                $0 stop
+                $0 start
+                ;;
+        reload)
+                $SSD --stop --signal HUP --pidfile $PID
+                ;;
+        status)
+                $SSD --status --pidfile $PID
+                case $? in
+                0) echo "$PROG is running with pid $(head -1 $PID)" ;;
+                1) echo "$PROG is not running but the pid file $PID exists" ;;
+                3) echo "$PROG is not running" ;;
+                4) echo "Unable to determine the program status" ;;
+                esac
+                ;;
+        *)
+                echo "usage: $0 [start|stop|restart|reload|status]"
+                ;;
+        esac
+        # End of file
+        </pre>
+
+        <p>Create /etc/fetchmailrc;</p>
+
+        <pre>
+        # This file must be chmod 0600, owner fetchmail
+
+        set daemon        300           # Pool every 5 minutes
+        set syslog                      # log through syslog facility
+        set postmaster  admin@box
+
+        set no bouncemail               # avoid loss on 4xx errors
+                                        # on the other hand, 5xx errors get
+                                        # more dangerous...
+
+        ##########################################################################
+        # Hosts to pool
+        ##########################################################################
+
+        # Defaults ===============================================================
+        # Set antispam to -1, since it is far safer to use that together with
+        # no bouncemail
+        defaults:
+        timeout 300
+        antispam -1
+        batchlimit 100
+
+        poll pop.remote.com protocol POP3 user "drbob@remote.com" there with password "secretpass" is "bob@box" here
+        </pre>
+
     </body>
 </html>
