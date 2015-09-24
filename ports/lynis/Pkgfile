@@ -5,13 +5,13 @@
 
 name=lynis
 version=2.1.1
-release=1
+release=2
 source=(https://cisofy.com/files/lynis-$version.tar.gz)
 
 build() {
 
     ls $SRC/
-    
+
     cd $SRC/$name
 
 # Install profile
@@ -32,7 +32,7 @@ build() {
 # Install database files
     install -d $PKG/var/lib/lynix
     cp -R db/* $PKG/var/lib/lynix
-
+    rm $PKG/usr/share/lynis/plugins/README
 }
 
 

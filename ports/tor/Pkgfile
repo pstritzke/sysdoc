@@ -1,6 +1,6 @@
 # Description: Tor is a anonymous network and proxy.
 # URL: http://www.torproject.org/
-# Maintainer: Silvino, silvino@bk.ru
+# Maintainer: Silvino, silvino at bk dot ru
 # Maintainer: Danny Rawlins, crux at romster dot me
 # Depends on: libevent openssl zlib
 
@@ -26,7 +26,7 @@ build() {
 
 	make
 	make DESTDIR=$PKG install
-	
+
 	# data
 	install -d $PKG/usr/var/lib/tor
 	chown tor:tor $PKG/usr/var/lib/tor

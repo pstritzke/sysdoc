@@ -5,7 +5,7 @@
 
 name=ffmpeg
 version=2.7.2
-release=1
+release=2
 source=(http://ffmpeg.org/releases/$name-$version.tar.bz2)
 
 build() {
@@ -56,4 +56,5 @@ build() {
 	[ "$CC" ] || CC=gcc
 	make CC="$CC" SHARED_PP='yes' $MAKEFLAGS
 	make DESTDIR=$PKG install install-man
+        rm $PKG/usr/share/ffmpeg/examples/README
 }

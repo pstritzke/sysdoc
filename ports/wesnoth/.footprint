@@ -13,7 +13,6 @@ drwxr-xr-x	root/root	usr/share/pixmaps/
 -rw-r--r--	root/root	usr/share/pixmaps/wesnoth_editor-icon.png
 drwxr-xr-x	root/root	usr/share/wesnoth/
 drwxr-xr-x	root/root	usr/share/wesnoth/data/
--rw-rw-r--	root/root	usr/share/wesnoth/data/COPYING.txt
 -rw-rw-r--	root/root	usr/share/wesnoth/data/_main.cfg
 -rw-rw-r--	root/root	usr/share/wesnoth/data/advanced_preferences.cfg
 drwxr-xr-x	root/root	usr/share/wesnoth/data/ai/
@@ -354,7 +353,6 @@ drwxr-xr-x	root/root	usr/share/wesnoth/data/campaigns/Dead_Water/utils/
 -rw-rw-r--	root/root	usr/share/wesnoth/data/campaigns/Dead_Water/utils/specials.cfg
 drwxr-xr-x	root/root	usr/share/wesnoth/data/campaigns/Delfadors_Memoirs/
 -rw-rw-r--	root/root	usr/share/wesnoth/data/campaigns/Delfadors_Memoirs/HISTORY
--rw-rw-r--	root/root	usr/share/wesnoth/data/campaigns/Delfadors_Memoirs/TODO
 -rw-rw-r--	root/root	usr/share/wesnoth/data/campaigns/Delfadors_Memoirs/WALKTHROUGH
 -rw-rw-r--	root/root	usr/share/wesnoth/data/campaigns/Delfadors_Memoirs/_main.cfg
 drwxr-xr-x	root/root	usr/share/wesnoth/data/campaigns/Delfadors_Memoirs/images/
@@ -376,7 +374,6 @@ drwxr-xr-x	root/root	usr/share/wesnoth/data/campaigns/Delfadors_Memoirs/images/i
 -rw-rw-r--	root/root	usr/share/wesnoth/data/campaigns/Delfadors_Memoirs/images/items/ward-circle.png
 -rw-rw-r--	root/root	usr/share/wesnoth/data/campaigns/Delfadors_Memoirs/images/land-of-the-dead.png
 drwxr-xr-x	root/root	usr/share/wesnoth/data/campaigns/Delfadors_Memoirs/images/portraits/
--rw-rw-r--	root/root	usr/share/wesnoth/data/campaigns/Delfadors_Memoirs/images/portraits/README
 -rw-rw-r--	root/root	usr/share/wesnoth/data/campaigns/Delfadors_Memoirs/images/portraits/chantal-druid.png
 -rw-rw-r--	root/root	usr/share/wesnoth/data/campaigns/Delfadors_Memoirs/images/portraits/chantal-shyde.png
 -rw-rw-r--	root/root	usr/share/wesnoth/data/campaigns/Delfadors_Memoirs/images/portraits/eldred.png
@@ -1963,7 +1960,6 @@ drwxr-xr-x	root/root	usr/share/wesnoth/data/campaigns/Two_Brothers/scenarios/
 drwxr-xr-x	root/root	usr/share/wesnoth/data/campaigns/Two_Brothers/utils/
 -rw-rw-r--	root/root	usr/share/wesnoth/data/campaigns/Two_Brothers/utils/bigmap.cfg
 drwxr-xr-x	root/root	usr/share/wesnoth/data/campaigns/Under_the_Burning_Suns/
--rw-rw-r--	root/root	usr/share/wesnoth/data/campaigns/Under_the_Burning_Suns/TODO
 -rw-rw-r--	root/root	usr/share/wesnoth/data/campaigns/Under_the_Burning_Suns/_main.cfg
 drwxr-xr-x	root/root	usr/share/wesnoth/data/campaigns/Under_the_Burning_Suns/images/
 drwxr-xr-x	root/root	usr/share/wesnoth/data/campaigns/Under_the_Burning_Suns/images/attacks/
@@ -2600,7 +2596,6 @@ drwxr-xr-x	root/root	usr/share/wesnoth/data/campaigns/tutorial/units/
 -rw-rw-r--	root/root	usr/share/wesnoth/data/campaigns/tutorial/units/Fighteress.cfg
 -rw-rw-r--	root/root	usr/share/wesnoth/data/campaigns/tutorial/units/Quintain.cfg
 drwxr-xr-x	root/root	usr/share/wesnoth/data/core/
--rw-rw-r--	root/root	usr/share/wesnoth/data/core/README
 -rw-rw-r--	root/root	usr/share/wesnoth/data/core/_main.cfg
 -rw-rw-r--	root/root	usr/share/wesnoth/data/core/about.cfg
 drwxr-xr-x	root/root	usr/share/wesnoth/data/core/editor/
@@ -13289,10 +13284,8 @@ drwxr-xr-x	root/root	usr/share/wesnoth/data/themes/
 drwxr-xr-x	root/root	usr/share/wesnoth/data/tools/
 -rwxrwxr-x	root/root	usr/share/wesnoth/data/tools/GUI.pyw
 -rw-rw-r--	root/root	usr/share/wesnoth/data/tools/Makefile
--rw-rw-r--	root/root	usr/share/wesnoth/data/tools/README
 -rwxrwxr-x	root/root	usr/share/wesnoth/data/tools/about_cfg_to_wiki
 drwxr-xr-x	root/root	usr/share/wesnoth/data/tools/addon_manager/
--rw-rw-r--	root/root	usr/share/wesnoth/data/tools/addon_manager/COPYING.txt
 -rw-rw-r--	root/root	usr/share/wesnoth/data/tools/addon_manager/__init__.py
 -rw-rw-r--	root/root	usr/share/wesnoth/data/tools/addon_manager/asc.gif
 -rw-rw-r--	root/root	usr/share/wesnoth/data/tools/addon_manager/bg.gif
@@ -13318,7 +13311,6 @@ drwxr-xr-x	root/root	usr/share/wesnoth/data/tools/castle-cutter/
 -rwxrwxr-x	root/root	usr/share/wesnoth/data/tools/castle-cutter/mk-castle.sh
 drwxr-xr-x	root/root	usr/share/wesnoth/data/tools/emacs_mode/
 -rw-rw-r--	root/root	usr/share/wesnoth/data/tools/emacs_mode/Makefile
--rw-rw-r--	root/root	usr/share/wesnoth/data/tools/emacs_mode/README
 -rw-rw-r--	root/root	usr/share/wesnoth/data/tools/emacs_mode/wesnoth-mode.el
 -rw-rw-r--	root/root	usr/share/wesnoth/data/tools/emacs_mode/wesnoth-mode.texi
 -rw-rw-r--	root/root	usr/share/wesnoth/data/tools/emacs_mode/wesnoth-update.el
@@ -13355,7 +13347,6 @@ drwxr-xr-x	root/root	usr/share/wesnoth/data/tools/hexometer/
 -rwxrwxr-x	root/root	usr/share/wesnoth/data/tools/imgcheck
 -rwxrwxr-x	root/root	usr/share/wesnoth/data/tools/journeylifter
 drwxr-xr-x	root/root	usr/share/wesnoth/data/tools/rmtrans/
--rw-rw-r--	root/root	usr/share/wesnoth/data/tools/rmtrans/README
 -rwxrwxr-x	root/root	usr/share/wesnoth/data/tools/rmtrans/rmtrans.py
 -rwxrwxr-x	root/root	usr/share/wesnoth/data/tools/scoutDefault.py
 -rwxrwxr-x	root/root	usr/share/wesnoth/data/tools/terrain2wiki.py
@@ -13376,7 +13367,6 @@ drwxr-xr-x	root/root	usr/share/wesnoth/data/tools/vim/
 -rw-rw-r--	root/root	usr/share/wesnoth/data/tools/vim/wesml.vim
 -rw-rw-r--	root/root	usr/share/wesnoth/data/tools/vim/wmllua.vim
 drwxr-xr-x	root/root	usr/share/wesnoth/data/tools/wesnoth/
--rw-rw-r--	root/root	usr/share/wesnoth/data/tools/wesnoth/README
 -rw-rw-r--	root/root	usr/share/wesnoth/data/tools/wesnoth/__init__.py
 -rwxrwxr-x	root/root	usr/share/wesnoth/data/tools/wesnoth/campaignserver_client.py
 -rw-rw-r--	root/root	usr/share/wesnoth/data/tools/wesnoth/libgithub.py
@@ -13399,12 +13389,10 @@ drwxr-xr-x	root/root	usr/share/wesnoth/data/tools/wesnoth/
 -rwxrwxr-x	root/root	usr/share/wesnoth/data/tools/wmlvalidator
 drwxr-xr-x	root/root	usr/share/wesnoth/fonts/
 -rw-rw-r--	root/root	usr/share/wesnoth/fonts/Andagii.ttf
--rw-rw-r--	root/root	usr/share/wesnoth/fonts/COPYING
 -rw-rw-r--	root/root	usr/share/wesnoth/fonts/DejaVuSans.ttf
 -rw-rw-r--	root/root	usr/share/wesnoth/fonts/DroidSansFallbackFull.ttf
 -rw-rw-r--	root/root	usr/share/wesnoth/fonts/DroidSansJapanese.ttf
 drwxr-xr-x	root/root	usr/share/wesnoth/images/
--rw-rw-r--	root/root	usr/share/wesnoth/images/README
 drwxr-xr-x	root/root	usr/share/wesnoth/images/arrows/
 drwxr-xr-x	root/root	usr/share/wesnoth/images/arrows/focus/
 -rw-rw-r--	root/root	usr/share/wesnoth/images/arrows/focus/end-n.png
@@ -13858,7 +13846,6 @@ drwxr-xr-x	root/root	usr/share/wesnoth/images/cursors/
 -rw-rw-r--	root/root	usr/share/wesnoth/images/cursors/select.png
 -rw-rw-r--	root/root	usr/share/wesnoth/images/cursors/wait.png
 drwxr-xr-x	root/root	usr/share/wesnoth/images/dialogs/
--rw-rw-r--	root/root	usr/share/wesnoth/images/dialogs/README
 -rw-rw-r--	root/root	usr/share/wesnoth/images/dialogs/lite_opaque-background.png
 -rw-rw-r--	root/root	usr/share/wesnoth/images/dialogs/lite_opaque-border-botleft.png
 -rw-rw-r--	root/root	usr/share/wesnoth/images/dialogs/lite_opaque-border-botright.png
@@ -14959,7 +14946,6 @@ drwxr-xr-x	root/root	usr/share/wesnoth/images/whiteboard/
 -rw-rw-r--	root/root	usr/share/wesnoth/images/whiteboard/suppose_dead.png
 -rw-r--r--	root/root	usr/share/wesnoth/l10n-track
 drwxr-xr-x	root/root	usr/share/wesnoth/sounds/
--rw-rw-r--	root/root	usr/share/wesnoth/sounds/README
 -rw-rw-r--	root/root	usr/share/wesnoth/sounds/arrive.wav
 -rw-rw-r--	root/root	usr/share/wesnoth/sounds/bell.wav
 -rw-rw-r--	root/root	usr/share/wesnoth/sounds/button.wav
