@@ -12,10 +12,10 @@
         <pre>
         $ prt-get depinst gitolite
         </pre>
-        
-        <p>This setup is based on documentation from 
+
+        <p>This setup is based on documentation from
         <a href="https://wiki.archlinux.org/index.php/Gitolite">Arch Wiki</a>
-        </p> 
+        </p>
 
         <p>Mount Point;</p>
 
@@ -27,12 +27,12 @@
         <p>Create user;</p>
 
         <pre>
-        # useradd -U -d /srv/git gitolite 
+        # useradd -U -d /srv/git gitolite
         # passwd gitolite
         # chown gitolite:gitolite /srv/git
         </pre>
 
-        <p>Password is necessary so the user is not 
+        <p>Password is necessary so the user is not
         locked and can login via ssh. This password
         will not be used.</p>
 
@@ -58,12 +58,12 @@
         <pre>
         $ rm gitolite_rsa.pub
         $ exit
-        </pre>        
-        
+        </pre>
+
         <pre>
         $ ssh -v -i ~/.ssh/gitulite_rsa gitolite@localhost -p 2222
         </pre>
-        
+
 
         <h2 id="gtladm">Gitolite Administration</h2>
 
@@ -74,7 +74,7 @@
         <pre>
         $ git clone gitolite:gitolite-admin
         </pre>
-       
+
         <h4 id="gtladm-user">Users</h4>
 
         <p>Gitolite helps add and remove users from authorized_keys by
@@ -90,7 +90,7 @@
         </pre>
 
         <p>Add user;</p>
-        
+
         <pre>
         $ git rm keydir/bob.pub
         $ git commit -m "Removed bob public key"
@@ -136,7 +136,7 @@
 
         <h2 id="gtl-hooks">Hooks</h2>
 
-        <p>Example from 
+        <p>Example from
         <a href="http://gitolite.com/gitolite/cookbook.html#v3.6-variation-repo-specific-hooks">Cookbook</a>
         how to apply hooks only to certain repos:
         </p>
@@ -147,7 +147,7 @@
         LOCAL_CODE => "$rc{GL_ADMIN_BASE}/local",
         </pre>
 
-        <p>Uncomment the 'repo-specific-hooks' line in the rc file 
+        <p>Uncomment the 'repo-specific-hooks' line in the rc file
         or add it to the ENABLE list if it doesn't exist.</p>
 
         <pre>
@@ -161,8 +161,8 @@
         mkdir -p local/hooks/repo-specific
         </pre>
 
-        <p>Now add your hooks to that directory, but instead of using the 
-        git "standard" names (pre-receive, post-receive, post-update), 
+        <p>Now add your hooks to that directory, but instead of using the
+        git "standard" names (pre-receive, post-receive, post-update),
         you use descriptive names (e.g. "deploy", "RSS-post", etc).</p>
 
         <h3 id="gtl-deploy">Deploy Hook</h3>
@@ -170,7 +170,7 @@
         <p>This manual create two users; one gitolite that handle git
         central server and system www for web servers. To avoid permission
         problems this example use gitolite hooks and cron. By using cron
-        we have permission to use chown, this way files end up with right 
+        we have permission to use chown, this way files end up with right
         ownership and permissions.</p>
 
         <pre>
@@ -191,27 +191,27 @@
         fi
         </pre>
 
-        <p>Add them to the repos you want them to be active in, 
+        <p>Add them to the repos you want them to be active in,
         in your conf file. For example:</p>
 
         <pre>
         repo bar @baz
-            option hook.post-receive     =  cron-deploy 
+            option hook.post-receive     =  cron-deploy
         </pre>
- 
+
         <p>Add, commit, and push the admin repo.</p>
 
         <pre>
         $ sudo -u gitolite mkdir /srv/git/deploy
         $ sudo -u gitolite gitolite setup
         </pre>
-       
+
         <p>Create deploy script that cron will call
-        every minute will check inside 
-        /srv/git/deploy folder for projects that have 
+        every minute will check inside
+        /srv/git/deploy folder for projects that have
         been updated.</p>
 
-        <p>Create /etc/cron.d/deploy.sh</p>
+        <p>Create /user/share/gitolite/deploy.sh</p>
 
 
         <pre>
@@ -227,7 +227,7 @@
                 #echo "Deploy: invalid DP_FILE"
                 exit;
             fi
-            
+
             PROJECT=$(basename "$DP_FILE")
 
             GIT_DIR=`cat $DP_FILE`
@@ -255,12 +255,12 @@
             find $GIT_WORK_TREE -type d -print0 | xargs -0 chmod 775
 
             echo "Deploy: starting git checkout"
-          
+
             cd /srv/git
-            
+
             sudo -u gitolite git --git-dir=$GIT_DIR --work-tree=$GIT_WORK_TREE checkout -f master
 
-            cd $HOME   
+            cd $HOME
 
             echo "Deploy: fixing permissions"
 
@@ -281,9 +281,9 @@
         <pre>
         $ sudo usermod -G www gitolite
         </pre>
- 
+
         <p>Add cron job to call deploy script every minute;</p>
-        
+
         <pre>
         # crontab -e
         </pre>
@@ -293,7 +293,7 @@
         # /etc/crontab: crond(8) configuration
         #
 
-        * * * * * /etc/cron.d/deploy.sh 
+        * * * * * /usr/share/gitolite/deploy.sh
 
         @hourly   ID=sys.hourly   /usr/sbin/runjobs /etc/cron/hourly
         @daily    ID=sys.daily    /usr/sbin/runjobs /etc/cron/daily
