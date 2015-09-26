@@ -5,7 +5,7 @@
 
 name=wesnoth
 version=1.12.4
-release=1
+release=2
 source=(http://downloads.sourceforge.net/project/$name/$name-${version%.*}/$name-$version/$name-$version.tar.bz2)
 
 build() {
@@ -26,5 +26,20 @@ build() {
 	make DESTDIR=$PKG install
 
 	find $PKG -type d -exec chmod -c go-w {} +
+
 	rm -r $PKG/usr/share/doc
+        rm $PKG/usr/share/wesnoth/data/COPYING.txt
+        rm $PKG/usr/share/wesnoth/data/campaigns/Delfadors_Memoirs/TODO
+        rm $PKG/usr/share/wesnoth/data/campaigns/Delfadors_Memoirs/images/portraits/README
+        rm $PKG/usr/share/wesnoth/data/campaigns/Under_the_Burning_Suns/TODO
+        rm $PKG/usr/share/wesnoth/data/core/README
+        rm $PKG/usr/share/wesnoth/data/tools/README
+        rm $PKG/usr/share/wesnoth/data/tools/addon_manager/COPYING.txt
+        rm $PKG/usr/share/wesnoth/data/tools/emacs_mode/README
+        rm $PKG/usr/share/wesnoth/data/tools/rmtrans/README
+        rm $PKG/usr/share/wesnoth/data/tools/wesnoth/README
+        rm $PKG/usr/share/wesnoth/fonts/COPYING
+        rm $PKG/usr/share/wesnoth/images/README
+        rm $PKG/usr/share/wesnoth/images/dialogs/README
+        rm $PKG/usr/share/wesnoth/sounds/README
 }

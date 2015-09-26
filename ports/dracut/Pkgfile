@@ -5,7 +5,7 @@
 
 name=dracut
 version=043
-release=1
+release=2
 source=(https://www.kernel.org/pub/linux/utils/boot/$name/$name-$version.tar.xz)
 
 build() {
@@ -15,5 +15,8 @@ build() {
 
     make
     make DESTDIR=$PKG install
+    mv $PKG/usr/share/man $PKG/usr/
+    cd $PKG
+    find . -name "README" | xargs rm
 
 }

@@ -38,18 +38,18 @@ set crypt_verify_sig=yes
 source "~/.mutt/mail_alias"
 set alias_file=~/.mutt/mail_alias
 
-# Default Account Hook
-account-hook . 'unset pop_host; unset smtp_url; unset pop_user; unset pop_pass'
+## Default Account Hook
+#account-hook . 'unset pop_host; unset smtp_url; unset pop_user; unset pop_pass'
 
-# Local system account 
-folder-hook 'MailSystem' 'source ~/.mutt/system'
+## Local system account 
+#folder-hook 'MailSystem' 'source ~/.mutt/system'
 
-# Remote account
-folder-hook 'MailExt' 'source ~/.mutt/external'
+## Remote account
+#folder-hook 'MailExt' 'source ~/.mutt/external'
 
-# Default account 
-source "~/.mutt/external"
+## Default account 
+#source "~/.mutt/external"
 
 ## Shortcuts
-macro index,pager <f2> '<sync-mailbox><enter-command>source ~/.mutt/system<enter><change-folder>!<enter>'
-macro index,pager <f3> '<sync-mailbox><enter-command>source ~/.mutt/external<enter><change-folder>!<enter>'
+#macro index,pager <f2> '<sync-mailbox><enter-command>source ~/.mutt/system<enter><change-folder>!<enter>'
+#macro index,pager <f3> '<sync-mailbox><enter-command>source ~/.mutt/external<enter><change-folder>!<enter>'

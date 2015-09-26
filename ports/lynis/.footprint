@@ -61,7 +61,6 @@ drwxr-xr-x	root/root	usr/share/lynis/include/
 -rw-r--r--	root/root	usr/share/lynis/include/tests_virtualization
 -rw-r--r--	root/root	usr/share/lynis/include/tests_webservers
 drwxr-xr-x	root/root	usr/share/lynis/plugins/
--rw-r--r--	root/root	usr/share/lynis/plugins/README
 -rw-r--r--	root/root	usr/share/lynis/plugins/custom_plugin.template
 drwxr-xr-x	root/root	var/
 drwxr-xr-x	root/root	var/lib/

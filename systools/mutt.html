@@ -36,11 +36,14 @@
         $ tar --extract --file=/var/ports/distfiles/mutt-1.5.24.tar.gz \
         > mutt-1.5.24/contrib/gpg.rc
         $ sudo mv mutt-1.5.24/contrib/gpg.rc /etc/skel/.mutt/
+        $ sudo touch /etc/skel/.mutt/mail_alias
         </pre>
 
         <pre>
         $ sudo vim /etc/skel/.mutt/muttrc
         </pre>
+
+        <p>Change pgp_sign_as to 0xyour_pub_key;</p>
 
         <pre>
         set config_charset="utf-8"
@@ -102,13 +105,13 @@
 
         <pre>
         $ mutt
-        /home/user/Mail does not exist. Create it? ([yes]/no): yes
+        /home/admin/Mail does not exist. Create it? ([yes]/no): yes
         </pre>
 
         <p>After this I get the following error;</p>
 
         <pre>
-        /var/spool/mail/user: No such file or directory (errno = 2)
+        /var/spool/mail/admin: No such file or directory (errno = 2)
         </pre>
 
         <p>Press q or x and lets send email to root, this way we test
