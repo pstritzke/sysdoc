@@ -10,10 +10,13 @@ set sort_browser=reverse-date
 set sort_aux=reverse-last-date-received
 set duplicate_threads=yes
 
+set record="$HOME/Mail/sent"; set mbox="$HOME/Mail/mbox"; set postponed="$HOME/Mail/postponed"
+set folder="$HOME/Mail"; set record="+sent"; set mbox="+mbox"; set postponed="+postponed"
+
 source ~/.mutt/gpg.rc
 
 set pgp_autosign=yes
-set pgp_sign_as=0x29CA16D3
+#set pgp_sign_as=0x1D327CA1
 set pgp_replyencrypt=yes
 set pgp_timeout=1800
 
@@ -37,6 +40,8 @@ set crypt_verify_sig=yes
 
 source "~/.mutt/mail_alias"
 set alias_file=~/.mutt/mail_alias
+
+#set from="Bob <bob@box>"
 
 ## Default Account Hook
 #account-hook . 'unset pop_host; unset smtp_url; unset pop_user; unset pop_pass'
