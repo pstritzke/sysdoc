@@ -11,10 +11,9 @@ set spoolfile="~/MailExt"
 
 set folder="~/MailExt"
 set record="$HOME/Mail/sent";
-set mbox="$HOME/Mail/mbox";
 set postponed="$HOME/Mail/postponed"
-set folder="$HOME/Mail"; set record="+sent";
-set mbox="+mbox";
+set folder="$HOME/Mail";
+set record="+sent";
 set postponed="+postponed"
 
 set pop_user="bob@remote.org"
