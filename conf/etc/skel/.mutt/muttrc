@@ -46,9 +46,6 @@ set certificate_file =~/.mutt/certificates
 set timeout=60	#Check for mail every minute
 set mail_check=5
 
-## Default Account Hook
-account-hook . 'unset pop_host; unset smtp_url; unset pop_user; unset pop_pass'
-
 ## Local system account
 folder-hook 'Mail' 'source ~/.mutt/system'
 

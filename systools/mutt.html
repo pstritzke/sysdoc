@@ -81,8 +81,6 @@
         <p>Lets configure two accounts, one for system related emails and
         another for external email account;</p>
 
-        <p>Change pgp_sign_as to 0xyour_pub_key;</p>
-
         <pre>
         $ sudo vim /etc/skel/.mutt/muttrc
         </pre>
@@ -230,6 +228,13 @@
 
         <pre>
         $ mutt -s "test" bob@box &lt; /dev/null
+        </pre>
+
+        <p>If you need to manually create a folder;</p>
+
+        <pre>
+        $ mkdir -p ~/Mail/{cur,new,tmp}
+        $ mkdir -p ~/MaiExt/{cur,new,tmp}
         </pre>
 
         <h3>9.3.1. Tagging Email</h3>

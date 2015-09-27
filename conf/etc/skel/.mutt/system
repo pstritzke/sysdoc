@@ -4,6 +4,14 @@ set postponed="+postponed"
 set record="+sent"
 set use_from=yes
 set sendmail=/usr/sbin/exim
+set ssl_starttls=no
+set ssl_force_tls=no
+
+unset pop_user
+unset pop_pass
+unset pop_delete
+unset pop_host
+unset smtp_url
 
 set realname='Bob'
 set from=bob@box
