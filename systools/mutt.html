@@ -7,23 +7,58 @@
     <body>
         <h1 id="mutt">9. Mutt</h1>
 
-        <p>Mutt is a powerfull mail reader, 
+        <p>Mutt is a powerfull mail reader,
         <a href="http://www.mutt.org/doc/devel/manual.html">Mutt Manual</a>,
-        is the best place to find information. 
+        is the best place to find information.
         I recomend <a href="http://realprogrammers.com/jump_start/mutt/">Jump Start: Mutt</a>,
         name says it all.</p>
+
+        <h2 id="install">9.1. Install</h2>
 
         <pre>
         $ prt-get depinst mutt
         </pre>
 
-        <h2 id="conf">9.1. Configuration</h2>
+        <h2 id="popsmtp">9.1.2 POP and SMTP</h2>
+
+        <p>If you want to use built in SMTP create a copy off official opt/mutt
+        to enable SMTP and sasl. Alternative is to use external programs like msmtp.</p>
+
+        <p>Verify current configuration;</p>
+
+        <pre>
+        $ mutt -v | grep USE_SMTP
+        $ mutt -v | grep USE_SASL
+        </pre>
+
+        <pre>
+        $ prt-get cyrus-sasl
+        $ cp -R /usr/ports/opt/mutt .
+        $ cd mutt
+        $ vim Pkgfile
+        </pre>
+
+        <p>Uncomment the following line;</p>
+
+        <pre>
+        --enable-smtp --with-sasl
+        </pre>
+
+        <p>Build your personalized mutt;</p>
+
+        <pre>
+        $ pkgmk -um
+        $ sudo -H -u pkgmk fakeroot pkgmk -d
+        $ pkgadd -u /var/ports/packages/mutt#1.5.24-1.pkg.tar.gz
+        </pre>
+
+        <h2 id="conf">9.2. Configure</h2>
 
         <p>Read Justin R. Miller <a href="http://codesorcery.net/old/mutt/mutt-gnupg-howto">Mutt Gnupg Howto</a>
         "Everything You Need To Know To Start Using GnuPG with Mutt".</p>
 
         <p>Mutt will recognize two locations for its configuration file;
-        ~/.muttrc and ~/.mutt/muttrc. Skeleton configuration will use 
+        ~/.muttrc and ~/.mutt/muttrc. Skeleton configuration will use
         the second one.</p>
 
         <pre>
@@ -39,151 +74,18 @@
         $ sudo touch /etc/skel/.mutt/mail_alias
         </pre>
 
-        <pre>
-        $ sudo vim /etc/skel/.mutt/muttrc
-        </pre>
-
-        <p>Change pgp_sign_as to 0xyour_pub_key;</p>
-
-        <pre>
-        set config_charset="utf-8"
-        set charset="utf-8"
-        set send_charset="utf-8"
-        set editor="vim"
-        set sort=reverse-date-received
-
-        source ~/.mutt/gpg.rc
-
-        set pgp_autosign=yes
-        set pgp_sign_as=0x29CA16D3
-        set pgp_replyencrypt=yes
-        set pgp_timeout=1800
-
-        # automatically sign all outgoing messages
-        set crypt_autosign
-
-        # sign only replies to signed messages
-        set crypt_replysign
-
-        # automatically encrypt outgoing messages
-        set crypt_autoencrypt=yes
-
-        # encrypt only replies to signed messages
-        set crypt_replyencrypt=yes
-
-        # encrypt and sign replies to encrypted messages
-        set crypt_replysignencrypted=yes
-
-        # automatically verify the sign of a message when opened
-        set crypt_verify_sig=yes        
-        </pre>
-
-        <p>When listing messages the status flag mean;</p>
-
-        <ul>
-            <dt>s</dt>
-            <dd>if the message is signed and not yet verified</dd>
-            <dt>S</dt>
-            <dd>if the message is signed and the signature is successfully verified</dd>
-            <dt>P</dt>
-            <dd>if the message is PGP encrypted<dd>
-        </ul>
-
-        <h3 id="alias">9.1.1 Alias</h3>
-
-        <p><a href="http://dev.mutt.org/trac/wiki/MuttGuide/Aliases">Alias</a>
-        makes easy to manage email addresses. Add this to your muttrc;</p>
-
-        <pre>
-        source "~/.mutt/mail_alias"
-        set alias_file=~/.mutt/mail_alias
-        </pre>
-
-        <p>While on index or page press "a" to add address to alias file.</p>
-
-        <h2 id="localmail">9.2. Local Email</h2>
-
-        <pre>
-        $ mutt
-        /home/admin/Mail does not exist. Create it? ([yes]/no): yes
-        </pre>
-
-        <p>After this I get the following error;</p>
-
-        <pre>
-        /var/spool/mail/admin: No such file or directory (errno = 2)
-        </pre>
-
-        <p>Press q or x and lets send email to root, this way we test
-        if alias is working and exim create mail dir for us;</p>
-
-        <pre>
-        $ mutt -s "test" root@localhost &lt; /dev/null 
-        </pre>
-
-        <h3>9.2.1. Tagging Email</h3>
-
-        <p>Just press shift-T and then read 
-        <a href="http://www.mutt.org/doc/manual/manual-4.html#patterns">Patterns</a> 
-        . After matching desired messages press ; then the order, for example, d will
-        mark all taged for deletion.<p>
-
-        <h2 id="muttsmtp">9.3. POP and SMTP</h2>
-
-        <p>If you want to use built in SMTP create a copy off official opt/mutt
-        to enable SMTP and sasl. Alternative is to use external programs like msmtp.</p>
-
-        <pre>
-        $ prt-get cyrus-sasl 
-        $ cp -R /usr/ports/opt/mutt .
-        $ cd mutt
-        $ vim Pkgfile 
-        </pre>
-
-        <p>Uncomment the following line;</p>
-
-        <pre>
-        --enable-smtp --with-sasl 
-        </pre>
-
-        <p>Build your personalized mutt;</p>
-
-        <pre>
-        $ pkgmk -um
-        $ sudo -H -u pkgmk fakeroot pkgmk -d 
-        $ pkgadd -u /var/ports/packages/mutt#1.5.24-1.pkg.tar.gz
-        <pre>
-
-        <p>Configuration example of remote pop and smtp account; </p>
-
-        <pre>
-        set mbox_type=maildir
-        set folder="~/MailExt/"
-        set spoolfile=+/
-
-        set realname='User'
-        set from=user@remote.com
-        set use_from=yes
-
-        set ssl_starttls = yes
-
-        set pop_user="user@remote.com"
-        set pop_pass="password"
-        set pop_delete=yes
-
-        set pop_host="pops://$pop_user:$pop_pass@pop.remote.com:995"
-
-        set smtp_url="smtps://$pop_user:$pop_pass@smtp.remote.com/"
-        </pre>
-
-        <h2 id="multiple">9.4. Multiple Accounts</h2>
-
         <p>Multiple email accounts are gracefully handle by folder hooks,
         this hooks are defined in muttrc. When we change folder the
         hook is called, setting up the email account sepecific settings.<p>
 
-        <p>Lets configure two accounts, one for system related emails and 
+        <p>Lets configure two accounts, one for system related emails and
         another for external email account;</p>
+
+        <p>Change pgp_sign_as to 0xyour_pub_key;</p>
+
+        <pre>
+        $ sudo vim /etc/skel/.mutt/muttrc
+        </pre>
 
         <pre>
         set config_charset="utf-8"
@@ -201,7 +103,7 @@
         source ~/.mutt/gpg.rc
 
         set pgp_autosign=yes
-        set pgp_sign_as=0x29CA16D3
+        set pgp_sign_as=0x1D327CA1
         set pgp_replyencrypt=yes
         set pgp_timeout=1800
 
@@ -227,80 +129,128 @@
         set alias_file=~/.mutt/mail_alias
 
         # Header
-        set header_cache =~/.mutt/cache/headers  
-        set message_cachedir =~/.mutt/cache/bodies  
+        set header_cache =~/.mutt/cache/headers
+        set message_cachedir =~/.mutt/cache/bodies
         set certificate_file =~/.mutt/certificates
-
-        ignore *
-        unignore from: date subject to cc
-        unignore x-mailing-list: posted-to:
-        unignore x-mailer:
-
-        folder-hook . 'unset sendmail; \
-                unset pop_host; \
-                unset smtp_url; \
-                unset pop_user; \
-                unset from; \
-                unset pop_pass'
-
-        # Local system account 
-        folder-hook mail_system/* source ~/.mutt/system
-
-        # Remote account
-        folder-hook mail_external/* source ~/.mutt/external
-
-        # Default account 
-        source ~/.mutt/system
-
-        ## Shortcuts
-        macro index,pager <f2> '<sync-mailbox><enter-command>source ~/.mutt/system<enter><change-folder>!<enter>'
-        macro index,pager <f3> '<sync-mailbox><enter-command>source ~/.mutt/external<enter><change-folder>!<enter>'
 
         set timeout=60	#Check for mail every minute
         set mail_check=5
+
+        ## Default Account Hook
+        account-hook . 'unset pop_host; unset smtp_url; unset pop_user; unset pop_pass'
+
+        ## Local system account
+        folder-hook 'Mail' 'source ~/.mutt/system'
+
+        ## Remote account
+        folder-hook 'MailExt' 'source ~/.mutt/external'
+
+        ## Default account
+        source "~/.mutt/system"
+
+        ## Shortcuts
+        macro index,pager &lt;f2&gt; '&lt;sync-mailbox&gt;&lt;enter-command&gt;source ~/.mutt/system&lt;enter&gt;&lt;change-folder&gt;!&lt;enter&gt;'
+        macro index,pager f&lt;3&gt; '&lt;sync-mailbox&gt;&lt;enter-command&lt;&gt;source ~/.mutt/external&lt;enter&gt;&lt;change-folder&gt;!&lt;enter&gt;'
         </pre>
 
-        <p>Content of ~/.mutt/system;</p>
+        <p>Content of <a href="../conf/etc/skel/.mutt/system">.mutt/system</a>;</p>
 
         <pre>
         color status green default
         set mbox_type=maildir
-        set folder="~/mail_system"
         set postponed="+postponed"
         set record="+sent"
-
-        set spoolfile=/var/spool/mail/user
+        set use_from=yes
         set sendmail=/usr/sbin/exim
 
-        set realname='Local User'
-        set from=user@host.localhost
-        set use_from=yes
+        set realname='Bob'
+        set from=bob@box
+        set spoolfile=/var/spool/mail/bob
+
+        set folder="$HOME/Mail"
+        set record="$HOME/Mail/sent";
+        set mbox="$HOME/Mail/mbox";
+        set postponed="$HOME/Mail/postponed"
+        set folder="$HOME/Mail"; set record="+sent";
+        set mbox="+mbox";
+        set postponed="+postponed"
         </pre>
 
-        <p>Edit ~/.mutt/external and set with values of your server.</p>
+        <p>Edit <a href="../conf/etc/skel/.mutt/external">.mutt/external</a>;</p>
 
         <pre>
         color status blue default
         set mbox_type=maildir
-        set folder="~/mail_external"
         set postponed="+postponed"
         set record="+sent"
-
-        set spoolfile="~/mail_external"
-
-        set realname='Realhuman'
-        set from=realhuman@external.pt
         set use_from=yes
-
         set ssl_starttls=yes
 
-        set pop_user="realhuman@external.pt"
+        set realname='Mr Bob'
+        set from=bob@remote.org
+        set spoolfile="~/MailExt"
+
+        set folder="~/MailExt"
+        set record="$HOME/Mail/sent";
+        set postponed="$HOME/Mail/postponed"
+        set folder="$HOME/Mail"; set record="+sent";
+        set postponed="+postponed"
+
+        set pop_user="bob@remote.org"
         set pop_pass="password"
         set pop_delete=yes
-
-        set pop_host="pops://$pop_user:$pop_pass@pop.external.org:995"
-        set smtp_url="smtps://$pop_user:$pop_pass@smtp.external.org/"
         </pre>
 
+        <h2 id="localmail">9.3. Using Mutt</h2>
+
+        <p>When listing messages the status flag mean;</p>
+
+        <ul>
+            <dt>s</dt>
+            <dd>if the message is signed and not yet verified</dd>
+            <dt>S</dt>
+            <dd>if the message is signed and the signature is successfully verified</dd>
+            <dt>P</dt>
+            <dd>if the message is PGP encrypted<dd>
+        </ul>
+
+        <pre>
+        $ mutt
+        /home/admin/Mail does not exist. Create it? ([yes]/no): yes
+        </pre>
+
+        <p>If you get the following error;</p>
+
+        <pre>
+        /var/spool/mail/bob: No such file or directory (errno = 2)
+        </pre>
+
+        <p>Press q or x and lets send email to bob, this way we test
+        if alias is working and exim create mail dir for us;</p>
+
+        <pre>
+        $ mutt -s "test" bob@box &lt; /dev/null
+        </pre>
+
+        <h3>9.3.1. Tagging Email</h3>
+
+        <p>Just press shift-T and then read
+
+        <a href="http://www.mutt.org/doc/manual/manual-4.html#patterns">Patterns</a>
+        . After matching desired messages press ; then the order, for example, d will
+        mark all taged for deletion.<p>
+
+
+        <h3 id="alias">9.3.2 Alias</h3>
+
+        <p><a href="http://dev.mutt.org/trac/wiki/MuttGuide/Aliases">Alias</a>
+        makes easy to manage email addresses. Add this to your muttrc;</p>
+
+        <pre>
+        source "~/.mutt/mail_alias"
+        set alias_file=~/.mutt/mail_alias
+        </pre>
+
+        <p>While on index or page press "a" to add address to alias file.</p>
     </body>
 </html>

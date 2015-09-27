@@ -10,13 +10,10 @@ set sort_browser=reverse-date
 set sort_aux=reverse-last-date-received
 set duplicate_threads=yes
 
-set record="$HOME/Mail/sent"; set mbox="$HOME/Mail/mbox"; set postponed="$HOME/Mail/postponed"
-set folder="$HOME/Mail"; set record="+sent"; set mbox="+mbox"; set postponed="+postponed"
-
 source ~/.mutt/gpg.rc
 
 set pgp_autosign=yes
-#set pgp_sign_as=0x1D327CA1
+set pgp_sign_as=0x1D327CA1
 set pgp_replyencrypt=yes
 set pgp_timeout=1800
 
@@ -41,20 +38,26 @@ set crypt_verify_sig=yes
 source "~/.mutt/mail_alias"
 set alias_file=~/.mutt/mail_alias
 
-#set from="Bob <bob@box>"
+# Header
+set header_cache =~/.mutt/cache/headers
+set message_cachedir =~/.mutt/cache/bodies
+set certificate_file =~/.mutt/certificates
+
+set timeout=60	#Check for mail every minute
+set mail_check=5
 
 ## Default Account Hook
-#account-hook . 'unset pop_host; unset smtp_url; unset pop_user; unset pop_pass'
+account-hook . 'unset pop_host; unset smtp_url; unset pop_user; unset pop_pass'
 
-## Local system account 
-#folder-hook 'MailSystem' 'source ~/.mutt/system'
+## Local system account
+folder-hook 'Mail' 'source ~/.mutt/system'
 
 ## Remote account
-#folder-hook 'MailExt' 'source ~/.mutt/external'
+folder-hook 'MailExt' 'source ~/.mutt/external'
 
-## Default account 
-#source "~/.mutt/external"
+## Default account
+source "~/.mutt/system"
 
 ## Shortcuts
-#macro index,pager <f2> '<sync-mailbox><enter-command>source ~/.mutt/system<enter><change-folder>!<enter>'
-#macro index,pager <f3> '<sync-mailbox><enter-command>source ~/.mutt/external<enter><change-folder>!<enter>'
+macro index,pager <f2> '<sync-mailbox><enter-command>source ~/.mutt/system<enter><change-folder>!<enter>'
+macro index,pager <f3> '<sync-mailbox><enter-command>source ~/.mutt/external<enter><change-folder>!<enter>'

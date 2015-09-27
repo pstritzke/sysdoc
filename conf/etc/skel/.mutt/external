@@ -1,0 +1,25 @@
+color status blue default
+set mbox_type=maildir
+set postponed="+postponed"
+set record="+sent"
+set use_from=yes
+set ssl_starttls=yes
+
+set realname='Mr Bob'
+set from=bob@remote.org
+set spoolfile="~/MailExt"
+
+set folder="~/MailExt"
+set record="$HOME/Mail/sent";
+set mbox="$HOME/Mail/mbox";
+set postponed="$HOME/Mail/postponed"
+set folder="$HOME/Mail"; set record="+sent";
+set mbox="+mbox";
+set postponed="+postponed"
+
+set pop_user="bob@remote.org"
+set pop_pass="password"
+set pop_delete=yes
+
+set pop_host="pops://$pop_user:$pop_pass@pop.remote.org:995"
+set smtp_url="smtps://$pop_user:$pop_pass@smtp.remote.org/"

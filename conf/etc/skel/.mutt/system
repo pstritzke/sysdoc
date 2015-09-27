@@ -1,0 +1,18 @@
+color status green default
+set mbox_type=maildir
+set postponed="+postponed"
+set record="+sent"
+set use_from=yes
+set sendmail=/usr/sbin/exim
+
+set realname='Bob'
+set from=bob@box
+set spoolfile=/var/spool/mail/bob
+
+set folder="$HOME/Mail"
+set record="$HOME/Mail/sent";
+set mbox="$HOME/Mail/mbox";
+set postponed="$HOME/Mail/postponed"
+set folder="$HOME/Mail"; set record="+sent";
+set mbox="+mbox";
+set postponed="+postponed"
