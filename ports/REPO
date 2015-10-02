@@ -37,10 +37,10 @@ f:8d74440ab8a86fecad0827511889ac1c:git-ftp/.md5sum
 f:27c19fcd239b9694e85ac9c70a9098c9:git-ftp/Pkgfile
 f:47e45f22304e524359f10eaaeb9179c2:git-ftp/.footprint
 f:f26c76e8a418a765fd86a1fc1073cbf5:php-pdo-mysql/.md5sum
-f:068c61d219e4a21600b3542d6de77db4:php-pdo-mysql/Pkgfile
+f:24ac20e8f7a894424b7e52156ec9db00:php-pdo-mysql/Pkgfile
 f:149df1bf548e910fb9d57f82a0d4fc6f:php-pdo-mysql/.footprint
 f:f26c76e8a418a765fd86a1fc1073cbf5:php-pdo-pgsql/.md5sum
-f:3d77739c1ed409764771deb6b91d5692:php-pdo-pgsql/Pkgfile
+f:7d12f875c91c5d4daa2c1943a502cd00:php-pdo-pgsql/Pkgfile
 f:83e1f2683d0df95573ff895d635aaf5d:php-pdo-pgsql/.footprint
 f:8e5661170666a601dde5ea3f682f711b:composer/.md5sum
 f:a8d2987308dfb6022edb6fcf1e60abe9:composer/Pkgfile
