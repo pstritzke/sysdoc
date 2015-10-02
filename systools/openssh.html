@@ -7,12 +7,9 @@
     <body>
         <h1>15. OpenSSH</h1>
 
-
         <h2 id="sshd">15.1. Server</h2>
 
-        <p>Read OpenSSH server 
-        <a href="http://www.cyberciti.biz/tips/linux-unix-bsd-openssh-server-best-practices.html">Best Security Practices</a>,
-        on crux openssh port install this files to etc;</p>
+        <p>Crux openssh port install this files to etc;</p>
 
         <pre>
         $ pkginfo -l openssh
@@ -41,108 +38,94 @@
         $ man sshd
         </pre>
 
-        <h3 id="sshd_config">sshd config</h3>
+        <h3 id="sshdconf">15.2. Configure Server</h3>
 
-        <p>Since we are testing we will be only listening on
-        local interface, we will use 2222 port to avoid 
+        <p>Read OpenSSH server
+        <a href="http://www.cyberciti.biz/tips/linux-unix-bsd-openssh-server-best-practices.html">Best Security Practices</a>,
+        Since we are testing we will be only listening on
+        local interface, we will use 2222 port to avoid
         "default" port;</p>
 
         <pre>
+        #Port 22
         Port 2222
-        ListenAdress 127.0.0.1
-        #ListenAddress 192.168.1.65
-        #ListenAddress ::
-
-        # The default requires explicit activation of protocol 1
-        Protocol 2
         </pre>
+
+        <p>By default ssh will listen on all local addresses, to restrict
+        to a specific ip edit;</p>
+
+        <pre>
+        #AddressFamily any
+        AddressFamily inet
+        #ListenAddress 0.0.0.0
+        ListenAddress 192.168.1.117
+        #ListenAddress ::
+        </pre>
+
+        <p>Change SyslogFacility in accordance with <a href="syslog-ng.html#syslog-conf">syslog-ng configuration;</a></p>
 
         <pre>
         # Logging
         # obsoletes QuietMode and FascistLogging
-        SyslogFacility AUTH
-        LogLevel INFO
+        #SyslogFacility AUTH
+        SyslogFacility LOCAL1
+        #LogLevel INFO
+        LogLevel VERBOSE
+        </pre>
 
+        <p>Example rule for syslog-ng;</p>
+
+        <pre>
+        destination d_sshd { file("/var/log/sshd"); };
+        filter f_sshd { facility(local1); };
+        log { source(s_log); filter(f_sshd); destination(d_sshd); };
+        </pre>
+
+        <p>Deny login for root, limit max sessions to 3 if you have limited
+        resources and only allow 3 failed logins;</p>
+
+        <pre>
         # Authentication:
 
         #LoginGraceTime 2m
+        LoginGraceTime 1m
+        #PermitRootLogin prohibit-password
         PermitRootLogin no
-        StrictModes yes
+        #StrictModes yes
         #MaxAuthTries 6
+        MaxAuthTries 3
         #MaxSessions 10
+        MaxSessions 3
         </pre>
 
-        <p>Only defined AllowUsers can log in, AllowGroups defines only
-        members of listed groups can log in.</p>
+        <p>Restrict AllowUsers, AllowGroups that can login;</p>
 
         <pre>
-        #AllowUsers gitolite
-        AllowGroups sftponly gitolite
+        #RSAAuthentication yes
+        #PubkeyAuthentication yes
 
-        RSAAuthentication yes
-        PubkeyAuthentication yes
-
-        # The default is to check both .ssh/authorized_keys and .ssh/authorized_keys2
-        # but this is overridden so installations will only check .ssh/authorized_keys
-        AuthorizedKeysFile      .ssh/authorized_keys
+        AllowGroups admin users gitolite
         </pre>
 
-        <pre>
-        # For this to work you will also need host keys in /etc/ssh/ssh_known_hosts
-        #RhostsRSAAuthentication no
-        # similar for protocol version 2
-        HostbasedAuthentication no
-        # Change to yes if you don't trust ~/.ssh/known_hosts for
-        # RhostsRSAAuthentication and HostbasedAuthentication
-        #IgnoreUserKnownHosts no
-        # Don't read the user's ~/.rhosts and ~/.shosts files
-        IgnoreRhosts yes
+        <p>Disable interactive-keyboard and password login;</p>
 
+        <pre>
         # To disable tunneled clear text passwords, change to no here!
+        #PasswordAuthentication yes
         PasswordAuthentication no
-        PermitEmptyPasswords no
+        #PermitEmptyPasswords no
 
         # Change to no to disable s/key passwords
+        #ChallengeResponseAuthentication yes
         ChallengeResponseAuthentication no
         </pre>
 
+        <p>Set banner;</p>
+
         <pre>
-        LogLevel INFO
-
-        UsePAM no
-
-        #AllowAgentForwarding yes
-        AllowTcpForwarding no
-        #GatewayPorts no
-        X11Forwarding no
-        #X11DisplayOffset 10
-        #X11UseLocalhost yes
-        #PermitTTY yes
-        #PrintMotd yes
-        #PrintLastLog yes
-        #TCPKeepAlive yes
-        #UseLogin no
-        UsePrivilegeSeparation yes 
-        #PermitUserEnvironment no
-        #Compression delayed
-        ClientAliveInterval 300
-        ClientAliveCountMax 0
-        #UseDNS no
-
         # no default banner path
+        #Banner none
         Banner /etc/issue
-
-        # override default of no subsystems
-        Subsystem       sftp    /usr/lib/ssh/sftp-server
-        Match group sftponly
-                 ChrootDirectory /home/%u
-                 X11Forwarding no
-                 AllowTcpForwarding no
-                 ForceCommand internal-sftp
-        </pre>
-        
-        <pre>
-        # addgroup sftponly
         </pre>
 
         <p>Iptables;</p>
@@ -150,11 +133,9 @@
         <p>Example of <a href="../src/bash/iptables/iptables.sh">iptable script</a></p>
 
         <pre>
-        # Allow ssh
-        #$IPT -A INPUT -p tcp --destination-port 22 -j ACCEPT
-        $IPT -A INPUT  -i ${PUB_IF} -p tcp --dport 2222 -m state --state NEW -m limit --limit 3/min --limit-burst 3 -j ACCEPT
-        $IPT -A INPUT  -i ${PUB_IF} -p tcp --dport 2222 -m state --state ESTABLISHED -j ACCEPT
-        $IPT -A OUTPUT -o ${PUB_IF} -p tcp --sport 2222 -m state --state ESTABLISHED -j ACCEPT
+        $IPT -A INPUT  -i ${PUB_IF} -p tcp --dport 2222 --sport 1024:65535 -m state --state ESTABLISHED -j ACCEPT
+        $IPT -A INPUT  -i ${PUB_IF} -p tcp --dport 2222 --sport 1024:65535 -m state --state NEW -m limit --limit 3/min --limit-burst 3 -j ACCEPT
+        $IPT -A OUTPUT -o ${PUB_IF} -p tcp --sport 2222 --dport 1024:65535 -m state --state ESTABLISHED -j ACCEPT
         </pre>
 
         <p>TCP Wrappers</p>
@@ -163,57 +144,14 @@
         sshd : 192.168.1.2 172.16.23.12
         </pre>
 
-        <p>
-        <a href="http://www.cyberciti.biz/tips/ssh-public-key-based-authentication-how-to.html">RSA</a>
-        </p>
-
-        <h2 id="ssh">15.2. Client</h2>
-
-        <h3>Create user</h3>
-
-        <p>On server create user;</p>
+        <p>Start sshd server;</p>
 
         <pre>
-        # useradd -g  sftponly -d /home/bob -m -s /bin/false bob
-        # mkdir /home/bob/.ssh
+        # sh /etc/rc.d/sshd start
+        # ss -f inet -l -p | grep ssh
         </pre>
 
-        <p>Add to /root/.bashrc</p>
-
-        <pre>
-        genpasswd() {
-                local l=$1
-                [ "$l" == "" ]  &amp;&amp; l=20
-                tr -dc A-Za-z0-9_ &lt; /dev/urandom | head -c ${l} | xargs
-        }
-        </pre>
-
-        <pre>
-        # source ~/.bashrc
-        </pre>
-
-        <pre>
-        genpasswd 16
-        </pre>
-
-        <p>there is no -stdin option to genpasswd 16 | passwd --stdin bob;</p>
-
-        <pre>
-        # passwd bob
-        </pre>
-
-        <p>Add bob public key to authorized_keys;</p>
-
-        <pre>
-        # cat bob_rsa.pub &gt;&gt; /home/bob/.ssh/authorized_keys
-        </pre>
-
-        <pre>
-        # chown -R root:sftponly /home/bob
-        # chmod -R 750 /home/bob
-        </pre>
-
-        <h3>Client</h3>
+        <h2 id="ssh">15.3. Client</h2>
 
         <p>To create new key;</p>
 
@@ -224,67 +162,97 @@
         <p>By default this creates two files;</p>
 
         <pre>
-        ~/.ssh/id_rsa : identification (private) key
-        ~/.ssh/id_rsa.pub : public key
+        ~/.ssh/id_rsa       : identification (private) key
+        ~/.ssh/id_rsa.pub   : public key
         </pre>
 
-        <p>Send id_rsa.pub to server. If you
-        are on same host;</p>
+        <p>Default uses id_rsa and id_rsa.pub as output files in
+        this example we will create keys for gitolite admin so we
+        name output as  gitolte;</p>
 
         <pre>
-        # install -o user -g user ~/.ssh/id_rsa.pub /home/user/.ssh/user_rsa.pub
+        $ ssh-keygen -t rsa -f ~/.ssh/gitolite
         </pre>
-        
+
+        <p>Set correct permissions;</p>
+
         <pre>
-        $ sftp -P 2222 bob@remote.org
+        $ chmod 700  ~/.ssh
+        $ touch ~/.ssh/authorized_keys
+        $ chmod 600 ~/.ssh/authorized_keys
         </pre>
-        
-        <p>
-        <a href="http://www.cyberciti.biz/faq/ssh-password-less-login-with-dsa-publickey-authentication/">DSA</a>
-        </p>
-        
-        <h3 id="ssh_config">SSH config</h3>
+
+        <h3 id="sshpubkey">15.2.1. Install Public Keys</h3>
+
+        <p>Send id_rsa.pub to server. In this example bob is on same host,
+        first copy is public key to admin home directory;</p>
+
+        <pre>
+        # install -o admin -g admin /home/bob/.ssh/id_rsa.pub /home/admin/.ssh/bob_rsa.pub
+        </pre>
+
+        <p>Now admin can add bob public key to authorized keys;</p>
+
+        <pre>
+        $ cat bob_rsa.pub &gt;&gt; ~/.ssh/authorized_keys
+        </pre>
+
+        <pre>
+        $ ssh -P 2222 bob@remote.org
+        </pre>
+
+        <h3 id="sshconfig">15.2.2. SSH config</h3>
 
         <p>When you have multiple accounts/identities you
-        can configure ssh client so you dont need to give 
+        can configure ssh client so you dont need to give
         -i flag. Create or edit ~/.ssh/config</p>
 
         <pre>
-        Host local
-                HostName localhost
-                IdentityFile ~/.ssh/id_rsa
-                Port 2222
-                User user
+        Host admin
+            Hostname box.suroot.com
+            IdentityFile ~/.ssh/id_rsa
+            Port 2222
+            User admin
+
         Host gitolite
-                HostName git.remote.org
-                IdentityFile ~/.ssh/gitolite_rsa 
-                User void
+            Hostname box.suroot.com
+            IdentityFile ~/.ssh/gitolite
+            Port 2222
+            User gitolite
+
+        Host box
+            Hostname box.suroot.com
+            IdentityFile ~/.ssh/id_rsa
+            Port 2222
+            User bob
+
+        Host git
+            Hostname box.suroot.com
+            IdentityFile ~/.ssh/id_rsa
+            Port 2222
+            User gitolite
         </pre>
 
         <p>Now you can just type;</p>
 
         <pre>
-        $ ssh local
+        $ ssh box
         </pre>
-       
-        <pre>
-        $ sftp local
-        </pre>
-        
+
         <h2 id="reverse">15.3. Reverse connection</h2>
-        
-        <p>This information is inspired by 
+
+        <p>This information is inspired by
         <a href="http://www.vdomck.org/2005/11/reversing-ssh-connection.html">Reverse SSH connections</a>
         and implement the update from <a href="http://www.vdomck.org/2009/11/ssh-all-time.html">SSH all the time</a>,
 
         <p>Simple way, run this command on the machine you want to
         access (server);</p>
-        
+
         <pre>
         $ ssh -f -N -R 2222:localhost:22 user@laptop
         </pre>
 
-        <p>This creates a connection from server to client, client will listen 
+        <p>This creates a connection from server to client, client will listen
         on 2222 port and forward requests to the server as they are on localhost
         on port 22.</p>
 

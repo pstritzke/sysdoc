@@ -14,7 +14,7 @@
         # /etc/hosts.allow
         #
 
-        # <service>: <ip>
+        # &lt;service&gt;: &lt;ip&gt;
         exim: 127.0.0.1
 
         # End of file
@@ -98,17 +98,22 @@
         <a href="http://www-uxsup.csx.cam.ac.uk/~fanf2/hermes/conf/exim/etc/etc.cam/configure">configuration reference</a>.
         </p>
 
+        <p>File /etc/exim/alias rewrite addresses when receiving,
+        return_path and headers_rewrite rewrite addresses in header
+        (envelop) while main rewrite apply rewriting to all.</p>
 
         <p>Test sender rewriting;</p>
 
         <pre>
         # exim -brw bob@box
+        # exim -brw bob@remote.com
         </pre>
 
         <p>Test routing;</p>
 
         <pre>
         # exim -bt bob@box
+        # exim -bt bob@remote.com
         </pre>
 
         <h2 id="fetchmail">8.3. Fetchmail</h2>

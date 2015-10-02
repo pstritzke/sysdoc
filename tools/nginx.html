@@ -12,16 +12,18 @@
         <pre>
         $ prt-get depinst nginx php php-fpm php-gd php-postgresql
         </pre>
-   
+
+        <h2 id="conf">Configure</h2>
+
         <p>Allow minimal privileges via mount options, view /etc/fstab;</p>
 
         <pre>
         UID=xxxxx-xxx-xxx-xxx-xxxxxxxx	/srv/www		ext4 defaults,nosuid,noexec,nodev,noatime	1 2
         </pre>
 
-        <p>Number of worker_processes must be equal or less than the number of 
+        <p>Number of worker_processes must be equal or less than the number of
         available cpu cores</p>
-        
+
         <pre>
         $ nproc
         </pre>
@@ -33,7 +35,7 @@
         $ nlimit -n
         1024
         </pre>
-        <p><a href="http://wiki.nginx.org/Pitfalls">READ NGINX PITFALLS</a>, for more information 
+        <p><a href="http://wiki.nginx.org/Pitfalls">READ NGINX PITFALLS</a>, for more information
         about optimization <a href="https://www.digitalocean.com/community/tutorials/how-to-optimize-nginx-configuration">digitalocean</a></p>
         <pre>
         #
@@ -69,9 +71,18 @@
                 include /etc/nginx/conf.d/*.conf;
         }
 
-        # End of file  
+        # End of file
         </pre>
-        
+
+        <h2 id="logs">Logs</h2>
+
+        <pre>
+        # grep "login" /var/log/nginx/access.log
+        # grep "etc/passwd" /var/log/nginx/access.log
+        # egrep -i "denied|error|warn" /var/log/nginx/error.log
+        </pre>
+
+
         <h2>User Directory</h2>
 
         <p><a href="http://wiki.nginx.org/UserDir">Nginx Wiki UserDir</a></p>
@@ -124,7 +135,7 @@
 
         <p>Example of simple server block with ssl configured;</p>
 
-        <pre> 
+        <pre>
         server {
                 listen 443;
                 server_name host.localhost;
@@ -134,7 +145,7 @@
 
                 ssl on;
                 ssl_certificate /etc/nginx/ssl/server.crt;
-                ssl_certificate_key /etc/nginx/ssl/server.key; 
+                ssl_certificate_key /etc/nginx/ssl/server.key;
         }
         </pre>
 
@@ -165,55 +176,55 @@
                 ssl_certificate_key /etc/nginx/ssl/dev.box.key;
 
                 root /srv/www/drupal; ## &lt;-- Your only path reference.
-         
+
                 # Enable compression, this will help if you have for instance advagg¿? module
                 # by serving Gzip versions of the files.
-                gzip_static on; 
+                gzip_static on;
 
                 location = /favicon.ico {
                         log_not_found off;
                         access_log off;
                 }
-         
+
                 location = /robots.txt {
                         allow all;
                         log_not_found off;
                         access_log off;
                 }
-         
+
                 # This matters if you use drush prior to 5.x
                 # After 5.x backups are stored outside the Drupal install.
                 #location = /backup {
                 #        deny all;
                 #}
-         
+
                 # Very rarely should these ever be accessed outside of your lan
                 location ~* \.(txt|log)$ {
                         allow 192.168.0.0/16;
                         deny all;
                 }
-         
+
                 location ~ \..*/.*\.php$ {
                         return 403;
                 }
-         
+
                 # No no for private
                 location ~ ^/sites/.*/private/ {
                         return 403;
                 }
-         
+
                 # Block access to "hidden" files and directories whose names begin with a
                 # period. This includes directories used by version control systems such
                 # as Subversion or Git to store control files.
                 location ~ (^|/)\. {
                         return 403;
                 }
-         
+
                 location / {
                         # This is cool because no php is touched for static content
                         try_files $uri @rewrite;
                 }
-         
+
                 location @rewrite {
                         # You have 2 options here
                         # For D7 and above:
@@ -224,7 +235,7 @@
                         # Else this rewrite block wouldn't be needed (GlobalRedirect)
                         #rewrite ^/(.*)$ /index.php?q=$1;
                 }
-         
+
                 location ~ \.php$ {
                         fastcgi_split_path_info ^(.+\.php)(/.+)$;
                         #NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
@@ -234,7 +245,7 @@
                         #fastcgi_pass unix:/tmp/phpfpm.sock;
                         fastcgi_pass 127.0.1.1:9000;
                 }
-         
+
                 # Fighting with Styles? This little gem is amazing.
                 # This is for D6
                 #location ~ ^/sites/.*/files/imagecache/ {
@@ -242,13 +253,13 @@
                 location ~ ^/sites/.*/files/styles/ {
                         try_files $uri @rewrite;
                 }
-         
+
                 location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
                         expires max;
                         log_not_found off;
                 }
 
-        }        
+        }
         </pre>
 
     </body>

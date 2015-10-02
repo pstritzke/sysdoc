@@ -10,7 +10,7 @@
         <p>Install gnupg;</p>
 
         <pre>
-        $ sudo prt-get depinst gnupg 
+        $ sudo prt-get depinst gnupg
         </pre>
 
         <p>Create a skeleton configuration to be copied by useradd to
@@ -73,11 +73,11 @@
 
         GnuPG needs to construct a user ID to identify your key.
 
-        Real name: User Name 
-        Email address: user@host.org
+        Real name: Admin
+        Email address: admin@box
         Comment: user at host
         You selected this USER-ID:
-            "User Name (user at host) &lt;user@host.org&gt;"
+            "Admin (admin at box) &lt;admin@box&gt;"
 
         Change (N)ame, (C)omment, (E)mail or (O)kay/(Q)uit? O
         You need a Passphrase to protect your secret key.
@@ -96,6 +96,26 @@
         .gnupg/secring.gpg
         .gnupg/trustdb.gp
         </pre>
+
+        <p>List keys;</p>
+
+        <pre>
+        $ gpg --list-keys
+        /home/bob/.gnupg/pubring.gpg
+        --------------------------------
+        pub   4096R/56063381 2015-09-24 [expires: 2016-09-23]
+        uid       [ultimate] Admin (admin at box) &lt;admin@box&gt;
+        sub   4096R/1D327CA1 2015-09-24 [expires: 2016-09-23]
+
+        $
+        </pre>
+
+        <p>In this case pub key ID is; 56063381, add to .bashrc;</p>
+
+        <pre>
+        export GPGKEY=56063381
+        </pre>
+
 
         <h3>DSA</h3>
 
@@ -120,7 +140,7 @@
         </dl>
 
         <h2 id="gpg-ei">7.2. Export and import public keys</h2>
-        
+
         <p>Public keys can be exported in binary format
         or ASCII-armored format.</p>
 
@@ -131,7 +151,7 @@
         <pre>
         $ gpg --list-keys
         </pre>
-        
+
         <pre>
         $ gpg --output user.gpg --export user@localhost
         </pre>
@@ -159,14 +179,14 @@
         </pre>
 
         <h2 id="gpg-crypt">7.3. Encrypt and decrypt</h2>
-        
+
         <pre>
         $ gpg --output index.html.gpg --encrypt --recipient bob@localhost index.html
         </pre>
 
-        <p>To be abble to decrypt the document we need to include public key 
+        <p>To be abble to decrypt the document we need to include public key
         in the recipient list;</p>
-        
+
         <pre>
         $ gpg --output index.html.gpg --encrypt \
         --recipient user@localhost \
@@ -216,7 +236,7 @@
         <pre>
         $ gpg --output index.html --decrypt index.html.gpg
         </pre>
-        
+
         <p>You should see this message on the output;</p>
 
         <pre>
@@ -235,7 +255,7 @@
         <pre>
         $ gpg --verify index.html.sig
         </pre>
-         
+
         <h2 id="gpg-email">Edit email of key</h2>
 
         <pre>
@@ -253,7 +273,7 @@
         </pre>
 
         <p>This is part of the SysDoc Manual.
-        Copyright (C) 2015 
+        Copyright (C) 2015
         Silvino Silva.
         See the file <a href="fdl-1.3-standalone.html">Gnu Free Documentation License</a>
         for copying conditions.</p>

@@ -1,7 +1,6 @@
-nameserver 192.168.1.254
-nameserver 192.168.1.1
-nameserver 192.168.10.1
-nameserver 192.168.10.254
-nameserver 192.168.0.1
-nameserver 192.168.0.254
-nameserver 8.8.8.8
+# OpenNIC  (MD, ES)
+nameserver 185.16.40.143
+# OpenNIC  (MD, ES)
+nameserver 87.216.170.85
+# OpenNIC (BCN, ES)
+nameserver 109.69.8.34

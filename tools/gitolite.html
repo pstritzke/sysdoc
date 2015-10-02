@@ -36,16 +36,16 @@
         locked and can login via ssh. This password
         will not be used.</p>
 
-        <p>You need to copy a public key, read <a href="openssh.html#ssh">ssh</a>
+        <p>You need to copy a public key, read <a href="../systools/openssh.html#ssh">ssh</a>
         how to create one.</p>
 
         <pre>
-        # install -o gitolite -g gitolite ~/.ssh/gitolite_rsa.pub /srv/git/gitolite_rsa.pub
+        # install -o gitolite -g gitolite /home/bob/.ssh/gitolite.pub /srv/git/gitolite.pub
         </pre>
 
         <pre>
         # su - gitolite
-        $ gitolite setup -pk gitolite_rsa.pub
+        $ gitolite setup -pk gitolite.pub
         Initialized empty Git repository in /srv/git/repositories/gitolite-admin.git/
         Initialized empty Git repository in /srv/git/repositories/testing.git/
         WARNING: /srv/git/.ssh missing; creating a new one
@@ -56,7 +56,7 @@
         </pre>
 
         <pre>
-        $ rm gitolite_rsa.pub
+        $ rm gitolite.pub
         $ exit
         </pre>
 
@@ -75,7 +75,28 @@
         $ git clone gitolite:gitolite-admin
         </pre>
 
-        <h4 id="gtladm-user">Users</h4>
+        <h3 id="gtladm-keys">Recover Admin Account</h3>
+
+        <p>First copy the key to remote server, in this example key is on
+        same server;</p>
+
+        <pre>
+        # install -o gitolite -g gitolite /home/bob/.ssh/gitolite.pub /srv/git/gitolite.pub
+        </pre>
+
+        <p>Update gitolite key with new key;</p>
+
+        <pre>
+        # su - gitolite
+        $ gitolite setup -pk gitolite.pub
+        </pre>
+
+        <pre>
+        $ rm gitolite.pub
+        $ exit
+        </pre>
+
+        <h3 id="gtladm-user">Users</h3>
 
         <p>Gitolite helps add and remove users from authorized_keys by
         allowing add or remove keys from keydir directory in clone.</p>
@@ -173,6 +194,8 @@
         we have permission to use chown, this way files end up with right
         ownership and permissions.</p>
 
+        <p>Create gitolite-admin/local/hooks/repo-specific/cron-deploy</p>
+
         <pre>
         #!/bin/bash
 
@@ -199,27 +222,31 @@
             option hook.post-receive     =  cron-deploy
         </pre>
 
-        <p>Add, commit, and push the admin repo.</p>
+        <p>Add, commit, and push the admin repo;</p>
 
         <pre>
-        $ sudo -u gitolite mkdir /srv/git/deploy
+        $ git add -u && git commit -m "deploy hook"
         $ sudo -u gitolite gitolite setup
         </pre>
 
         <p>Create deploy script that cron will call
-        every minute will check inside
+        every minute, this script will check inside
         /srv/git/deploy folder for projects that have
         been updated.</p>
 
-        <p>Create /user/share/gitolite/deploy.sh</p>
+        <p>Create /usr/share/gitolite/deploy.sh</p>
 
+        <pre>
+        $ vim /usr/share/gitolite/deploy.sh
+        </pre>
 
         <pre>
         #!/bin/sh
 
         WWW_DIR=/srv/www/
+        GIT_DP=/srv/git/deploy
 
-        for DP_FILE in /srv/git/deploy/*
+        for DP_FILE in $GIT_DP/*
         do
 
             if [ ! -f "$DP_FILE" ]; then
@@ -274,7 +301,7 @@
             # Done with project
             rm $DP_FILE
         done
-       <pre>
+       </pre>
 
         <p>Add gitolite to www group;</p>
 
@@ -293,7 +320,10 @@
         # /etc/crontab: crond(8) configuration
         #
 
+        # this way it will log
         * * * * * /usr/share/gitolite/deploy.sh
+        # without log
+        * * * * * /usr/share/getilite/deploy.sh > /dev/null 2>&1
 
         @hourly   ID=sys.hourly   /usr/sbin/runjobs /etc/cron/hourly
         @daily    ID=sys.daily    /usr/sbin/runjobs /etc/cron/daily
