@@ -7,7 +7,6 @@
     <body>
         <h1>15. OpenSSH</h1>
 
-
         <h2 id="sshd">15.1. Server</h2>
 
         <p>Crux openssh port install this files to etc;</p>
@@ -183,7 +182,7 @@
         $ chmod 600 ~/.ssh/authorized_keys
         </pre>
 
-        <h3 id="sshpubkey">15.2.1 Install Public Keys</h3>
+        <h3 id="sshpubkey">15.2.1. Install Public Keys</h3>
 
         <p>Send id_rsa.pub to server. In this example bob is on same host,
         first copy is public key to admin home directory;</p>
@@ -202,33 +201,42 @@
         $ ssh -P 2222 bob@remote.org
         </pre>
 
-        <h3 id="sshconfig">15.2.2 SSH config</h3>
+        <h3 id="sshconfig">15.2.2. SSH config</h3>
 
         <p>When you have multiple accounts/identities you
         can configure ssh client so you dont need to give
         -i flag. Create or edit ~/.ssh/config</p>
 
         <pre>
-        Host local
-                HostName localhost
-                IdentityFile ~/.ssh/id_rsa
-                Port 2222
-                User user
+        Host admin
+            Hostname box.suroot.com
+            IdentityFile ~/.ssh/id_rsa
+            Port 2222
+            User admin
 
         Host gitolite
-                HostName git.remote.org
-                IdentityFile ~/.ssh/gitolite_rsa
-                User void
+            Hostname box.suroot.com
+            IdentityFile ~/.ssh/gitolite
+            Port 2222
+            User gitolite
+
+        Host box
+            Hostname box.suroot.com
+            IdentityFile ~/.ssh/id_rsa
+            Port 2222
+            User bob
+
+        Host git
+            Hostname box.suroot.com
+            IdentityFile ~/.ssh/id_rsa
+            Port 2222
+            User gitolite
         </pre>
 
         <p>Now you can just type;</p>
 
         <pre>
-        $ ssh local
-        </pre>
-
-        <pre>
-        $ sftp local
+        $ ssh box
         </pre>
 
         <h2 id="reverse">15.3. Reverse connection</h2>
