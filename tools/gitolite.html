@@ -155,14 +155,15 @@
         $ git push
         </pre>
 
-        <h2 id="gtl-hooks">Hooks</h2>
+        <h2 id="gtlhooks">Hooks</h2>
 
         <p>Example from
         <a href="http://gitolite.com/gitolite/cookbook.html#v3.6-variation-repo-specific-hooks">Cookbook</a>
         how to apply hooks only to certain repos:
         </p>
 
-        <p>Uncomment or add this line on /srv/git/.gitolite.rc, within the %RC block;</p>
+        <p>Uncomment or add this line on 
+        /srv/git/.gitolite.rc, within the %RC block;</p>
 
         <pre>
         LOCAL_CODE => "$rc{GL_ADMIN_BASE}/local",
@@ -199,7 +200,8 @@
         we have permission to use chown, this way files end up with right
         ownership and permissions.</p>
 
-        <p>Create gitolite-admin/local/hooks/repo-specific/cron-deploy</p>
+        <p>Create <a href="../conf/srv/git/deployweb">deployweb</a> 
+        in gitolite-admin/local/hooks/repo-specific;</p>
 
         <pre>
         #!/bin/bash
@@ -224,7 +226,7 @@
 
         <pre>
         repo bar @baz
-            option hook.post-receive     =  cron-deploy
+            option hook.post-receive     =  deployweb
         </pre>
 
         <p>Add, commit, and push the admin repo;</p>
@@ -239,7 +241,8 @@
         /srv/git/deploy folder for projects that have
         been updated.</p>
 
-        <p>Create /usr/share/gitolite/deploy.sh</p>
+        <p>Create <a href="../conf/srv/git/deploy.sh">deploy.sh</a> in
+        /usr/share/gitolite;</p>
 
         <pre>
         $ vim /usr/share/gitolite/deploy.sh
