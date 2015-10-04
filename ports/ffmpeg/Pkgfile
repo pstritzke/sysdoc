@@ -1,18 +1,19 @@
 # Description: Complete solution to record, convert and stream audio and video.
 # URL: http://ffmpeg.org/
-# Maintainer: Silvino, silvino at bk dot ru
+# Maintainer: Silvino Silva, silvino at bk dot ru
+# Packager: Matt Housh, jaeger at crux dot nu
 # Depends on: gnutls lame libass libbluray libgmp libmodplug libsdl libtheora libva libvpx libxvid opencore-amr openjpeg opus rtmpdump schroedinger speex x264 x265
 
 name=ffmpeg
-version=2.7.2
-release=2
+version=2.8
+release=1
 source=(http://ffmpeg.org/releases/$name-$version.tar.bz2)
 
 build() {
 	cd $name-$version
 
-     export TMPDIR=$SRC/tmp
-     mkdir $TMPDIR
+        export TMPDIR=$SRC/tmp
+        mkdir $TMPDIR
 
 	./configure \
 		--prefix=/usr \
@@ -52,6 +53,7 @@ build() {
 		--enable-vdpau \
 		--enable-version3 \
 		--enable-x11grab
+
 
 	[ "$CC" ] || CC=gcc
 	make CC="$CC" SHARED_PP='yes' $MAKEFLAGS
