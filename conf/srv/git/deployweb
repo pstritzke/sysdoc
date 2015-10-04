@@ -1,0 +1,22 @@
+#!/bin/bash
+
+######################################################################
+#
+# Put this file in your gitolite-admin;
+# /home/user/gitolite-admin/local/hooks/repo-specific/deployweb
+#
+
+
+BRANCH=$(git rev-parse --symbolic --abbrev-ref $1)
+
+echo "Commit was for branch $BRANCH"
+if [[ "$BRANCH" == "master" ]];then
+    echo "Preparing to deploy"
+
+    # Get project name from current directory (without .git)
+
+    PROJECT=$(basename "$PWD")
+    PROJECT=${PROJECT%.git}
+
+    echo $PWD > /srv/git/deploy/$PROJECT
+fi
