@@ -50,13 +50,13 @@ f:0eb6c17914cebbac315d37d893d0ccc6:linux-libre/.md5sum
 f:aafdf303779334584c66345dd29696c0:linux-libre/post-install
 f:2eb75f769e4046759e80ce641533a07a:linux-libre/Pkgfile
 f:f4466a3c718bc98ef033adbc9b3725a9:linux-libre/.footprint
-f:b8a5c9262d3d729c6b23c416180fc731:faircoin-qt/.md5sum
+f:9135377b8d13196ae74d159e8cec6895:faircoin-qt/.md5sum
 f:f8a521978524bbb42450e9cb86ec979a:faircoin-qt/Pkgfile
 f:07bb33161c38fa12eba2fb80ea255013:faircoin-qt/.footprint
 f:ece3767154be55e99a49b4dcf0517bf0:wesnoth/.md5sum
 f:b83a2d597a23737a692402cf926c7c0e:wesnoth/README
-f:6c012fddb38510d55150b97eaa32b90e:wesnoth/Pkgfile
-f:d28f808202335e308ab1462f09f041e9:wesnoth/.footprint
+f:dce62f147c35789722bf2e8245d20d35:wesnoth/Pkgfile
+f:348b5b5ddc5d9d22ea9c321e5608608e:wesnoth/.footprint
 f:bfda4184c684ea6dbb88ce8a0f7a1905:fail2ban/.md5sum
 f:82381bca13a9874c9f8d8482ba68ad67:fail2ban/README
 f:a19f71b987381469e01ebacc87069f17:fail2ban/fail2ban.rc
@@ -73,8 +73,8 @@ f:b003c06a30a19ddd2ae1f1c9ca516063:tor/pre-install
 f:963bbbf7dc0902a2310bc12966ab1b11:tor/Pkgfile
 f:7c7044055ada4eb8e65513763401739b:tor/tor.rc
 f:56199dd54411c15f848a02a897987473:tor/.footprint
-f:b080384fdbe8b19140e0453e3e8a4c38:ffmpeg/.md5sum
-f:d99f86ce9520c3fbfec6857f413d6126:ffmpeg/Pkgfile
+f:5a5c9b59411ca7fb0beb0827c6f05b25:ffmpeg/.md5sum
+f:3c2b8671b29a4ba9cfc69d9fdc3251fb:ffmpeg/Pkgfile
 f:96645c1b0f3ec14d7563e592108be5d3:ffmpeg/.footprint
 f:e1b213ac92b74b2a3fee5208cf0fe7a3:sysbench/.md5sum
 f:c9d7aa7d0ed42f90e48cb75cc74f9ed0:sysbench/Pkgfile

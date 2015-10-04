@@ -13,6 +13,7 @@ drwxr-xr-x	root/root	usr/share/pixmaps/
 -rw-r--r--	root/root	usr/share/pixmaps/wesnoth_editor-icon.png
 drwxr-xr-x	root/root	usr/share/wesnoth/
 drwxr-xr-x	root/root	usr/share/wesnoth/data/
+-rw-rw-r--	root/root	usr/share/wesnoth/data/COPYING.txt
 -rw-rw-r--	root/root	usr/share/wesnoth/data/_main.cfg
 -rw-rw-r--	root/root	usr/share/wesnoth/data/advanced_preferences.cfg
 drwxr-xr-x	root/root	usr/share/wesnoth/data/ai/
