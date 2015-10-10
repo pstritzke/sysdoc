@@ -1,0 +1,45 @@
+# Description: Shorewall is a gateway/firewall configuration tool for GNU/Linux.
+# URL:         http://www.shorewall.net
+# Maintainer:  Silvino Silva, silvino at bk dot ru
+# Packager:    Kristian Lehmann, email at zero-io dot net
+# Depends on:
+
+name=shorewall
+version=4.6.13
+release=1
+http://shorewall.de/pub/shorewall/4.6/shorewall-4.6.13/shorewall-core-4.6.13.tgz
+source=(http://shorewall.de/pub/shorewall/4.6/shorewall-${version}/shorewall-core-${version}.tgz
+http://shorewall.de/pub/shorewall/4.6/shorewall-${version}/shorewall-${version}.tgz
+http://shorewall.de/pub/shorewall/4.6/shorewall-${version}/shorewall6-${version}.tgz)
+
+build() {
+  # core modules
+  cd $SRC/shorewall-core-${version}
+  ./configure --prefix=/usr \
+    --mandir=/usr/man \
+    --sbindir=/usr/sbin \
+    --systemd=""
+  DESTDIR=$PKG sh install.sh
+
+  # ipv4
+  cd $SRC/$name-${version}
+  ./configure --prefix=/usr \
+    --mandir=/usr/man \
+    --sbindir=/usr/sbin \
+    --initdir=/etc/rc.d/ \
+    --initsource=init.sh \
+    --initfile=shorewall \
+    --systemd=""
+  DESTDIR=$PKG sh install.sh
+
+  # ipv6
+  cd $SRC/shorewall6-${version}
+  ./configure --prefix=/usr \
+    --mandir=/usr/man \
+    --sbindir=/usr/sbin \
+    --initdir=/etc/rc.d/ \
+    --initsource=init.sh \
+    --initfile=shorewall6 \
+    --systemd=""
+  DESTDIR=$PKG sh install.sh
+}

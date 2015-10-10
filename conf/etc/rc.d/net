@@ -1,52 +1,91 @@
+#!/bin/sh
 #
 # /etc/rc.d/net: start/stop network interface
 #
 
-# Connection type: "DHCP" or "static"
-TYPE="static"
+# Connection type: "DHCP", "WIFI" or "STATIC"
+TYPE="STATIC"
 
-# For "static" connections, specify your settings here:
+# For "STATIC" connections, specify your settings here:
 # To see your available devices run "ip link".
-DEV=wlp2s0
-ADDR=192.168.1.65
+DEV=enp3s0
+ADDR=192.168.1.117
 MASK=24
 GW=192.168.1.254
 
 # Optional settings:
-DHCPOPTS="-h `/bin/hostname` -t 10"
+OPTS_DHCP="-h `/bin/hostname` -t 10"
+OPTS_WIFI="-B -D wext -i wlan0 -c /etc/wpa.conf"
+
+SSD=/sbin/start-stop-daemon
+PROG_DHCP=/sbin/dhcpcd
+PROG_WIFI=/usr/sbin/wpa_supplicant
+PID_DHCP=/var/run/dhcpcd
+PID_WIFI=/var/run/wpa_supplicant
 
 case $1 in
-	start)
-		/usr/sbin/wpa_supplicant -B -i ${DEV} -c /etc/wpa_supplicant.conf
-
-		if [ "${TYPE}" == "DHCP" ]; then
-			/sbin/dhcpcd ${DHCPOPTS}
-		else
-			/sbin/ip addr add ${ADDR}/${MASK} dev ${DEV} broadcast +
-			/sbin/ip link set ${DEV} up
-			/sbin/ip route add default via ${GW}
-		fi
-		;;
-	stop)
-		
-		killall wpa_supplicant	
-
-		if [ "${TYPE}" == "DHCP" ]; then
-			/sbin/dhcpcd -x
-		else
-			/sbin/ip route del default
-			/sbin/ip link set ${DEV} down
-			/sbin/ip addr del ${ADDR}/${MASK} dev ${DEV}
-		fi
-		;;
-	restart)
-		$0 stop
-		$0 start
-		;;
-	*)
-		echo "Usage: $0 [start|stop|restart]"
-		;;
+        start)
+                if [ "${TYPE^^}" = "DHCP" ]; then
+                        $SSD --start --pidfile $PID_DHCP --exec $PROG_DHCP -- ${OPTS_DHCP}
+                elif [ "${TYPE^^}" = "WIFI" ]; then
+                        if [ -e "${PROG_WIFI}" ]; then
+                                $SSD --start --pidfile $PID_WIFI --exec $PROG_WIFI -- ${OPTS_WIFI}
+                                $SSD --start --pidfile $PID_DHCP --exec $PROG_DHCP -- ${OPTS_DHCP}
+                        else
+                                echo "Error: you need to install and configure wpa_supplicant"
+                                exit 5
+                        fi
+                else
+                        /sbin/ip addr add ${ADDR}/${MASK} dev ${DEV} broadcast +
+                        /sbin/ip link set ${DEV} up
+                        /sbin/ip route add default via ${GW}
+                fi
+                ;;
+        stop)
+                if [ "${TYPE^^}" = "DHCP" ]; then
+                        $SSD --stop --remove-pidfile --retry 10 --pidfile $PID_DHCP
+                elif [ "${TYPE^^}" = "WIFI" ]; then
+                        if [ -e "${PROG_WIFI}" ]; then
+                                $SSD --stop --remove-pidfile --retry 10 --pidfile $PID_DHCP
+                                $SSD --stop --remove-pidfile --retry 10 --pidfile $PID_WIFI
+                        else
+                                echo "Error: you need to install and configure wpa_supplicant"
+                                exit 5
+                        fi
+                else
+                        /sbin/ip route del default
+                        /sbin/ip link set ${DEV} down
+                        /sbin/ip addr del ${ADDR}/${MASK} dev ${DEV}
+                fi
+                ;;
+        restart)
+                $0 stop
+                $0 start
+                ;;
+        status)
+                if [ "${TYPE^^}" = "DHCP" ]; then
+                        $SSD --status --pidfile $PID_DHCP
+                        case $? in
+                        0) echo "$PROG_DHCP is running" ;;
+                        1) echo "$PROG_DHCP is not running but the pid file $PID_DHCP exists" ;;
+                        3) echo "$PROG_DHCP is not running" ;;
+                        4) echo "Unable to determine the program status" ;;
+                        esac
+                elif [ "${TYPE^^}" = "WIFI" ]; then
+                        $SSD --status --pidfile $PID_WIFI
+                        case $? in
+                        0) echo "$PROG_WIFI is running" ;;
+                        1) echo "$PROG_WIFI is not running but the pid file $PID_WIFI exists" ;;
+                        3) echo "$PROG_WIFI is not running" ;;
+                        4) echo "Unable to determine the program status" ;;
+                        esac
+                else
+                        echo "No DHCP or WIFI daemons to check"
+                fi
+                ;;
+        *)
+                echo "Usage: $0 [start|stop|restart|status]"
+                ;;
 esac
 
 # End of file
-

@@ -1,0 +1,119 @@
+<html dir="ltr" lang="en">
+    <head>
+        <meta charset='utf-8'>
+        <title>Wireless</title>
+    </head>
+    <body>
+        <h1>Wireless</h1>
+
+        <p>There is more information on
+        <a href="http://crux.nu/Wiki/WifiStartScripts">Wiki Wifi Start Scripts</a>.</p>
+
+        <pre>
+        # ip link
+        </pre>
+
+        <pre>
+        # iwlist wlp2s0 scan
+        </pre>
+
+        <pre>
+        # iwconfig wlp2s0 essid NAME key s:ABCDE12345
+        </pre>
+
+        <pre>
+        # ip addr add 192.168.1.65 dev wlp2s0
+        </pre>
+
+        <h3 id="wpa">2.3.1. Wpa Supplicant</h3>
+
+        <p>Configure wpa supplicant edit;</p>
+
+        <pre>
+        # vim /etc/wpa_supplicant.conf
+        </pre>
+
+        <pre>
+        ctrl_interface=/var/run/wpa_supplicant
+        update_config=1
+        fast_reauth=1
+        ap_scan=1
+        </pre>
+
+        <pre>
+        # wpa_passphrase &lt;ssid&gt; &lt;password&gt; &gt;&gt; /etc/wpa_supplicant.conf
+        </pre>
+
+        <p>Now start wpa_supplicant with:</p>
+
+        <pre>
+        # wpa_supplicant -B -i wlp2s0 -c /etc/wpa_supplicant.conf
+        Successfully initialized wpa_supplicant
+        </pre>
+
+
+        <p>Example how to configure with static ip. You
+        don't need this if you use dhcpd</p>
+
+        <pre>
+        # vim /etc/rc.d/net
+        </pre>
+
+        <pre>
+        case $1 in
+            start)
+
+            /usr/sbin/wpa_supplicant -B -i ${DEV} -c /etc/wpa_supplicant.conf
+
+            if [ "${TYPE}" == "DHCP" ]; then
+        </pre>
+
+        <pre>
+        stop)
+
+            killall wpa_supplicant
+
+            if [ "${TYPE}" == "DHCP" ]; then
+        </pre>
+
+        <h4>Wpa Cli</h4>
+
+        <pre>
+        # wpa_cli
+        &gt; status
+        </pre>
+
+        <pre>
+        &gt; add_network
+        3
+        </pre>
+
+        <pre>
+        &gt; set_network 3 ssid "Valcovo-Network"
+        OK
+        </pre>
+
+        <pre>
+        &gt; set_network 3 psk "uber-secret-pass"
+        OK
+        </pre>
+
+        <pre>
+        &gt; enable_network 3
+        OK
+        </pre>
+
+        <pre>
+        &gt; list_networks
+        </pre>
+
+        <pre>
+        &gt; select_network 3
+        </pre>
+
+        <pre>
+        &gt; save_config
+        </pre>
+
+    </body>
+</html>

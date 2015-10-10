@@ -5,6 +5,7 @@ d:lynx
 d:git-ftp
 d:php-pdo-mysql
 d:php-pdo-pgsql
+d:shorewall
 d:composer
 d:linux-libre
 d:faircoin-qt
@@ -42,6 +43,9 @@ f:149df1bf548e910fb9d57f82a0d4fc6f:php-pdo-mysql/.footprint
 f:135e089ac1fd4b9109a346ffe44c39da:php-pdo-pgsql/.md5sum
 f:7d12f875c91c5d4daa2c1943a502cd00:php-pdo-pgsql/Pkgfile
 f:83e1f2683d0df95573ff895d635aaf5d:php-pdo-pgsql/.footprint
+f:3d783b77d2c640004b146a60ca96cee3:shorewall/.md5sum
+f:e9e624d8836cd5c88bec89fb3bb55f7f:shorewall/Pkgfile
+f:32d28afbd60859a4bf6db54757228524:shorewall/.footprint
 f:8e5661170666a601dde5ea3f682f711b:composer/.md5sum
 f:a8d2987308dfb6022edb6fcf1e60abe9:composer/Pkgfile
 f:679356f8fffe547e95a2db86def23a24:composer/.footprint
