@@ -5,18 +5,19 @@
 # Put this file in your gitolite-admin;
 # /home/user/gitolite-admin/local/hooks/repo-specific/deployweb
 #
+while read oldrev newrev refname
+do
+    BRANCH=$(git rev-parse --symbolic --abbrev-ref $refname)
+    echo "Commit was for branch $BRANCH"
 
+    if [[ "$BRANCH" == "master" ]];then
 
-BRANCH=$(git rev-parse --symbolic --abbrev-ref $1)
+        # Get project name from current directory (without .git)
+        PROJECT=$(basename "$PWD")
+        PROJECT=${PROJECT%.git}
 
-echo "Commit was for branch $BRANCH"
-if [[ "$BRANCH" == "master" ]];then
-    echo "Preparing to deploy"
+        echo "Project $PROJECT added to deploy list."
+        echo $PWD > /srv/git/deploy/$PROJECT
+    fi
 
-    # Get project name from current directory (without .git)
-
-    PROJECT=$(basename "$PWD")
-    PROJECT=${PROJECT%.git}
-
-    echo $PWD > /srv/git/deploy/$PROJECT
-fi
+done
