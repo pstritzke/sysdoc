@@ -206,19 +206,22 @@
         <pre>
         #!/bin/bash
 
-        BRANCH=$(git rev-parse --symbolic --abbrev-ref $1)
+        while read oldrev newrev refname
+        do
+            BRANCH=$(git rev-parse --symbolic --abbrev-ref $refname)
+            echo "Commit was for branch $BRANCH"
 
-        echo "Commit was for branch $BRANCH"
-        if [[ "$BRANCH" == "master" ]];then
-            echo "Preparing to deploy"
+            if [[ "$BRANCH" == "master" ]];then
 
-            # Get project name from current directory (without .git)
+                # Get project name from current directory (without .git)
+                PROJECT=$(basename "$PWD")
+                PROJECT=${PROJECT%.git}
 
-            PROJECT=$(basename "$PWD")
-            PROJECT=${PROJECT%.git}
+                echo "Project $PROJECT added to deploy list."
+                echo $PWD > /srv/git/deploy/$PROJECT
+            fi
 
-            echo $PWD > /srv/git/deploy/$PROJECT
-        fi
+        done
         </pre>
 
         <p>Add them to the repos you want them to be active in,
