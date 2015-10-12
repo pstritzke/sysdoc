@@ -1,13 +1,13 @@
-# Description:  Linux libre kernel that comes without blobs 
+# Description:  Linux libre kernel that comes without blobs
 # URL:          http://linux-libre.fsfla.org
 # Maintainer:   Silvino, silvino at bk dot ru
 # Depends on:   grub2 dracut
 
 name=linux-libre
-version=3.18.21
+version=3.18.22
 release=0
 source=(http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/$name-$version-gnu.tar.xz \
-        config-3.18.21)
+        config-$version)
 
 build() {
 	cd linux-$version
@@ -29,9 +29,9 @@ build() {
         make clean
 
         mv $SRC/linux-$version $PKG/usr/src/
-        
+
         cd $PKG/lib/modules/$version-gnu_crux/
-	
+
         rm build
         rm source
 
