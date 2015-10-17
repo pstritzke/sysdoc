@@ -113,7 +113,7 @@
             /etc/shorewall/rules.</li>
         </ul>
 
-        <p>Edit /etc/shorewall/shorewall.conf
+        <p>Edit <a href="../conf/etc/shorewall/shorewall.conf">/etc/shorewall/shorewall.conf</a></p>
 
         <pre>
         ###############################################################################
@@ -127,6 +127,8 @@
 
         <p>Shorewall recognizes the firewall system as its own zone, as can be
         seen on zones defined by two-interfaces example;</p>
+
+        <p>Edit <a href="../conf/etc/shorewall/zones">/etc/shorewall/zones</a></p>
 
         <pre>
         ###############################################################################
@@ -142,6 +144,8 @@
         <p>Change default /etc/shorewall/policy this example will limit
         witch connections are allow to and from firewall, default policy
         will be drop;</p>
+
+        <p>Edit <a href="../conf/etc/shorewall/policy">/etc/shorewall/policy</a></p>
 
         <pre>
         ##############################################################################
@@ -167,7 +171,9 @@
         </pre>
 
         <p>This example assumes enp3s0 is connected to router and wlp2s0 is
-        wireless ap. Edit /etc/shorewall/interfaces;</p>
+        wireless ap.</p>
+
+        <p>Edit <a href="../conf/etc/shorewall/interfaces">/etc/shorewall/interfaces</a></p>
 
         <pre>
         ###############################################################################
@@ -176,7 +182,7 @@
         loc     wlp2s0          dhcp,tcpflags,nosmurfs,routefilter,logmartians
         </pre>
 
-        <p>Edit /etc/shorewall/stoppedrules;</p>
+        <p>Edit <a href="../conf/etc/shorewall/stoppedrules">/etc/shorewall/stoppedrules</a></p>
 
         <pre>
         ###############################################################################
@@ -193,8 +199,10 @@
         Masquerading if your external IP is dynamic and SNAT if the IP
         is static.</p>
 
-        <p>Since /etc/rc.d/net configured enp3s0 static change /etc/shorewall/masq
-        so that uses SNAT;</p>
+        <p>Since <a href="../conf/etc/rc.d/net">/etc/rc.d/net</a> configured enp3s0 
+        static change /etc/shorewall/masq so that uses SNAT;</p>
+
+        <p>Edit <a href="../conf/etc/shorewall/masq">/etc/shorewall/masq</a></p>
 
         <pre>
         #######################################################################################
@@ -210,74 +218,7 @@
 
         <h4 id="shorewall-rules">2.3.8. Rules</h4>
 
-        <pre>
-        ######################################################################################################################################################################################################
-        #ACTION		SOURCE		DEST		PROTO	DEST	SOURCE		ORIGINAL	RATE		USER/	MARK	CONNLIMIT	TIME		HEADERS		SWITCH		HELPER
-        #							PORT	PORT(S)		DEST		LIMIT		GROUP
-        ?SECTION ALL
-        ?SECTION ESTABLISHED
-        ?SECTION RELATED
-        ?SECTION INVALID
-        ?SECTION UNTRACKED
-        ?SECTION NEW
-
-        #       Don't allow connection pickup from the net
-        #
-        Invalid(DROP)	net		all		tcp
-
-        #
-        #	Accept DNS connections from the firewall to the network
-        #
-        DNS(ACCEPT)	$FW		net
-
-        #
-        #	Accept HTTP/HTTPS connections from the firewall to the network
-        #
-
-        IRC(ACCEPT)	$FW		net
-        HTTP(ACCEPT)	$FW		net
-        HTTPS(ACCEPT)	$FW		net
-
-        #
-        #	Accept HTTP/HTTPS connections from the net to the firewall
-        #
-
-        HTTP(ACCEPT)	net     	$FW
-        HTTPS(ACCEPT)	net             $FW
-
-        #
-        #	Squid Proxy
-        #
-        REDIRECT        loc             3128            tcp             www
-
-        #
-        #	Accept SSH connections from the local network for administration
-        #
-        #SSH(ACCEPT)	loc		$FW
-        ACCEPT	        loc		$FW     tcp     2222    1024:65535
-
-        #
-        #	Accept SSH connections from the net to the firewall
-        #
-        ACCEPT	        net		$FW     tcp     2222    1024:65535              192.168.1.117   1/sec
-
-
-        #
-        #	Allow Ping from the local network
-        #
-        Ping(ACCEPT)	loc		$FW
-        DNS(ACCEPT)	loc		$FW
-
-        #
-        # Drop Ping from the "bad" net zone.. and prevent your log from being flooded..
-        #
-
-        Ping(DROP)	net		$FW
-
-        ACCEPT		$FW		loc		icmp
-        ACCEPT		$FW		net		icmp
-        #
-        </pre>
+        <p>Example <a href="../conf/etc/shorewall/rules">/etc/shorewall/rules</a> file.</p>
 
         <h4 id="shorewall-log">2.3.9. Logging</h4>
 

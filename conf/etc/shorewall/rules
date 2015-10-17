@@ -1,0 +1,78 @@
+#
+# Shorewall version 4.0 - Sample Rules File for two-interface configuration.
+# Copyright (C) 2006-2014,2007 by the Shorewall Team
+#
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2.1 of the License, or (at your option) any later version.
+#
+# See the file README.txt for further details.
+#------------------------------------------------------------------------------
+# For information about entries in this file, type "man shorewall-rules"
+######################################################################################################################################################################################################
+#ACTION		SOURCE		DEST		PROTO	DEST	SOURCE		ORIGINAL	RATE		USER/	MARK	CONNLIMIT	TIME		HEADERS		SWITCH		HELPER
+#							PORT	PORT(S)		DEST		LIMIT		GROUP
+?SECTION ALL
+?SECTION ESTABLISHED
+?SECTION RELATED
+?SECTION INVALID
+?SECTION UNTRACKED
+?SECTION NEW
+
+# Don't allow connection pickup from the net
+#
+Invalid(DROP)	net		all		tcp
+DROP            loc             net:192.168.0.0/24
+
+# Accept DNS connections from the firewall to the network
+DNS(ACCEPT)	$FW		net
+
+# Accept FTP connections from the firewall to the network
+FTP(ACCEPT)     $FW             net
+
+# Accept SSH connections from the local network for administration
+#SSH(ACCEPT)	loc		$FW
+ACCEPT	        loc		$FW     tcp     2222    1024:65535
+
+# Accept SSH connections from the net to the firewall
+ACCEPT	        net		$FW     tcp     2222    1024:65535              192.168.1.117   1/sec
+
+# Accept HTTP/HTTPS connections from the firewall to the network
+HTTP(ACCEPT)	$FW		net
+HTTPS(ACCEPT)	$FW		net
+
+# Accept SMTP/SMTPS POP3/POPS connections from the firewall to the network
+ACCEPT	        $FW		net     tcp     465     1024:65535                -             1/sec
+ACCEPT	        $FW		net     tcp     995     1024:65535                -             1/sec
+
+# Accept HTTP/HTTPS connections from the net to the firewall
+HTTP(ACCEPT)	net     	$FW
+HTTPS(ACCEPT)	net             $FW
+
+# Rsync
+Rsync(ACCEPT)   $FW             net
+
+#	Squid Proxy
+REDIRECT        loc             3128            tcp             www
+
+
+#	Accept Wesnoth connections from the firewall to the network
+ACCEPT	        $FW		net             tcp 15000
+ACCEPT	        $FW		net             tcp 14998
+
+#	Accept IRC connections from the firewall to the network
+IRC(ACCEPT)	$FW		net
+
+
+
+#	Allow Ping from the local network
+Ping(ACCEPT)	loc		$FW
+DNS(ACCEPT)	loc		$FW
+
+# Drop Ping from the "bad" net zone.. and prevent your log from being flooded..
+Ping(DROP)	net		$FW
+
+ACCEPT		$FW		loc		icmp
+ACCEPT		$FW		net		icmp
+#
