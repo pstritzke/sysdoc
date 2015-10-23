@@ -1,0 +1,51 @@
+# Description: A full-featured web proxy cache
+# URL:         http://www.squid-cache.org
+# Packager:    Juergen Daubert, jue at crux dot nu
+# Maintainer:  Silvino Silva, silvino at bk dot ru
+
+name=squid
+version=3.5.10
+release=1
+source=(http://www.squid-cache.org/Versions/v3/3.5/$name-$version.tar.xz
+        squid)
+
+build () {
+    cd $name-$version
+
+    ./configure --prefix=/usr \
+                --mandir=/usr/man \
+                --sysconfdir=/etc/squid \
+                --libexecdir=/usr/lib/squid \
+                --localstatedir=/var \
+                --datadir=/usr/share/squid \
+                --with-logdir=/var/log/squid \
+                --with-pidfile=/var/run/squid.pid \
+                --with-swapdir=/var/squid \
+                --with-default-user=squid \
+                --enable-linux-netfilter \
+                --enable-storeio=ufs,aufs,diskd,rock \
+                --enable-removal-policies=lru,heap \
+                --with-large-files \
+                --with-pthreads \
+                --with-aufs-threads=16 \
+                --disable-auto-locale \
+        	--enable-silent-rules \
+        	--enable-dependency-tracking \
+        	--with-openssl \
+                --enable-ssl-crtd \
+        	--enable-icmp \
+        	--enable-delay-pools \
+        	--enable-useragent-log \
+        	--enable-esi \
+        	--enable-follow-x-forwarded-for \
+        	--enable-auth
+
+    make all
+    make DESTDIR=$PKG install
+
+    rm -r $PKG/var/run
+    find $PKG/usr/share/squid/errors/* -prune ! -name templates | xargs rm -r
+
+    install -d -m 0700 -o squid -g squid $PKG/var/{log/squid,squid}
+    install -D -m 755 $SRC/squid $PKG/etc/rc.d/squid
+}
