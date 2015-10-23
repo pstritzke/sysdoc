@@ -1,0 +1,15 @@
+drwxr-xr-x	root/root	man/
+drwxr-xr-x	root/root	man/man1/
+-rw-r--r--	root/root	man/man1/wcmgr.1.gz
+-rw-r--r--	root/root	man/man1/webalizer.1.gz
+lrwxrwxrwx	root/root	man/man1/webazolver.1.gz -> webalizer.1.gz
+drwxr-xr-x	root/root	usr/
+drwxr-xr-x	root/root	usr/bin/
+-rwxr-xr-x	root/root	usr/bin/wcmgr
+-rwxr-xr-x	root/root	usr/bin/webalizer
+lrwxrwxrwx	root/root	usr/bin/webazolver -> webalizer
+drwxr-xr-x	root/root	usr/etc/
+-rw-r--r--	root/root	usr/etc/webalizer.conf.sample
+drwxr-xr-x	root/root	usr/share/
+drwxr-xr-x	root/root	usr/share/GeoDB/
+-rw-r--r--	root/root	usr/share/GeoDB/GeoDB.dat
