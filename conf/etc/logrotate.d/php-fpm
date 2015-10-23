@@ -1,0 +1,5 @@
+/var/log/php-fpm.log {
+    rotate 5
+    monthly
+    create 0644 root root
+}

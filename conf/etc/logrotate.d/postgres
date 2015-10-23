@@ -1,0 +1,17 @@
+/var/log/pgsql {
+    weekly
+    compress
+    delaycompress
+    rotate 10
+    notifempty
+    create 660 postgres postgres
+    sharedscripts
+    postrotate
+    if [ -f /var/run/syslog-ng.pid ]; then \
+    	kill -HUP `cat /var/run/syslog-ng.pid`; \
+    fi;
+    endscript
+
+}
+
+

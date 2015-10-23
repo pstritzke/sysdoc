@@ -1,0 +1,10 @@
+/var/log/lynis.log {
+    rotate 5
+    monthly
+    create 0644 root root
+}
+/var/log/lynis-report.dat {
+    rotate 5
+    monthly
+    create 0644 root root
+}

@@ -1,0 +1,11 @@
+/var/log/dnsmasq {
+    weekly
+    create 0644 root root
+    rotate 5
+    sharedscripts
+    postrotate
+    if [ -f /var/run/syslog-ng.pid ]; then \
+    	kill -HUP `cat /var/run/syslog-ng.pid`; \
+    fi;
+    endscript
+}

@@ -1,0 +1,11 @@
+/var/log/shorewall-init.log {
+  missingok
+  notifempty
+  create 0600 root root
+    sharedscripts
+    postrotate
+    if [ -f /var/run/syslog-ng.pid ]; then \
+    	kill -HUP `cat /var/run/syslog-ng.pid`; \
+    fi;
+    endscript
+}

@@ -1,0 +1,5 @@
+/var/log/ntp.log {
+    weekly
+    create 0644 root root
+    rotate 5
+}
