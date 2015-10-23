@@ -1,6 +1,6 @@
 /var/log/nginx/access.log {
     weekly
-    create 0644 root root
+    create 0664 root www
     rotate 5
     sharedscripts
     postrotate

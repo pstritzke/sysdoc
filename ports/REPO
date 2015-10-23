@@ -102,7 +102,7 @@ f:651bea14af8d6b547d7414fe2d294759:gitolite/Pkgfile
 f:fdf66fe5ae9306892e811b20ded97ee5:gitolite/.footprint
 f:5fb015a32ca1b6fed527fb1da728eb79:webalizer/geodb-latest.tgz
 f:caf8f4d60ffb76b07605943badb73ba8:webalizer/.md5sum
-f:d99e66a1b990bcdbc7b2ff39a414b76c:webalizer/webalizer.conf.sample
+f:c356094c4143659f78c27579649011d0:webalizer/webalizer.conf.sample
 f:46575a5a04887a7fad037d1ef6a6520f:webalizer/Pkgfile
 f:ff4e17a77dad7dffb81d764d34683e98:webalizer/.footprint
 f:c8bf3f47469fdeffb9b0b676c9721058:qcachegrind/.md5sum

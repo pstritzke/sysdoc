@@ -451,17 +451,17 @@ HourlyStats	yes
 # search strings and usernames default to 20.  Tables may be disabled
 # by using zero (0) for the value.
 
-#TopSites        30
-#TopKSites       10
-#TopURLs         30
-#TopKURLs        10
-#TopReferrers    30
-#TopAgents       15
-#TopCountries    30
-#TopEntry        10
-#TopExit         10
-#TopSearch       20
-#TopUsers        20
+TopSites 200
+TopKSites 100
+TopURLs 200
+TopKURLs 200
+TopReferrers 200
+TopAgents 50
+TopCountries 200
+TopEntry 200
+TopExit 200
+TopSearch 200
+TopUsers 50
 
 # The All* keywords allow the display of all URLs, Sites, Referrers
 # User Agents, Search Strings and Usernames.  If enabled, a separate
@@ -539,14 +539,14 @@ AllUsers        yes
 # "*mama.com" and "www.your*" will all match.
 
 # Your own site should be hidden
-#HideSite	*webalizer.org
-#HideSite	localhost
+HideSite	*box.suroot.com
+HideSite	localhost
 
 # Your own site gives most referrals
-#HideReferrer	webalizer.org/
+HideReferrer	box.suroot.com/
 
 # This one hides non-referrers ("-" Direct requests)
-#HideReferrer	Direct Request
+HideReferrer	Direct Request
 
 # Usually you want to hide these
 HideURL		*.gif
@@ -556,6 +556,8 @@ HideURL		*.JPG
 HideURL		*.png
 HideURL		*.PNG
 HideURL		*.ra
+HideURL		*.css
+HideURL		*.js
 HideURL		/core/*
 
 # Hiding agents is kind of futile

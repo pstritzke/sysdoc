@@ -1,10 +1,10 @@
 # OpenNIC  (MD, ES)
-nameserver 185.16.40.143
-# OpenNIC  (MD, ES)
 nameserver 87.216.170.85
+# OpenNIC  (MD, ES)
+nameserver 185.16.40.143
 # OpenNIC (BCN, ES)
 nameserver 109.69.8.34
-# OpenNIC (DE)
-nameserver 192.71.249.83
 # OpenNIC (FR)
-nameserver 5.135.183.146
+nameserver 178.32.122.65
+# Google
+nameserver 8.8.8.8

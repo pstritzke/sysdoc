@@ -1,5 +1,6 @@
 #<localhost>
-127.0.1.1	dev.box local.box  
+127.0.0.1	 dev.box local.box shop.box
+192.168.1.117    box.suroot.com s.box.suroot.com
 
 #127.0.0.1	localhost.localdomain
 #255.255.255.255	broadcasthost
