@@ -1,13 +1,13 @@
 # Description: Shorewall is a gateway/firewall configuration tool for GNU/Linux.
 # URL:         http://www.shorewall.net
-# Maintainer:  Silvino Silva, silvino at bk dot ru
 # Packager:    Kristian Lehmann, email at zero-io dot net
+# Maintainer:  Silvino Silva, silvino at bk dot ru
 # Depends on:
 
 name=shorewall
 version=4.6.13
-release=1
-http://shorewall.de/pub/shorewall/4.6/shorewall-4.6.13/shorewall-core-4.6.13.tgz
+release=2
+
 source=(http://shorewall.de/pub/shorewall/4.6/shorewall-${version}/shorewall-core-${version}.tgz
 http://shorewall.de/pub/shorewall/4.6/shorewall-${version}/shorewall-${version}.tgz
 http://shorewall.de/pub/shorewall/4.6/shorewall-${version}/shorewall6-${version}.tgz)
