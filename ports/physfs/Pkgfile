@@ -1,0 +1,23 @@
+# Description: Library to provide abstract access to various archives.
+# URL: http://icculus.org/physfs/
+# Packager: Mark Rosenstand, mark at borkware dot net
+# Maintainer: Silvino Silva, silvino at bk dot ru
+# Depends on: cmake readline zlib
+
+name=physfs
+version=2.0.3
+release=1
+source=(http://icculus.org/$name/downloads/$name-$version.tar.bz2)
+
+build() {
+	cd $name-$version
+
+	sed -i -e 's|-Werror||' CMakeLists.txt
+
+	cmake \
+		-DPHYSFS_BUILD_STATIC=FALSE \
+		-DCMAKE_INSTALL_PREFIX=/usr .
+
+	make
+	make DESTDIR=$PKG install
+}

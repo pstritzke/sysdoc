@@ -4,7 +4,7 @@
 # Depends on:   protobuf, qrencode, miniupnpd, openssl, db, boost, qt5
 
 name=faircoin-qt
-version=1.5.1
+version=1.5.2
 release=1
 source=(https://github.com/FairCoinTeam/fair-coin/archive/v$version.zip)
         
