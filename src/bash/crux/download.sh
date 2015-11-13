@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+
 PKGMK_PKGFILE="Pkgfile"
 PKGMK_CONFFILE="/etc/pkgmk.conf"
 DISTFILES="/home/distfiles/"
@@ -158,6 +159,8 @@ update_port() {
 
             check_directory "$PKGMK_SOURCE_DIR"
             check_pkgfile;
+
+            prtsweep .
 
             download_source;
 
