@@ -4,7 +4,7 @@
 # Depends on:   grub2 dracut
 
 name=linux-libre
-version=3.18.22
+version=3.18.24
 release=0
 source=(http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/$name-$version-gnu.tar.xz \
         config-$version)
@@ -28,6 +28,7 @@ build() {
         install -d $PKG/usr/src
         make clean
 
+        rm -fR $SRC/linux-$version/Documentation
         mv $SRC/linux-$version $PKG/usr/src/
 
         cd $PKG/lib/modules/$version-gnu_crux/
