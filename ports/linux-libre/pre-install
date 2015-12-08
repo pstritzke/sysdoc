@@ -1,6 +1,0 @@
-#!/bin/sh
-
-source /etc/pkgmk.conf
-
-
-echo "KERN_OLD_VERS="$(/usr/bin/prt-get current linux-libre) > $PKGMK_WORK_DIR/linux-libre.ver

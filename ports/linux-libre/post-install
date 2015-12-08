@@ -1,4 +1,0 @@
-#!/bin/sh
-
-/usr/sbin/grub-mkconfig -o /boot/grub/grub.cfg
-/usr/bin/dracut --kver $(/usr/bin/prt-get current linux-libre)_crux

@@ -4,16 +4,16 @@
 # Depends on:   grub2 dracut
 
 name=linux-libre
-version=3.18.24
+version=4.1.13
 release=0
 source=(http://linux-libre.fsfla.org/pub/linux-libre/releases/$version-gnu/$name-$version-gnu.tar.xz \
-        config-$version)
+        linux-$version.config)
 
 build() {
 	cd linux-$version
 
         make distclean
-        cp ../config-$version .config
+        cp ../linux-$version.config .config
         make olddefconfig
         make silentoldconfig
 
