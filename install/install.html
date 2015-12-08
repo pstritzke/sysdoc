@@ -2,38 +2,41 @@
 <html dir="ltr" lang="en">
     <head>
         <meta charset='utf-8'>
-        <title>1. Install Crux 3.1</title>
+        <title>1. Install Crux 3.2</title>
     </head>
     <body>
 
-        <h1>1. Install Crux 3.1</h1>
+        <h1>1. Install Crux 3.2</h1>
 
-        <p>Read Crux <a href="http://crux.nu/Main/Handbook3-1">Hand book 3.1</a>,
-        is great source of information to get started on crux world. 
-        This document was based on 
+        <p>Read Crux <a href="http://crux.nu/Main/Handbook3-2">Hand book 3.2</a>,
+        is great source of information to get started on crux world.
+        This document was based on
         <a href="http://bedis.eu/crux/crux_chroot_from_debian_host">Bedis</a>
         chroot from debian host.</p>
+
+        <p>Read and change <a href="../src/bash/crux/install.sh">install.sh</a>
+        to help you automate the process of installing.</p>
 
         <h2 id="step1">1.1. Download</h2>
 
         <a href="http://crux.nu/Main/Download">Download Page</a>
 
         <pre>
-        $ wget --no-check-certificate https://serverop.de/crux/crux-3.1/iso/crux-3.1.iso
-        $ wget --no-check-certificate https://serverop.de/crux/crux-3.1/iso/crux-3.1.md5
-        $ md5sum crux-3.1.iso
-        dce1dc2a2f07973ac61108487add3573  crux-3.1.iso
+        $ curl -k -O https://serverop.de/crux/crux-2.1/iso/crux-3.2.iso
+        $ curl -k -O https://serverop.de/crux/crux-3.2/iso/crux-3.2.md5
+        $ md5sum crux-3.2.iso
+        2e4144590f6b340de2580255ad21620e  crux-3.2.iso
         </pre>
 
         <h2 id="step2">1.2. Prepare Target</h2>
 
         <p>Prepare disk or target location where new system will
-        be installed. For a more advanced layout partition scheme 
-        check <a href="../systools/lvm.html">this</a>. Example on how to 
+        be installed. For a more advanced layout partition scheme
+        check <a href="../systools/lvm.html">this</a>. Example on how to
         <a href="http://devil-detail.blogspot.pt/2013/07/install-grub2-on-gpt-disk-dedicated-partition.html">use gpt partition table</a>.
         </p>
 
-        <p>Lets assume target disk is /dev/sdb, it will be used a partition layout with 
+        <p>Lets assume target disk is /dev/sdb, it will be used a partition layout with
         only two partitions, first create filesystem table gpt;</p>
 
         <pre>
@@ -62,7 +65,7 @@
 
         <pre>
         (parted) set 1 bios_grub on
-        </pre> 
+        </pre>
 
         <p>Create first partition;</p>
 
@@ -104,11 +107,6 @@
         (parted)
         </pre>
 
-        <p>From now on there is 
-        <a href="../src/bash/crux/install.sh">script</a>
-        that automate process of installing.</p>
-
-
         <p><a href="http://rainbow.chard.org/2013/01/30/how-to-align-partitions-for-best-performance-using-parted/">Rainbow Chard</a>
         has a nice article on how to align partitions.</p>
 
@@ -124,13 +122,13 @@
         512
         </pre>
 
-        <p>Add optimal_io_size to alignment_offset and divide the 
+        <p>Add optimal_io_size to alignment_offset and divide the
         result by physical_block_size;</p>
 
         <pre>
         (1048576 + 0) / 512 = 2048.
         </pre>
-                
+
         <p>To align;</p>
 
         <pre>
@@ -157,16 +155,16 @@
         # mkdir -p $CHROOT/var/lib/pkg
         # mount /dev/sdb2 $CHROOT/boot
         </pre>
-        
+
         <p>Mount iso on target partition;</p>
-        
+
         <pre>
         # modprobe isofs
         # modprobe loop
         # mkdir -p $CHROOT/iso
-        # mount -o loop crux-3.1.iso $CHROOT/iso
+        # mount -o loop crux-3.2.iso $CHROOT/iso
         </pre>
-        
+
         <p>Create file $CHROOT/core.lst containing
         list of binary packages present in $CHROOT/iso/crux/core/;</p>
 
@@ -177,22 +175,21 @@
         <p>Install temporary pkgadd on $CHROOT;</p>
 
         <pre>
-        # tar xf $CHROOT/iso/crux/core/pkgutils#5.35.6-1.pkg.tar.xz usr/bin/pkgadd -O > $CHROOT/pkgadd
+        # tar xf $CHROOT/iso/crux/core/pkgutils#5.36-2.pkg.tar.xz usr/bin/pkgadd -O > $CHROOT/pkgadd
         # chmod +x $CHROOT/pkgadd
         </pre>
 
         <p>Edit $CHROOT/core.lst with your preferences, you can remove or add
-        packages from opt collection. Remove ppp and lilo;</p>
+        packages from opt collection. Remove lilo if you want grub;</p>
 
         <pre>
-        core/ppp#2.4.6-1.pkg.tar.xz
-        core/lilo#24.0-1.pkg.tar.xz
+        /mnt/iso/crux/core/lilo#24.1-3.pkg.tar.xz
         </pre>
 
         <h2 id="step4">1.4. Install</h2>
 
         <p>Create package database, it will contain a list of installed packages files.</p>
-        
+
         <pre>
         # touch $CHROOT/var/lib/pkg/db
         </pre>
@@ -203,7 +200,7 @@
         # cd $CHROOT
         while read line; do
                 printf "Installing $line;\n"
-                $CHROOT/pkgadd -r $CHROOT $line
+                $CHROOT/pkgadd -f -r $CHROOT $line
         done &lt; core.lst
         </pre>
 
@@ -220,8 +217,8 @@
 
         <h2 id="step6">1.6. Activate Chroot</h2>
 
-        <p>There is two scripts that automate the process of 
-        <a href="../src/bash/crux/activate-chroot.sh">mount</a> 
+        <p>There is two scripts that automate the process of
+        <a href="../src/bash/crux/activate-chroot.sh">mount</a>
         and <a href="../src/bash/crux/deactivate-chroot.sh">umount</a>.
         </p>
 
@@ -233,7 +230,7 @@
         </pre>
 
         <p>This is part of the SysDoc Manual.
-        Copyright (C) 2015 
+        Copyright (C) 2015
         Silvino Silva.
         See the file <a href="fdl-1.3-standalone.html">Gnu Free Documentation License</a>
         for copying conditions.</p>

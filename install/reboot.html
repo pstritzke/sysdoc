@@ -45,10 +45,17 @@
         # grub-install --removable /dev/sdb
         Installation finished. No error reported.
         </pre>
-        
+
         <p>grub-mkconfig generates grub.cfg, it will try to discover
         available kernels and attempt to generate menu entries for
         them;</p>
+
+        <pre>
+        # grub-probe --target=hints_string /mnt/
+        </pre>
+
+        <p>Add menu to /etc/grub.d/40_custom, replace correct msdos partition from 
+        grub-prob output and correct UUID from fstab or blkid</p>
 
         <pre>
         # grub-mkconfig -o /boot/grub/grub.cfg
@@ -69,7 +76,7 @@
         </pre>
 
         <p>This is part of the SysDoc Manual.
-Copyright (C) 2015 
+Copyright (C) 2015
 Silvino Silva.
 See the file <a href="fdl-1.3-standalone.html">Gnu Free Documentation License</a>
 for copying conditions.</p>
