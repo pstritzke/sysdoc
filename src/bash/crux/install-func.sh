@@ -198,7 +198,7 @@ install_linux() {
     chroot $CHROOT /bin/bash -c "prt-get -im depinst linux-libre"
 
     echo "5.1 dracut initramfs;"
-    chroot $CHROOT /bin/bash -c "dracut --kver 3.18.22-gnu_crux"
+    chroot $CHROOT /bin/bash -c "dracut --kver 4.1.13-gnu_crux"
 }
 
 setup_boot() {
