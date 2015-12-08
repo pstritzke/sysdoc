@@ -169,11 +169,12 @@ install_extra() {
     chroot $CHROOT /bin/bash -c "prt-get depinst grub2"
     chroot $CHROOT /bin/bash -c "prt-get depinst wireless-tools"
     chroot $CHROOT /bin/bash -c "prt-get depinst wpa_supplicant"
+    chroot $CHROOT /bin/bash -c "prt-get depinst gnupg"
     chroot $CHROOT /bin/bash -c "prt-get depinst shorewall"
     chroot $CHROOT /bin/bash -c "prt-get depinst logrotate"
     # samhain at this point add /etc/logrotate.d/samhain 
     chroot $CHROOT /bin/bash -c "prt-get -if depinst samhain"
-    chroot $CHROOT /bin/bash -c "prt-get -if depinst tmux"
+    chroot $CHROOT /bin/bash -c "prt-get depinst tmux"
 
 }
 
