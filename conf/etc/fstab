@@ -1,22 +1,47 @@
 #
 # /etc/fstab: static file system information
 #
-# <file system>        <dir>     <type>    <options>                        <dump> <pass>
-UUID=cafff33b-ef51-493b-9f7c-1d72293afbb9 	/boot		ext4	defaults,noexec,nosuid,errors=remount-ro,noatime	0 1
+# <file system>                             <dir>   <type>    <options>                     <dump> <pass>
 
-UUID=3cf7fbf7-9bcc-40a9-94f4-c9cb89602a76	/		ext4	defaults,errors=remount-ro,noatime			0 1
 
-tmp             /tmp            tmpfs   defaults,nodev,nosuid,noexec,noatime	                0 0
-devpts		/dev/pts	devpts	noexec,nosuid,gid=tty,mode=0620				0 0
-shm            	/dev/shm     	tmpfs	defaults,nodev,nosuid,noexec				0 0
+# === Boot
+#/dev/sda1: UUID="7bcf1c52-cb5d-4cc9-990b-3d8ece1f2e7d" TYPE="ext4" PARTUUID="e8df7536-01"
+#UUID=7bcf1c52-cb5d-4cc9-990b-3d8ece1f2e7d  /boot		ext4	defaults,noexec,nosuid,noatime	0 1
 
-#UUID=54c7dca5-1558-4f90-8d81-c01e4e50c6ae	/srv/git		ext4 defaults,nosuid,nodev,noatime	1 2
-#UUID=6ecd9caf-8d27-4215-9060-7a3843a053ac	/srv/pgsql		ext4 defaults,noatime	1 2
-#UUID=cfc582fd-0136-4453-ade1-de151ebb5153	/srv/www		ext4 defaults,nosuid,noexec,nodev,noatime	1 2
-#UUID=0aba2d28-8e3a-4a89-bff5-1698708e13d0       /var/ports/distfiles    ext4 defaults,noatime   1 2
-#UUID=08295a67-a056-4dea-9462-209f151e4cdf   swap    swap    sw
+# === Root
+#/dev/sda4: UUID="f4899303-a4be-4f7c-8b70-214aeca1395a" TYPE="ext4" PARTUUID="e8df7536-04"
+UUID=e85d526a-162e-4a6a-a2eb-f1507f899f63   /       ext4       defaults                     0   0
 
-# To improve performance of pkgmk
-pkgmk /var/ports/work tmpfs size=3G,uid=102,defaults 0 0
+# === Swap
+#/dev/sda3: LABEL="Swap" UUID="8cdd802a-1c7e-4b5f-b77d-cd75d9e4c462" TYPE="swap" PARTUUID="e8df7536-03"
+UUID=8cdd802a-1c7e-4b5f-b77d-cd75d9e4c462   swap    swap	sw
+#/dev/sda8: LABEL="swap" UUID="17edae2c-409e-45ee-8084-c347b24258b2" TYPE="swap" PARTUUID="e8df7536-08"
+UUID=17edae2c-409e-45ee-8084-c347b24258b2   swap    swap        sw
+
+# === Tmp
+#/dev/sda9: LABEL="tmp" UUID="80690531-2e7d-4752-bb04-c641fc21de26" TYPE="ext4" PARTUUID="e8df7536-09"
+UUID=80690531-2e7d-4752-bb04-c641fc21de26   /tmp    tmpfs       defaults,noexec,nosuid                    0   0
+#tmp                   /tmp      tmpfs     defaults                         0      0
+
+
+#/dev/sda10: LABEL="home" UUID="0eb5eda6-79dc-4050-a436-f735e29d619c" TYPE="ext4" PARTUUID="e8df7536-0a"
+
+
+#/dev/#EXT4FS_ROOT#    /         ext4      defaults                         0      1
+#/dev/#BTRFS_ROOT#     /         btrfs     defaults                         0      0
+#/dev/#XFS_ROOT#       /         xfs       defaults                         0      0
+#/dev/#SWAP#           swap      swap      defaults                         0      0
+#/dev/#EXT4FS_HOME#    /home     ext4      defaults                         0      2
+#/dev/#BTRFS_HOME#     /home     btrfs     defaults                         0      0
+#/dev/#XFS_HOME#       /home     xfs       defaults                         0      0
+#/dev/cdrom            /cdrom    iso9660   ro,user,noauto,unhide            0      0
+#/dev/dvd              /dvd      udf       ro,user,noauto,unhide            0      0
+#/dev/floppy/0         /floppy   vfat      user,noauto,unhide               0      0
+devpts                 /dev/pts  devpts    noexec,nosuid,gid=tty,mode=0620  0      0
+
+#shm                   /dev/shm  tmpfs     defaults                         0      0
+#usb                   /proc/bus/usb usbfs defaults                         0      0
+
+pkgmk /var/ports/work tmpfs size=20G,uid=102,defaults 0 0
 
 # End of file

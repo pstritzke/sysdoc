@@ -1,0 +1,5 @@
+/var/log/fail2ban.log {
+    weekly
+    create 0644 root root
+    rotate 5
+ }

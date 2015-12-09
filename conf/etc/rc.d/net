@@ -13,6 +13,11 @@ ADDR=192.168.1.117
 MASK=24
 GW=192.168.1.254
 
+# Access Point Settings
+DEV_AP=wlp2s0
+ADDR_AP=10.0.0.254
+MASK_AP=16
+
 # Optional settings:
 OPTS_DHCP="-h `/bin/hostname` -t 10"
 OPTS_WIFI="-B -D wext -i wlan0 -c /etc/wpa.conf"
@@ -20,7 +25,7 @@ OPTS_WIFI="-B -D wext -i wlan0 -c /etc/wpa.conf"
 SSD=/sbin/start-stop-daemon
 PROG_DHCP=/sbin/dhcpcd
 PROG_WIFI=/usr/sbin/wpa_supplicant
-PID_DHCP=/var/run/dhcpcd
+PID_DHCP=/var/run/dhcpcd.pid
 PID_WIFI=/var/run/wpa_supplicant
 
 case $1 in
@@ -39,6 +44,10 @@ case $1 in
                         /sbin/ip addr add ${ADDR}/${MASK} dev ${DEV} broadcast +
                         /sbin/ip link set ${DEV} up
                         /sbin/ip route add default via ${GW}
+
+                        /sbin/ip addr add ${ADDR_AP}/${MASK_AP} dev ${DEV_AP} broadcast +
+                        /sbin/ip link set ${DEV_AP} up
+
                 fi
                 ;;
         stop)

@@ -1,0 +1,23 @@
+/var/log/nginx/access.log {
+    weekly
+    create 0664 root www
+    rotate 5
+    sharedscripts
+    postrotate
+    if [ -f /var/run/syslog-ng.pid ]; then \
+    	kill -HUP `cat /var/run/syslog-ng.pid`; \
+    fi;
+    endscript
+}
+
+/var/log/nginx/error.log {
+    weekly
+    create 0644 root root
+    rotate 5
+    sharedscripts
+    postrotate
+    if [ -f /var/run/syslog-ng.pid ]; then \
+    	kill -HUP `cat /var/run/syslog-ng.pid`; \
+    fi;
+    endscript
+}

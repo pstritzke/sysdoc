@@ -1,0 +1,445 @@
+----------------------------------------------------------------------------
+	             S H O R E W A L L  5 . 0 . 2 . 1
+                       ----------------------------
+                      N o v e b e r  2 6 ,  2 0 1 5
+----------------------------------------------------------------------------
+
+I.    PROBLEMS CORRECTED IN THIS RELEASE
+II.   KNOWN PROBLEMS REMAINING
+III.  NEW FEATURES IN THIS RELEASE
+IV.   MIGRATION ISSUES
+V.    PROBLEMS CORRECTED AND NEW FEATURES IN PRIOR RELEASES
+
+----------------------------------------------------------------------------
+  I.  P R O B L E M S   C O R R E C T E D   I N   T H I S  R E L E A S E
+----------------------------------------------------------------------------
+
+5.0.2.1
+
+1)  When processing the 'dump' command, the CLI now uses 'netstat' to
+    print socket information when the 'ss' utility is not installed.
+
+2)  Several defects in the installers/uninstallers have been corrected
+    (Matt Darfeuille).
+
+5.0.2
+
+1)  This release includes defect repair up through Shoreall 5.0.1.1.
+
+2)  The MSSQL macro now allows UDP port 1434 (Tuomo Soini).
+
+3)  A number of issues with param file processing on Cygwin have been
+    corrected. The most serious of these issues was introduction of
+    syntax errors into the generated firewall script.
+
+4)  More version numbers have been removed from configuration files
+    and Macros (Tuomo Soini).
+
+5)  The check for use of a circular kernel log buffer (as opposed to a
+    log file) has been improved.
+
+6)  Previously, HOST=default was accepted by configure[.pl], but the
+    generated shorewallrc file was unusable. Now, HOST=default is
+    equivalent to HOST=linux.
+
+7)  Previously, if a circular log buffer was being used, the output of
+    various commands still displayed '/var/log/messages' as the log
+    file. Now, it is displayed as 'logread'.
+
+8)  The 'remote-*' commands now return correct exit status.
+
+9)  Previously, if LOCKFILE specified a file in a directory other than
+    $VARDIR, and that directory did not exist, it was not created
+    automatically.
+
+10) Previously, optional interfaces were not enabled during 'start' and
+    'restart' unless there was at least one entry in the 'providers'
+    file.  This resulted in these interfaces not appearing in the
+    output of 'shorewall[6] status -i'.
+
+----------------------------------------------------------------------------
+           I I.  K N O W N   P R O B L E M S   R E M A I N I N G
+----------------------------------------------------------------------------
+
+1)  On systems running Upstart, shorewall-init cannot reliably secure
+    the firewall before interfaces are brought up.
+
+----------------------------------------------------------------------------
+      I I I.  N E W   F E A T U R E S   I N   T H I S  R E L E A S E
+----------------------------------------------------------------------------
+
+1)  The providers file now supports a 'persistent' option. When
+    specified, this option removes the need to configure host routes to
+    systems used as the 'checkip' in LSM.
+
+    As part of this change, two other configuration files have changed:
+
+    a) The 'rtrules' file now allows the rule priority to be followed
+       by an exclaimation mark ("!").
+
+    b) An OPTION column has been added to the 'routes' file. The only
+       option currently supported is 'persistent'.
+
+    The option affects the routing configuration when the provider is
+    disabled:
+
+    - The provider's routing table still exists and contains the
+      provider's default route.
+
+    - Unless 'noautosrc' is specified, connections originating from the
+      interfaces IP address(es) are routed via the provider's default
+      gateway.
+
+    - Routing rules for the provider that specify '!' after the
+      priority are left in place.
+
+    - 'persistent' routes for the provider are left in place, allowing
+      communication with local networks that are still accessible.
+
+2)  It is now possible to replace any function in the CLI libraries
+    except for get_config(). This is accomplished by placing the
+    replacement function(s) in a shell library named 'lib.cli-user' in
+    a directory on the CONFIG_PATH. This allows for customization of
+    commands as well as working around distribution-specific issues.
+
+3)  Support for OpenWRT versions BB and later has been added. Included
+    in this support are:
+
+    - The log display commands (show log, logwatch, etc.) no longer
+      depend on the 'tac' utility (although it will be used if it is
+      installed).
+
+    - Shorewall-core's 'configure' script detects OpenWRT and accepts
+      HOST=openwrt as an argument.
+      
+    - Shorewall-core, Shorewall-lite and Shoreawll6-lite installers
+      support openwrt. Additionally, those installers no longer depend
+      on the 'install' utility.
+
+    - Shorewall[6]-lite will use OpenWRT's 'lock' utility to create the
+      LOCKFILE.
+
+    A special thanks to Matt Darfeuille for his help in making this
+    support possible.
+
+4)  Configuration files and extension scripts now have uniform
+    introductory comments (Tuomo Soini).
+
+----------------------------------------------------------------------------
+                  I V.  M I G R A T I O N   I S S U E S
+----------------------------------------------------------------------------
+
+1)  If you are migrating from Shorewall 4.4.x or earlier, please see
+    http://www.shorewall.net/pub/shorewall/4.5/shorewall-4.5.21/releasenotes.txt
+
+2)  It is strongly recommended that you first upgrade your installation
+    to a 4.6 release >= 5.6.12 prior to upgrading to Shorewall 5.0.
+
+    Once you are on the Shorewall 4.6 release:
+
+    - shorewall update -A
+
+    If you also run Shorewall6:
+    
+    - shorewall6 update -A
+
+    These steps are necessary because Shorewall 5.0:
+
+    - Does not contain support for the 'tcrules' and 'tos' files --
+      existing 'tcrules' and 'tos' files must be converted to an
+      equivalent set of 'mangle' file entries.
+
+    - Does not contain support for the 'blacklist' file -- it must
+      be converted to an equivalent 'blrules' file.
+
+    - Does not contain support for the 'notrack' file -- it must be
+      converted to an equivalent 'conntrack' file.
+
+    - Does not contain support for the 'routestopped' file -- it must
+      be converted to an equivalent 'stoppedrules' file.
+
+    Note that you can run the update command(s) after you upgrade to
+    Shorewall 5 but your firewall will not work correctly until
+    you do those update(s).
+
+3)  The following configuration options have been eliminated:
+
+    - EXPORTPARAMS
+    - IPSECFILE
+    - LEGACY_FASTSTART
+    - LOGRATE *
+    - LOGBURST *
+    - WIDE_TC_MARKS *
+    - HIGH_ROUTE_MARKS *
+    - BLACKLISTNEWONLY *
+
+    A fatal error results if those flagged with an asterisk ("*")
+    appear in the .conf file -- run the 'shorewall[6] update' command
+    to convert their settings to use supported options.
+
+    A warning is issued if any of the rest appear in the .conf file.
+    'shorewall[6] update' will drop them from the file.
+
+4)  To make the command names more accurately reflect what they do,
+    several changes have been included:
+
+    a)  Beginning with this release, the 'restart' command now does a
+    	true restart and is equivalent to a 'stop' followed by a
+    	'start'.
+
+    b)  The pre-5.0.0 'load' command has been renamed 'remote_start'.
+
+    c)  The pre-5.0.0 'reload' command has been renamed 'remote_reload'.
+
+    c)  The 'reload' command now performs the same function as the
+    	pre-5.0.0 'restart' command.
+
+    d)  A 'remote_restart' command has been added to Shorewall and
+    	Shorewall6 to allow a remote 'restart' after updating the
+    	remote firewall system's compiled script.
+
+    For those that can't get used to the idea of using 'reload' in
+    place of 'restart', a RESTART option has been added. The
+    option defaults to 'reload' for compatibility with earlier
+    releases. If set to 'restart', then the 'restart' command
+    does a true restart (stop followed by start)
+
+5)  While the WORKAROUNDS setting is still present in the
+    shorewall[6].conf file:
+
+    a)  It's default setting has been changed to No.
+    
+    b)  All workarounds for old distributions have been eliminated. See
+    	the Migration Issues for additional information.
+
+6)  Beginning with Shorewall 5.0.0, all macros and actions are assumed
+    to be FORMAT-2.  FORMAT-1 macros and actions are no longer supported
+    and will be silently processed as if they were FORMAT-2. For most
+    macros and actions, this change will be of no concern, but may cause
+    compilation errors in rare cases.
+
+    To review, FORMAT-1 actions have the following columns:
+
+       TARGET
+       SOURCE
+       DEST
+       PROTO
+       DEST PORT(S)
+       SOURCE PORT(S)
+       RATE
+       USER/GROUP
+       MARK
+
+    FORMAT-1 macros have these columns:
+
+       TARGET
+       SOURCE
+       DEST
+       PROTO
+       DEST PORT(S)
+       SOURCE PORT(S)
+       RATE
+       USER/GROUP
+
+    FORMAT-2 actions and macros, on the other hand, have:
+
+       TARGET
+       SOURCE
+       DEST
+       PROTO
+       DEST PORT(S)
+       SOURCE PORT(S)
+       ORIGINAL DEST
+       RATE
+       USER/GROUP
+       MARK
+       CONNLIMIT
+       TIME
+       HEADERS (Only valid for IPv6)
+       SWITCH
+       HELPER
+
+    To summarize, if your action or macro only uses the first 6
+    columns (which most do), then it will process fine as
+    FORMAT-2. Otherwise, it must be modified to place specifications in
+    the proper columns.
+
+7)  COMMENT, FORMAT and SECTION lines must now begin with a question
+    mark ("?"). The 'update' command will change all bare COMMENT,
+    FORMAT and SECTION lines to include the question mark.
+
+----------------------------------------------------------------------------
+         V.  N O T E S  F R O M  O T H E R  5 . 0  R E L E A S E S
+----------------------------------------------------------------------------
+            P R O B L E M S  C O R R E C T E D  I N  5 . 0 . 1
+----------------------------------------------------------------------------
+
+1)  Previously, if statistical load balancing was used in the providers
+    file, the default route in the main table was not deleted during
+    firewall start/restart. That route is now correctly deleted.
+
+2)  Certain files in /etc/shorewall[6] previously had permissions 644.
+    Those have been changed to 600 to match the other files in the
+    directories.
+
+3)  Previously, the CLI programs did not deal properly with the absense
+    of the 'hostname' utility. Now, if that utility is not present, the
+    programs look for 'uname' and if it is present, they use the 'uname
+    -n' command. If neither 'hostname' nor 'uname' are installed, the
+    programs display 'localhost' as the system name.                 
+
+----------------------------------------------------------------------------
+               N E W   F E A T U R E S   I N   5 . 0 . 1
+----------------------------------------------------------------------------
+
+1)  'second' and 'minute' are now allowed in the LOGLIMIT
+    specification in place of 'sec' and 'min' respectively. This
+    enhancement was present in Shorewall 4.6.13 but was not available
+    in Shoreall 5.0.0.
+
+2)  The LEGACY_RESTART option has been superseded by the RESTART
+    option. RESTART may be set as follows:
+
+      RESTART=reload
+
+	Causes the 'restart' command to perform the same action as the
+	'reload' command. This is the default if RESTART is not set.
+
+      RESTART=restart
+
+	Causes the 'restart' command to perform a true restart (stop
+	followed by start).
+
+    If LEGACY_RESTART is present in shorewall[6].conf and RESTART is
+    not, then its setting will govern the behavior of 'restart'. The
+    'update' command will convert the LEGACY_RESTART setting to the
+    equivalent RESTART setting.
+
+----------------------------------------------------------------------------
+            P R O B L E M S  C O R R E C T E D  I N  5 . 0 . 0
+----------------------------------------------------------------------------
+
+1)  This release includes defect repair up through Shorewall 4.6.13.1.
+
+2)  The compiled script now uses the %e date format rather than %_d,
+    for Busybox compatibilty. (Erich Titl)
+
+----------------------------------------------------------------------------
+               N E W   F E A T U R E S   I N   5 . 0 . 0
+----------------------------------------------------------------------------
+
+1)  To make the command names more accurately reflect what they do,
+    several changes have been included:
+
+    a)  Beginning with this release, the 'restart' command now does a
+    	true restart and is equivalent to a 'stop' followed by a
+    	'start'.
+
+    b)  The pre-5.0.0 'load' command has been renamed 'remote_start'.
+
+    c)  The pre-5.0.0 'reload' command has been renamed 'remote_reload'.
+
+    c)  The 'reload' command now performs the same function as the
+    	pre-5.0.0 'restart' command.
+
+    d)  A 'remote_restart' command has been added to Shorewall and
+    	Shorewall6 to allow a remote 'restart' after updating the
+    	remote firewall system's compiled script.
+
+2)  For those that can't get used to the idea of using 'reload' in
+    place of 'restart', a LEGACY_RESTART option has been added. The
+    option defaults to No but if set to Yes, then the 'restart' command
+    does what it has always done. 
+
+3)  It is now possible to limit connections by destination address in
+    the rules file by prefixing the CONNLIMIT setting with 'd:'.
+
+4)  While the WORKAROUNDS setting is still present in the
+    shorewall[6].conf files:
+
+    a)  Its default setting has been changed to No.
+    
+    b)  All workarounds for old distributions have been eliminated. See
+    	the Migration Issues for additional information.
+
+5)  A number of configuration options have been eliminated:
+
+    - EXPORTPARAMS
+    - IPSECFILE
+    - LEGACY_FASTSTART
+    - LOGRATE *
+    - LOGBURST *
+    - WIDE_TC_MARKS *
+    - HIGH_ROUTE_MARKS *
+    - BLACKLISTNEWONLY *
+
+    A fatal error results if those flagged with an asterisk ("*")
+    appear in the .conf file -- run the 'shorewall[6] update' command
+    to convert their settings to use supported options.
+
+    A warning is issued if any of the rest appear in the .conf file.
+    'shorewall[6] update' will drop them from the file.
+
+7)  The -b, -D, -r, -s, -t and -n options have been removed from the
+    'update' command. The command now behaves as if all of those
+    options had been specified.
+
+6)  Support has been removed for the 'blacklist', 'tcrules',
+    'routestopped', 'notrack' and 'tos' files.
+
+    The 'update' command will:
+
+    - convert the 'tcrules' and 'tos' files to the equivalent 'mangle'
+      file.
+
+    - convert the 'blacklist' file into an equivalent 'blrules' file.
+
+    - convert the routestopped' file into the equivalent 'stoppedrules'
+      file.
+
+    - convert a 'notrack' file to the equivalent 'conntrack' file.
+
+7)  Beginning with this release, all macros and actions are assumed
+    to be FORMAT-2. FORMAT-1 macros and actions are no longer supported
+    and will be silently processed as if they were FORMAT-2. For most
+    macros and actions, this change will be of no concern, but may cause
+    compilation errors in rare cases.
+
+8)  Beginning with this release, COMMENT, FORMAT and SECTION lines must
+    begin with a question mark ("?"). The 'update' command makes these
+    changes for you.
+
+9)  As an alternative to INLINE_MATCHES=Yes, you may now specify inline
+    matches (raw ip[6]tables text) after a double semicolon (';;').
+
+    Example from the 'masq' file to split SNAT between two public
+    addresses on eth1:
+
+      #INTERFACE SOURCE ADDRESS
+      eth1       -      1.2.3.1 ;; -m statistic --mode random --probability 0.50
+      eth1	 -	1.2.3.2
+
+10) Options in shorewall[6].conf that accept a log level now also allow
+    specification of a log tag.
+
+    Example:
+
+      TCP_FLAGS_LOG_LEVEL=info:,tcpflags
+
+11) A PROBABILITY column has been added to the masq file. One usage
+    scenario is to balance SNAT between two or more IP addresses on a
+    WAN interface:
+
+        #INTERFACE	SOURCE		ADDRESS
+    	eth1		-		1.2.3.4 { probability=0.50 }
+	eth2		-		1.2.3.5
+
+12) Previously, when chain names were included in a 'reset' command,
+    they were assumed to be filter table chains. Now, both a table name
+    and a chain name can be given (e.g., mangle:PREROUTING). The
+    specified table remains the default for the remainder of the
+    command unless a following entry also includes a table name.
+
+13) An action for Gluster FS (action.GlusterFS) has been added. See the
+    action file for a description of the parameters.
+

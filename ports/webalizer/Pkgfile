@@ -1,0 +1,27 @@
+# Description: The Webalizer is a fast, free web server log file analysis program.
+# URL:          https://http://www.webalizer.org//
+# Maintainer:   Silvino, silvino at bk dot ru
+# Depends on:   libgd libpng zlib geoip
+
+name=webalizer
+version=2.23-08
+release=1
+source=(ftp://ftp.mrunix.net/pub/$name/$name-$version-src.tar.bz2 \
+        ftp://ftp.mrunix.net/pub/webalizer/geodb/geodb-latest.tgz \
+        webalizer.conf.sample)
+
+build() {
+    cd $name-$version
+
+    ./configure --prefix=/usr \
+        --without-language \
+        --enable-dns \
+        --enable-geoip
+
+    make
+    make DESTDIR=$PKG install
+
+    install -m 0644 $SRC/webalizer.conf.sample $PKG/usr/etc/
+    install -d $PKG/usr/share/GeoDB
+    install -m 0644 $SRC/GeoDB.dat $PKG/usr/share/GeoDB/
+}

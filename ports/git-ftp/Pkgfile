@@ -1,18 +1,17 @@
 # Description:  Git powered FTP client written as shell script.
 # URL:          https://github.com/git-ftp/git-ftp
-# Maintainer:     Silvino Silva, silvino at bk dot ru
+# Maintainer:   Silvino Silva, silvino at bk dot ru
 # Depends on:   git, curl
 
 name=git-ftp
-version=1.0.2
+version=1.1.0
 release=1
 source=(https://github.com/git-ftp/git-ftp/archive/$version.zip)
-        
 
 build() {
-    
+
     cd $SRC/git-ftp-$version
 
-    make  DESTDIR=$PKG install 
+    make  DESTDIR=$PKG install
 
 }

@@ -17,6 +17,7 @@ drwxr-xr-x	root/root	usr/include/libavcodec/
 -rw-r--r--	root/root	usr/include/libavcodec/vda.h
 -rw-r--r--	root/root	usr/include/libavcodec/vdpau.h
 -rw-r--r--	root/root	usr/include/libavcodec/version.h
+-rw-r--r--	root/root	usr/include/libavcodec/videotoolbox.h
 -rw-r--r--	root/root	usr/include/libavcodec/vorbis_parser.h
 -rw-r--r--	root/root	usr/include/libavcodec/xvmc.h
 drwxr-xr-x	root/root	usr/include/libavdevice/
@@ -95,6 +96,7 @@ drwxr-xr-x	root/root	usr/include/libavutil/
 -rw-r--r--	root/root	usr/include/libavutil/sha.h
 -rw-r--r--	root/root	usr/include/libavutil/sha512.h
 -rw-r--r--	root/root	usr/include/libavutil/stereo3d.h
+-rw-r--r--	root/root	usr/include/libavutil/tea.h
 -rw-r--r--	root/root	usr/include/libavutil/threadmessage.h
 -rw-r--r--	root/root	usr/include/libavutil/time.h
 -rw-r--r--	root/root	usr/include/libavutil/timecode.h
@@ -113,37 +115,37 @@ drwxr-xr-x	root/root	usr/include/libswscale/
 -rw-r--r--	root/root	usr/include/libswscale/version.h
 drwxr-xr-x	root/root	usr/lib/
 -rw-r--r--	root/root	usr/lib/libavcodec.a
-lrwxrwxrwx	root/root	usr/lib/libavcodec.so -> libavcodec.so.56.41.100
-lrwxrwxrwx	root/root	usr/lib/libavcodec.so.56 -> libavcodec.so.56.41.100
--rwxr-xr-x	root/root	usr/lib/libavcodec.so.56.41.100
+lrwxrwxrwx	root/root	usr/lib/libavcodec.so -> libavcodec.so.56.60.100
+lrwxrwxrwx	root/root	usr/lib/libavcodec.so.56 -> libavcodec.so.56.60.100
+-rwxr-xr-x	root/root	usr/lib/libavcodec.so.56.60.100
 -rw-r--r--	root/root	usr/lib/libavdevice.a
 lrwxrwxrwx	root/root	usr/lib/libavdevice.so -> libavdevice.so.56.4.100
 lrwxrwxrwx	root/root	usr/lib/libavdevice.so.56 -> libavdevice.so.56.4.100
 -rwxr-xr-x	root/root	usr/lib/libavdevice.so.56.4.100
 -rw-r--r--	root/root	usr/lib/libavfilter.a
-lrwxrwxrwx	root/root	usr/lib/libavfilter.so -> libavfilter.so.5.16.101
-lrwxrwxrwx	root/root	usr/lib/libavfilter.so.5 -> libavfilter.so.5.16.101
--rwxr-xr-x	root/root	usr/lib/libavfilter.so.5.16.101
+lrwxrwxrwx	root/root	usr/lib/libavfilter.so -> libavfilter.so.5.40.101
+lrwxrwxrwx	root/root	usr/lib/libavfilter.so.5 -> libavfilter.so.5.40.101
+-rwxr-xr-x	root/root	usr/lib/libavfilter.so.5.40.101
 -rw-r--r--	root/root	usr/lib/libavformat.a
-lrwxrwxrwx	root/root	usr/lib/libavformat.so -> libavformat.so.56.36.100
-lrwxrwxrwx	root/root	usr/lib/libavformat.so.56 -> libavformat.so.56.36.100
--rwxr-xr-x	root/root	usr/lib/libavformat.so.56.36.100
+lrwxrwxrwx	root/root	usr/lib/libavformat.so -> libavformat.so.56.40.101
+lrwxrwxrwx	root/root	usr/lib/libavformat.so.56 -> libavformat.so.56.40.101
+-rwxr-xr-x	root/root	usr/lib/libavformat.so.56.40.101
 -rw-r--r--	root/root	usr/lib/libavresample.a
 lrwxrwxrwx	root/root	usr/lib/libavresample.so -> libavresample.so.2.1.0
 lrwxrwxrwx	root/root	usr/lib/libavresample.so.2 -> libavresample.so.2.1.0
 -rwxr-xr-x	root/root	usr/lib/libavresample.so.2.1.0
 -rw-r--r--	root/root	usr/lib/libavutil.a
-lrwxrwxrwx	root/root	usr/lib/libavutil.so -> libavutil.so.54.27.100
-lrwxrwxrwx	root/root	usr/lib/libavutil.so.54 -> libavutil.so.54.27.100
--rwxr-xr-x	root/root	usr/lib/libavutil.so.54.27.100
+lrwxrwxrwx	root/root	usr/lib/libavutil.so -> libavutil.so.54.31.100
+lrwxrwxrwx	root/root	usr/lib/libavutil.so.54 -> libavutil.so.54.31.100
+-rwxr-xr-x	root/root	usr/lib/libavutil.so.54.31.100
 -rw-r--r--	root/root	usr/lib/libpostproc.a
 lrwxrwxrwx	root/root	usr/lib/libpostproc.so -> libpostproc.so.53.3.100
 lrwxrwxrwx	root/root	usr/lib/libpostproc.so.53 -> libpostproc.so.53.3.100
 -rwxr-xr-x	root/root	usr/lib/libpostproc.so.53.3.100
 -rw-r--r--	root/root	usr/lib/libswresample.a
-lrwxrwxrwx	root/root	usr/lib/libswresample.so -> libswresample.so.1.2.100
-lrwxrwxrwx	root/root	usr/lib/libswresample.so.1 -> libswresample.so.1.2.100
--rwxr-xr-x	root/root	usr/lib/libswresample.so.1.2.100
+lrwxrwxrwx	root/root	usr/lib/libswresample.so -> libswresample.so.1.2.101
+lrwxrwxrwx	root/root	usr/lib/libswresample.so.1 -> libswresample.so.1.2.101
+-rwxr-xr-x	root/root	usr/lib/libswresample.so.1.2.101
 -rw-r--r--	root/root	usr/lib/libswscale.a
 lrwxrwxrwx	root/root	usr/lib/libswscale.so -> libswscale.so.3.1.101
 lrwxrwxrwx	root/root	usr/lib/libswscale.so.3 -> libswscale.so.3.1.101
@@ -189,7 +191,7 @@ drwxr-xr-x	root/root	usr/share/
 drwxr-xr-x	root/root	usr/share/ffmpeg/
 drwxr-xr-x	root/root	usr/share/ffmpeg/examples/
 -rw-r--r--	root/root	usr/share/ffmpeg/examples/Makefile
--rw-r--r--	root/root	usr/share/ffmpeg/examples/avio_list_dir.c
+-rw-r--r--	root/root	usr/share/ffmpeg/examples/avio_dir_cmd.c
 -rw-r--r--	root/root	usr/share/ffmpeg/examples/avio_reading.c
 -rw-r--r--	root/root	usr/share/ffmpeg/examples/decoding_encoding.c
 -rw-r--r--	root/root	usr/share/ffmpeg/examples/demuxing_decoding.c
@@ -197,6 +199,7 @@ drwxr-xr-x	root/root	usr/share/ffmpeg/examples/
 -rw-r--r--	root/root	usr/share/ffmpeg/examples/filter_audio.c
 -rw-r--r--	root/root	usr/share/ffmpeg/examples/filtering_audio.c
 -rw-r--r--	root/root	usr/share/ffmpeg/examples/filtering_video.c
+-rw-r--r--	root/root	usr/share/ffmpeg/examples/http_multiclient.c
 -rw-r--r--	root/root	usr/share/ffmpeg/examples/metadata.c
 -rw-r--r--	root/root	usr/share/ffmpeg/examples/muxing.c
 -rw-r--r--	root/root	usr/share/ffmpeg/examples/qsvdec.c

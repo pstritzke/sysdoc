@@ -1,6 +1,8 @@
 #!/bin/sh
-COLL=core
-prt-get printf "%i %p %n\n" | grep "yes /usr/ports/"$COLL | cut -d " " -f 3 > $COLL"_installed.lst"
+COLL=$1
+source /etc/ports/$COLL".rsync"
+
+prt-get printf "%i %p %n\n" | grep "yes $destination" | cut -d " " -f 3 > $COLL"_installed.lst"
 
 while read line; do
     {

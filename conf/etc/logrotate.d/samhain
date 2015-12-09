@@ -1,0 +1,24 @@
+/var/log/samhain.log {
+    weekly
+    rotate 52
+    nocreate
+    missingok
+    compress
+
+    prerotate
+        if test -f /var/run/samhain.pid; then \
+          PIN=`cat /var/run/samhain.pid`; \
+          /bin/kill -TTIN $PIN; \
+          sleep 1; \
+          AA=0; \
+          while test "x$AA" != "x120"; do \
+           AA=$(( AA + 1 )); \
+           if test -f /var/log/samhain.log.lock; then \
+             sleep 1; \
+           else \
+             break; \
+           fi \
+          done; \
+        fi
+    endscript
+}

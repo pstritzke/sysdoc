@@ -5,12 +5,13 @@
 # Depends on:
 
 name=shorewall
-version=4.6.13
-release=2
+version=5.0.2
+release=0
 
-source=(http://shorewall.de/pub/shorewall/4.6/shorewall-${version}/shorewall-core-${version}.tgz
-http://shorewall.de/pub/shorewall/4.6/shorewall-${version}/shorewall-${version}.tgz
-http://shorewall.de/pub/shorewall/4.6/shorewall-${version}/shorewall6-${version}.tgz)
+source=(http://shorewall.de/pub/shorewall/5.0/shorewall-${version}/shorewall-core-${version}.tgz
+http://shorewall.de/pub/shorewall/5.0/shorewall-${version}/shorewall-${version}.tgz
+http://shorewall.de/pub/shorewall/5.0/shorewall-${version}/shorewall6-${version}.tgz
+README)
 
 build() {
   # core modules
