@@ -10,8 +10,11 @@ drwxr-xr-x	root/root	lib/modules/<kernel-version>/kernel/
 drwxr-xr-x	root/root	lib/modules/<kernel-version>/kernel/crypto/
 -rw-r--r--	root/root	lib/modules/<kernel-version>/kernel/crypto/michael_mic.ko
 drwxr-xr-x	root/root	lib/modules/<kernel-version>/kernel/drivers/
-drwxr-xr-x	root/root	lib/modules/<kernel-version>/kernel/drivers/bcma/
--rw-r--r--	root/root	lib/modules/<kernel-version>/kernel/drivers/bcma/bcma.ko
+drwxr-xr-x	root/root	lib/modules/<kernel-version>/kernel/drivers/gpu/
+drwxr-xr-x	root/root	lib/modules/<kernel-version>/kernel/drivers/gpu/drm/
+-rw-r--r--	root/root	lib/modules/<kernel-version>/kernel/drivers/gpu/drm/drm_kms_helper.ko
+drwxr-xr-x	root/root	lib/modules/<kernel-version>/kernel/drivers/gpu/drm/i915/
+-rw-r--r--	root/root	lib/modules/<kernel-version>/kernel/drivers/gpu/drm/i915/i915.ko
 drwxr-xr-x	root/root	lib/modules/<kernel-version>/kernel/drivers/i2c/
 -rw-r--r--	root/root	lib/modules/<kernel-version>/kernel/drivers/i2c/i2c-mux.ko
 drwxr-xr-x	root/root	lib/modules/<kernel-version>/kernel/drivers/input/
@@ -55,10 +58,17 @@ drwxr-xr-x	root/root	lib/modules/<kernel-version>/kernel/drivers/net/wireless/ho
 drwxr-xr-x	root/root	lib/modules/<kernel-version>/kernel/drivers/spi/
 -rw-r--r--	root/root	lib/modules/<kernel-version>/kernel/drivers/spi/spi-bitbang.ko
 -rw-r--r--	root/root	lib/modules/<kernel-version>/kernel/drivers/spi/spidev.ko
-drwxr-xr-x	root/root	lib/modules/<kernel-version>/kernel/drivers/ssb/
--rw-r--r--	root/root	lib/modules/<kernel-version>/kernel/drivers/ssb/ssb.ko
 drwxr-xr-x	root/root	lib/modules/<kernel-version>/kernel/drivers/thermal/
 -rw-r--r--	root/root	lib/modules/<kernel-version>/kernel/drivers/thermal/x86_pkg_temp_thermal.ko
+drwxr-xr-x	root/root	lib/modules/<kernel-version>/kernel/drivers/video/
+drwxr-xr-x	root/root	lib/modules/<kernel-version>/kernel/drivers/video/fbdev/
+drwxr-xr-x	root/root	lib/modules/<kernel-version>/kernel/drivers/video/fbdev/core/
+-rw-r--r--	root/root	lib/modules/<kernel-version>/kernel/drivers/video/fbdev/core/cfbcopyarea.ko
+-rw-r--r--	root/root	lib/modules/<kernel-version>/kernel/drivers/video/fbdev/core/cfbfillrect.ko
+-rw-r--r--	root/root	lib/modules/<kernel-version>/kernel/drivers/video/fbdev/core/cfbimgblt.ko
+drwxr-xr-x	root/root	lib/modules/<kernel-version>/kernel/fs/
+drwxr-xr-x	root/root	lib/modules/<kernel-version>/kernel/fs/autofs4/
+-rw-r--r--	root/root	lib/modules/<kernel-version>/kernel/fs/autofs4/autofs4.ko
 drwxr-xr-x	root/root	lib/modules/<kernel-version>/kernel/lib/
 -rw-r--r--	root/root	lib/modules/<kernel-version>/kernel/lib/cordic.ko
 -rw-r--r--	root/root	lib/modules/<kernel-version>/kernel/lib/crc-ccitt.ko
@@ -68,6 +78,8 @@ drwxr-xr-x	root/root	lib/modules/<kernel-version>/kernel/net/802/
 -rw-r--r--	root/root	lib/modules/<kernel-version>/kernel/net/802/p8022.ko
 -rw-r--r--	root/root	lib/modules/<kernel-version>/kernel/net/802/psnap.ko
 -rw-r--r--	root/root	lib/modules/<kernel-version>/kernel/net/802/stp.ko
+drwxr-xr-x	root/root	lib/modules/<kernel-version>/kernel/net/8021q/
+-rw-r--r--	root/root	lib/modules/<kernel-version>/kernel/net/8021q/8021q.ko
 drwxr-xr-x	root/root	lib/modules/<kernel-version>/kernel/net/bridge/
 -rw-r--r--	root/root	lib/modules/<kernel-version>/kernel/net/bridge/br_netfilter.ko
 -rw-r--r--	root/root	lib/modules/<kernel-version>/kernel/net/bridge/bridge.ko
@@ -38428,10 +38440,12 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/acpi/hotplug/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/acpi/hotplug/ioapic.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/acpi/i2c/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/acpi/i2c/opregion.h (EMPTY)
+drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/acpi/initrd/
+drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/acpi/initrd/table/
+-rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/acpi/initrd/table/override.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/acpi/legacy/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/acpi/legacy/tables/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/acpi/legacy/tables/lookup.h (EMPTY)
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/acpi/numa.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/acpi/processor.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/acpi/sleep.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/acpi/system/
@@ -38558,10 +38572,6 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/arch/uses/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/arch/uses/pg/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/arch/uses/pg/uncached.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/arch/want/
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/arch/want/compat/
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/arch/want/compat/ipc/
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/arch/want/compat/ipc/parse/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/arch/want/compat/ipc/parse/version.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/arch/want/frame/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/arch/want/frame/pointers.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/arch/want/general/
@@ -38569,9 +38579,6 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/arch/want/general/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/arch/want/huge/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/arch/want/huge/pmd/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/arch/want/huge/pmd/share.h (EMPTY)
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/arch/want/old/
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/arch/want/old/compat/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/arch/want/old/compat/ipc.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/arch/want/optional/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/arch/want/optional/gpiolib.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/associative/
@@ -38621,14 +38628,7 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/backlight/lcd/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/base/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/base/full.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/base/small.h (EMPTY)
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/bcma.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/bcma/
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/bcma/driver/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/bcma/driver/pci.h (EMPTY)
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/bcma/host/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/bcma/host/pci.h (EMPTY)
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/bcma/host/pci/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/bcma/host/pci/possible.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/bcma/possible.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/binary/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/binary/printf.h (EMPTY)
@@ -38657,8 +38657,6 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/blk/dev/loop/min/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/blk/dev/sr/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/blk/dev/sr/vendor.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/block.h (EMPTY)
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/block/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/block/compat.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/bounce.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/bpf.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/bql.h (EMPTY)
@@ -38670,11 +38668,26 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/bridge/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/bridge/igmp/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/bridge/igmp/snooping.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/bridge/netfilter.h (EMPTY)
+drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/bridge/vlan/
+-rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/bridge/vlan/filtering.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/bsd/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/bsd/disklabel.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/bsd/process/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/bsd/process/acct.h (EMPTY)
+drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/btrfs/
+-rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/btrfs/assert.h (EMPTY)
+-rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/btrfs/fs.h (EMPTY)
+drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/btrfs/fs/
+drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/btrfs/fs/check/
+-rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/btrfs/fs/check/integrity.h (EMPTY)
+drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/btrfs/fs/posix/
+-rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/btrfs/fs/posix/acl.h (EMPTY)
+drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/btrfs/fs/run/
+drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/btrfs/fs/run/sanity/
+-rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/btrfs/fs/run/sanity/tests.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/bug.h (EMPTY)
+drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/build/
+-rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/build/bin2c.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/buildtime/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/buildtime/extable/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/buildtime/extable/sort.h (EMPTY)
@@ -38713,6 +38726,8 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/chr/dev/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/chr/dev/sg.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/clkbld/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/clkbld/i8253.h (EMPTY)
+drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/clkdev/
+-rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/clkdev/lookup.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/clkevt/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/clkevt/i8253.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/clocksource/
@@ -38720,18 +38735,9 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/clocksource/validate/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/clocksource/validate/last/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/clocksource/validate/last/cycle.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/clocksource/watchdog.h (EMPTY)
+drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/common/
+-rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/common/clk.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/compaction.h (EMPTY)
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/compat.h (EMPTY)
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/compat/
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/compat/binfmt/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/compat/binfmt/elf.h (EMPTY)
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/compat/for/
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/compat/for/u64/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/compat/for/u64/alignment.h (EMPTY)
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/compat/netlink/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/compat/netlink/messages.h (EMPTY)
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/compat/old/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/compat/old/sigaction.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/connector.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/console/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/console/translations.h (EMPTY)
@@ -38889,8 +38895,6 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/dmi/scan/machine/non/ef
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/dmi/scan/machine/non/efi/fallback.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/dmiid.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/dnotify.h (EMPTY)
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/dns/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/dns/resolver.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/doublefault.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/dql.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/drm.h (EMPTY)
@@ -38899,9 +38903,6 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/drm/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/drm/i915/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/drm/i915/fbdev.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/drm/i915/kms.h (EMPTY)
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/drm/i915/preliminary/
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/drm/i915/preliminary/hw/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/drm/i915/preliminary/hw/support.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/drm/kms/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/drm/kms/fb/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/drm/kms/fb/helper.h (EMPTY)
@@ -38962,6 +38963,10 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/extra/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/fair/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/fair/group/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/fair/group/sched.h (EMPTY)
+-rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/fanotify.h (EMPTY)
+drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/fanotify/
+drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/fanotify/access/
+-rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/fanotify/access/permissions.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/fat/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/fat/default/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/fat/default/codepage.h (EMPTY)
@@ -39003,6 +39008,8 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/fs/posix/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/fs/posix/acl.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/fsnotify.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/ftrace.h (EMPTY)
+drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/fuse/
+-rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/fuse/fs.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/futex.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/fw/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/fw/loader.h (EMPTY)
@@ -39059,8 +39066,6 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/generic/time/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/generic/tracer.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/geneve.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/glob.h (EMPTY)
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/grace/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/grace/period.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/has/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/has/dma.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/has/iomem.h (EMPTY)
@@ -39096,6 +39101,9 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/have/c/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/have/c/recordmcount.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/have/cc/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/have/cc/stackprotector.h (EMPTY)
+-rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/have/clk.h (EMPTY)
+drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/have/clk/
+-rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/have/clk/prepare.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/have/cmpxchg/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/have/cmpxchg/double.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/have/cmpxchg/local.h (EMPTY)
@@ -39193,7 +39201,6 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/have/setup/per/cpu/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/have/setup/per/cpu/area.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/have/syscall/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/have/syscall/tracepoints.h (EMPTY)
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/have/uid16.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/have/unstable/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/have/unstable/sched/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/have/unstable/sched/clock.h (EMPTY)
@@ -39256,8 +39263,6 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/i2c/helper/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/i2c/mux.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/i8253/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/i8253/lock.h (EMPTY)
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/ia32/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/ia32/emulation.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/illegal/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/illegal/pointer/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/illegal/pointer/value.h (EMPTY)
@@ -39435,17 +39440,15 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/kernel/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/kernel/gzip.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/kernfs.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/kexec.h (EMPTY)
+drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/kexec/
+-rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/kexec/file.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/keyboard/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/keyboard/atkbd.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/keys.h (EMPTY)
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/keys/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/keys/compat.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/kprobe/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/kprobe/event.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/kprobes.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/kretprobes.h (EMPTY)
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/kvm/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/kvm/compat.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/leds/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/leds/class.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/leds/triggers.h (EMPTY)
@@ -39462,9 +39465,6 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/lock/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/lock/spin/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/lock/spin/on/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/lock/spin/on/owner.h (EMPTY)
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/lockd.h (EMPTY)
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/lockd/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/lockd/v4.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/lockdep/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/lockdep/support.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/log/
@@ -39566,8 +39566,6 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/need/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/need/dma/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/need/dma/map/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/need/dma/map/state.h (EMPTY)
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/need/multiple/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/need/multiple/nodes.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/need/per/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/need/per/cpu/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/need/per/cpu/embed/
@@ -39797,19 +39795,6 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/nf/reject/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/nf/tables/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/nf/tables/arp.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/nf/tables/ipv4.h (EMPTY)
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/nfs/
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/nfs/acl/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/nfs/acl/support.h (EMPTY)
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/nfs/common.h (EMPTY)
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/nfs/fs.h (EMPTY)
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/nfs/use/
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/nfs/use/kernel/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/nfs/use/kernel/dns.h (EMPTY)
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/nfs/v2.h (EMPTY)
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/nfs/v3.h (EMPTY)
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/nfs/v3/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/nfs/v3/acl.h (EMPTY)
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/nfs/v4.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/nft/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/nft/chain/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/nft/chain/nat/
@@ -39865,21 +39850,11 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/no/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/no/hz/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/no/hz/common.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/no/hz/idle.h (EMPTY)
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/nodes/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/nodes/shift.h (EMPTY)
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/nodes/span/
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/nodes/span/other/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/nodes/span/other/nodes.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/nop/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/nop/tracer.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/nr/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/nr/cpus.h (EMPTY)
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/numa.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/nvram.h (EMPTY)
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/oid/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/oid/registry.h (EMPTY)
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/old/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/old/sigsuspend3.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/oprofile/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/oprofile/nmi/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/oprofile/nmi/timer.h (EMPTY)
@@ -39949,8 +39924,10 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/physical/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/physical/start.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/pid/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/pid/ns.h (EMPTY)
+-rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/pinctrl.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/pm.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/pm/
+-rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/pm/clk.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/pm/debug.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/pm/sleep.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/pm/sleep/
@@ -40013,9 +39990,9 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/quota/netlink/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/quota/netlink/interface.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/quota/tree.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/quotactl.h (EMPTY)
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/quotactl/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/quotactl/compat.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/r8169.h (EMPTY)
+drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/raid6/
+-rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/raid6/pq.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/randomize/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/randomize/base.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/randomize/base/
@@ -40082,7 +40059,6 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/sched/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/sched/omit/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/sched/omit/frame/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/sched/omit/frame/pointer.h (EMPTY)
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/sched/smt.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/schedstats.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/scsi.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/scsi/
@@ -40103,9 +40079,16 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/security/apparmor/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/security/apparmor/bootparam/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/security/apparmor/bootparam/value.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/security/apparmor/hash.h (EMPTY)
+drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/security/dmesg/
+-rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/security/dmesg/restrict.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/security/network.h (EMPTY)
+drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/security/network/
+-rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/security/network/xfrm.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/security/path.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/security/smack.h (EMPTY)
+drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/security/smack/
+-rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/security/smack/bringup.h (EMPTY)
+-rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/security/smack/netfilter.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/securityfs.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/select/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/select/memory/
@@ -40249,17 +40232,8 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/split/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/split/ptlock/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/split/ptlock/cpus.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/srcu.h (EMPTY)
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/ssb.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/ssb/
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/ssb/driver/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/ssb/driver/pcicore.h (EMPTY)
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/ssb/driver/pcicore/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/ssb/driver/pcicore/possible.h (EMPTY)
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/ssb/pcihost.h (EMPTY)
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/ssb/pcihost/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/ssb/pcihost/possible.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/ssb/possible.h (EMPTY)
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/ssb/sprom.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/stacktrace.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/stacktrace/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/stacktrace/support.h (EMPTY)
@@ -40269,9 +40243,6 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/stop/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/stp.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/sun/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/sun/partition.h (EMPTY)
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/sunrpc.h (EMPTY)
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/sunrpc/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/sunrpc/gss.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/suspend.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/suspend/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/suspend/freezer.h (EMPTY)
@@ -40288,7 +40259,6 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/sysfs/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/sysfs/syscall.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/sysvipc.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/sysvipc/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/sysvipc/compat.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/sysvipc/sysctl.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/task/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/task/delay/
@@ -40349,7 +40319,6 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/uevent/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/uevent/helper.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/uevent/helper/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/uevent/helper/path.h (EMPTY)
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/uid16.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/uio.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/unix.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/unix/
@@ -40386,11 +40355,6 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/usb/ohci/little/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/usb/support.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/usb/uhci/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/usb/uhci/hcd.h (EMPTY)
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/use/
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/use/percpu/
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/use/percpu/numa/
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/use/percpu/numa/node/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/use/percpu/numa/node/id.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/uselib.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/user/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/user/stacktrace/
@@ -40408,7 +40372,6 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/vga/arb/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/vga/arb/max/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/vga/arb/max/gpus.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/vga/console.h (EMPTY)
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/vga/switcheroo.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/vgacon/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/vgacon/soft/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/vgacon/soft/scrollback.h (EMPTY)
@@ -40424,6 +40387,8 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/videobuf2/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/virt/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/virt/to/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/virt/to/bus.h (EMPTY)
+drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/vlan/
+-rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/vlan/8021q.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/vm/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/vm/event/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/vm/event/counters.h (EMPTY)
@@ -40451,8 +40416,6 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/x86/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/x86/16bit.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/x86/64.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/x86/64/
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/x86/64/acpi/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/x86/64/acpi/numa.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/x86/64/smp.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/x86/acpi/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/x86/acpi/cpufreq.h (EMPTY)
@@ -40475,12 +40438,11 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/x86/dev/dma/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/x86/direct/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/x86/direct/gbpages.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/x86/espfix64.h (EMPTY)
-drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/x86/extended/
--rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/x86/extended/platform.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/x86/feature/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/x86/feature/names.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/x86/ht.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/x86/intel/
+-rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/x86/intel/lpss.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/x86/intel/usercopy.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/x86/internode/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/x86/internode/cache/
@@ -40543,6 +40505,8 @@ drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/xfrm/
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/xfrm/sub/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/xfrm/sub/policy.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/xfrm/user.h (EMPTY)
+drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/xor/
+-rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/xor/blocks.h (EMPTY)
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/xps.h (EMPTY)
 drwxr-xr-x	root/root	usr/src/linux-4.1.13/include/config/xz/
 -rw-r--r--	root/root	usr/src/linux-4.1.13/include/config/xz/dec.h (EMPTY)
@@ -47072,6 +47036,7 @@ drwxrwxr-x	root/root	usr/src/linux-4.1.13/scripts/
 drwxrwxr-x	root/root	usr/src/linux-4.1.13/scripts/basic/
 -rw-rw-r--	root/root	usr/src/linux-4.1.13/scripts/basic/.gitignore
 -rw-rw-r--	root/root	usr/src/linux-4.1.13/scripts/basic/Makefile
+-rwxr-xr-x	root/root	usr/src/linux-4.1.13/scripts/basic/bin2c
 -rw-rw-r--	root/root	usr/src/linux-4.1.13/scripts/basic/bin2c.c
 -rwxr-xr-x	root/root	usr/src/linux-4.1.13/scripts/basic/fixdep
 -rw-rw-r--	root/root	usr/src/linux-4.1.13/scripts/basic/fixdep.c
