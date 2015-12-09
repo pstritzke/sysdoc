@@ -4,7 +4,7 @@
 # Depends on:   grub2 nbd nfs-utils lvm2 mdadm
 
 name=dracut
-version=043
+version=044
 release=2
 source=(https://www.kernel.org/pub/linux/utils/boot/$name/$name-$version.tar.xz)
 

@@ -7,10 +7,10 @@ name=faircoin-qt
 version=1.5.2
 release=1
 source=(https://github.com/FairCoinTeam/fair-coin/archive/v$version.zip)
-        
+
 
 build() {
-    
+
     ls $SRC
 
     cd $SRC/fair-coin-$version
@@ -24,11 +24,11 @@ build() {
         --disable-maintainer-mode \
         --with-incompatible-bdb \
         --with-gui=qt5 \
-        --disable-tests 
+        --disable-tests
 
 
     make -j `nproc`
 
-    make  DESTDIR=$PKG install 
+    make  DESTDIR=$PKG install
 
 }
