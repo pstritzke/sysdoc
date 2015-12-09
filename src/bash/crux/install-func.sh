@@ -57,9 +57,6 @@ prepare_install() {
 
     chmod +x $CHROOT/pkgadd
 
-    echo "3.6 install handbook to /root"
-    cp $CHROOT/iso/crux/handbook.txt $CHROOT/root/
-
     echo "1.3 core.lst complete, review list of packages before continue..."
     read
     vim $CHROOT/core.lst
@@ -111,6 +108,7 @@ configure_crux() {
     vim $CHROOT/etc/fstab
 
     echo "2.6 Edit rc.conf;"
+    cp $DIR_CONF/rc.conf $CHROOT/etc/
     vim $CHROOT/etc/rc.conf
 }
 
@@ -138,6 +136,7 @@ configure_pkg() {
     vim $CHROOT/etc/fstab
 
     echo "3.4 configure pkgmk;"
+    cp $DIR_CONF/pkgmk.conf $CHROOT/etc/
     vim $CHROOT/etc/pkgmk.conf
 
     echo "3.5 activate contrib ports;"
@@ -145,41 +144,32 @@ configure_pkg() {
 
 
     echo "3.5 configure prt-get;"
+    cp $DIR_CONF/prt-get.conf $CHROOT/etc/
     vim $CHROOT/etc/prt-get.conf
 
 }
 
 update_ports() {
 
+    echo "3.6 install handbook to /root"
+    cp $CHROOT/iso/crux/handbook.txt $CHROOT/root/
+
+
     echo "3.6 update ports;"
     chroot $CHROOT /bin/bash -c "ports -u"
     chroot $CHROOT /bin/bash -c "prt-get sysup"
+    chroot $CHROOT /bin/bash -c "prt-get depinst prt-utils"
     REV_DEP=$(chroot $CHROOT /bin/bash -c "revdep")
-    chroot $CHROOT /bin/bash -c "prt-get update -f $REV_DEP"
-
-}
-
-install_extra() {
-    echo "3.6 install additional packages;"
-
-    #cp $CHROOT/iso/crux/opt/* $CHROOT/var/ports/packages
-    #cp $CHROOT/iso/crux/xorg/* $CHROOT/var/ports/packages
-
-    chroot $CHROOT /bin/bash -c "prt-get depinst glib"
-    chroot $CHROOT /bin/bash -c "prt-get depinst grub2"
-    chroot $CHROOT /bin/bash -c "prt-get depinst wireless-tools"
-    chroot $CHROOT /bin/bash -c "prt-get depinst wpa_supplicant"
-    chroot $CHROOT /bin/bash -c "prt-get depinst gnupg"
-    chroot $CHROOT /bin/bash -c "prt-get depinst shorewall"
-    chroot $CHROOT /bin/bash -c "prt-get depinst logrotate"
-    # samhain at this point add /etc/logrotate.d/samhain 
-    chroot $CHROOT /bin/bash -c "prt-get -if depinst samhain"
-    chroot $CHROOT /bin/bash -c "prt-get depinst tmux"
+    if [ -z "$REV_DEP" ]; then
+        echo "Revision Dependency: $REV_DEP"
+        chroot $CHROOT /bin/bash -c "prt-get update -f $REV_DEP"
+    fi
 
 }
 
 get_sysdoc() {
     echo "3.6 get this documentation;"
+
     chroot $CHROOT /bin/bash -c "prt-get depinst git"
 
     chroot $CHROOT /bin/bash -c "su - $ADMIN_USER -c 'git clone https://github.com/s1lvino/sysdoc'"
@@ -194,9 +184,30 @@ get_sysdoc() {
 
 }
 
+
+install_extra() {
+    echo "3.6 install additional packages;"
+
+    #cp $CHROOT/iso/crux/opt/* $CHROOT/var/ports/packages
+    #cp $CHROOT/iso/crux/xorg/* $CHROOT/var/ports/packages
+
+    chroot $CHROOT /bin/bash -c "prt-get depinst glib"
+    chroot $CHROOT /bin/bash -c "prt-get depinst grub2"
+    chroot $CHROOT /bin/bash -c "prt-get depinst wireless-tools"
+    chroot $CHROOT /bin/bash -c "prt-get depinst wpa_supplicant"
+    chroot $CHROOT /bin/bash -c "prt-get depinst gnupg"
+    chroot $CHROOT /bin/bash -c "prt-get depinst shorewall"
+    chroot $CHROOT /bin/bash -c "prt-get depinst logrotate"
+    # samhain at this point add /etc/logrotate.d/samhain
+    chroot $CHROOT /bin/bash -c "prt-get -if depinst samhain"
+    chroot $CHROOT /bin/bash -c "prt-get depinst dnsmasq"
+    chroot $CHROOT /bin/bash -c "prt-get depinst tmux"
+
+}
+
 install_linux() {
     echo "4.1 installing linux kernel;"
-    chroot $CHROOT /bin/bash -c "prt-get -im depinst linux-libre"
+    chroot $CHROOT /bin/bash -c "prt-get depinst linux-libre"
 
     echo "5.1 dracut initramfs;"
     chroot $CHROOT /bin/bash -c "dracut --kver 4.1.13-gnu_crux"
@@ -211,5 +222,3 @@ setup_boot() {
     chroot $CHROOT /bin/bash -c "grub-install $BLK_ROOT"
     chroot $CHROOT /bin/bash -c "grub-mkconfig -o /boot/grub/grub.cfg"
 }
-
-
