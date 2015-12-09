@@ -53,11 +53,11 @@ f:32d28afbd60859a4bf6db54757228524:shorewall/.footprint
 f:8e5661170666a601dde5ea3f682f711b:composer/.md5sum
 f:a8d2987308dfb6022edb6fcf1e60abe9:composer/Pkgfile
 f:679356f8fffe547e95a2db86def23a24:composer/.footprint
-f:693019ec1979441156df35532be8d3e1:linux-libre/.md5sum
-f:aafdf303779334584c66345dd29696c0:linux-libre/post-install
-f:cfe139cce1285f22b3c315b4dec8b33c:linux-libre/config-3.18.22
-f:f1f9f4c9242b5ebfe42cb1bc5e6dffc1:linux-libre/Pkgfile
-f:03c774c6f2501dcac3e9e07e8a594cc4:linux-libre/.footprint
+f:6426f1919654437043409b9fce2e6819:linux-libre/linux-libre-4.1.13-gnu.tar.xz
+f:372a9a31d8a1586222319e4d175317e0:linux-libre/.md5sum
+f:cffd2cf6546e561fa7f533923f48e5be:linux-libre/linux-4.1.13.config
+f:661fd9cec862b1084882b58e07ce962c:linux-libre/Pkgfile
+f:d71a0e75366f9f126348b5d006d89072:linux-libre/.footprint
 f:9135377b8d13196ae74d159e8cec6895:faircoin-qt/.md5sum
 f:fd8945c7f1c71ce047187ff8d8f951a9:faircoin-qt/Pkgfile
 f:07bb33161c38fa12eba2fb80ea255013:faircoin-qt/.footprint
