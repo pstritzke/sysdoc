@@ -207,6 +207,7 @@ install_extra() {
 
 install_linux() {
     echo "4.1 installing linux kernel;"
+    chroot $CHROOT /bin/bash -c "prt-get depinst dracut"
     chroot $CHROOT /bin/bash -c "prt-get depinst linux-libre"
 
     echo "5.1 dracut initramfs;"

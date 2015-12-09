@@ -14,9 +14,10 @@ fi
 printf "\n\nFormat device and Install crux 3.2
 from $ISO_URL\n\n\n"
 
-printf "0.1 path/to/etc (/home/user/sysdoc/conf/etc):"
-#DIR_CONF=/home/user/sysdoc/conf/etc
+printf "0.1 path/sysdoc/conf/etc (/home/user):"
+#DIR_CONF=/home/user
 read DIR_CONF
+DIR_CONF = $DIR_CONF/sysdoc/conf/etc
 
 printf "\n\nFormat device and Install crux 3.2
 from $ISO_URL\n\n\n"
