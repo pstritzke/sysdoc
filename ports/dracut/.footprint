@@ -11,6 +11,7 @@ drwxr-xr-x	root/root	usr/lib/
 drwxr-xr-x	root/root	usr/lib/dracut/
 lrwxrwxrwx	root/root	usr/lib/dracut/dracut-functions -> dracut-functions.sh
 -rwxr-xr-x	root/root	usr/lib/dracut/dracut-functions.sh
+-rwxr-xr-x	root/root	usr/lib/dracut/dracut-init.sh
 -rwxr-xr-x	root/root	usr/lib/dracut/dracut-initramfs-restore
 -rwxr-xr-x	root/root	usr/lib/dracut/dracut-install
 -rwxr-xr-x	root/root	usr/lib/dracut/dracut-logger.sh
@@ -148,6 +149,7 @@ drwxrwxr-x	root/root	usr/lib/dracut/modules.d/90kernel-network-modules/
 -rwxrwxr-x	root/root	usr/lib/dracut/modules.d/90kernel-network-modules/module-setup.sh
 drwxrwxr-x	root/root	usr/lib/dracut/modules.d/90livenet/
 -rwxrwxr-x	root/root	usr/lib/dracut/modules.d/90livenet/fetch-liveupdate.sh
+-rw-rw-r--	root/root	usr/lib/dracut/modules.d/90livenet/livenet-generator.sh
 -rwxrwxr-x	root/root	usr/lib/dracut/modules.d/90livenet/livenetroot.sh
 -rwxrwxr-x	root/root	usr/lib/dracut/modules.d/90livenet/module-setup.sh
 -rwxrwxr-x	root/root	usr/lib/dracut/modules.d/90livenet/parse-livenet.sh
@@ -206,6 +208,7 @@ drwxrwxr-x	root/root	usr/lib/dracut/modules.d/95fcoe-uefi/
 -rwxrwxr-x	root/root	usr/lib/dracut/modules.d/95fcoe-uefi/module-setup.sh
 -rwxrwxr-x	root/root	usr/lib/dracut/modules.d/95fcoe-uefi/parse-uefifcoe.sh
 drwxrwxr-x	root/root	usr/lib/dracut/modules.d/95fcoe/
+-rw-rw-r--	root/root	usr/lib/dracut/modules.d/95fcoe/cleanup-fcoe.sh
 -rwxrwxr-x	root/root	usr/lib/dracut/modules.d/95fcoe/fcoe-edd.sh
 -rwxrwxr-x	root/root	usr/lib/dracut/modules.d/95fcoe/fcoe-genrules.sh
 -rwxrwxr-x	root/root	usr/lib/dracut/modules.d/95fcoe/fcoe-up.sh
@@ -318,6 +321,7 @@ drwxrwxr-x	root/root	usr/lib/dracut/modules.d/98ecryptfs/
 -rwxrwxr-x	root/root	usr/lib/dracut/modules.d/98ecryptfs/module-setup.sh
 drwxrwxr-x	root/root	usr/lib/dracut/modules.d/98integrity/
 -rwxrwxr-x	root/root	usr/lib/dracut/modules.d/98integrity/evm-enable.sh
+-rwxrwxr-x	root/root	usr/lib/dracut/modules.d/98integrity/ima-keys-load.sh
 -rwxrwxr-x	root/root	usr/lib/dracut/modules.d/98integrity/ima-policy-load.sh
 -rwxrwxr-x	root/root	usr/lib/dracut/modules.d/98integrity/module-setup.sh
 drwxrwxr-x	root/root	usr/lib/dracut/modules.d/98pollcdrom/
