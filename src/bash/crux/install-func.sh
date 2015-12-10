@@ -202,6 +202,7 @@ install_extra() {
     chroot $CHROOT /bin/bash -c "prt-get -if depinst samhain"
     chroot $CHROOT /bin/bash -c "prt-get depinst dnsmasq"
     chroot $CHROOT /bin/bash -c "prt-get depinst tmux"
+    chroot $CHROOT /bin/bash -c "prt-get depinst lynx"
 
 }
 
